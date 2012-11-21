@@ -1,4 +1,4 @@
 fdt
 ===
 
-FastDownward with Trajectory Constraint
+FastDownward with Trajectory Constraint.
