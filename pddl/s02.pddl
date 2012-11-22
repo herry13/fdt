@@ -11,12 +11,8 @@
 
 (:goal (and (not (is_run a))))
 
-;(:constraints (and
-;	(forall (?x - client ?y - service)
-;		(always (imply (refer ?x ?y) (is_run ?y))))))
-
 (:constraints (and
-	(always (and (refer c b)))
-))
+	(forall (?x - client ?y - service)
+		(always (imply (refer ?x ?y) (is_run ?y))))))
 
 )

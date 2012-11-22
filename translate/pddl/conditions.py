@@ -3,43 +3,52 @@ from __future__ import print_function
 from . import pddl_types
 
 # Parse trajectory conditions
-def parse_trajectory_condition(alist, goal):
+def parse_trajectory_condition(alist, trajectory): #, goal):
     print("\n===============================")
     tag = alist[0]
     assert tag == "and"
     alist = alist[1:]
-    trajectory_constraints = [[]] # 0: always
     for part in alist:
         tag = part[0] #alist[0]
         if tag == "forall":
             parameters = pddl_types.parse_typed_list(part[1])
             args = part[2]
             assert len(args) == 2
-            parse_trajectory_modality(trajectory_constraints, args, parameters)
+            parse_trajectory_modality(trajectory, args, parameters)
         else:
-            parse_trajectory_modality(trajectory_constraints, part)
-    if len(trajectory_constraints[0]) > 0:
+            parse_trajectory_modality(trajectory, part)
+    trajectory.simplified()
+    return trajectory
+    '''if len(trajectory_constraints[0]) > 0:
         parts = trajectory_constraints[0]
-        trajectory_constraints[0] = Conjunction(parts)._simplified(parts)
+        trajectory_constraints[0] = Conjunction(parts).simplified()
     else:
         trajectory_constraints[0] = None
     if trajectory_constraints[0] is not None:
         parts = [goal, trajectory_constraints[0]]
-        goal = Conjunction(parts)._simplified(parts)
+        goal = Conjunction(parts).simplified()
     goal.uniquify_variables({})
     trajectory_constraints[0].uniquify_variables({})
     yield goal
     yield trajectory_constraints
     print("-------------------------------")
     print(str(trajectory_constraints))
-    print("===============================")
+    print("===============================")'''
 
 # Parse trajectory's modality
 # TODO: parse other modalities - sometime, sometime-before, sometime-after, most-once
-def parse_trajectory_modality(trajectory_constraints, alist, parameters=None):
-    print("parse trajectory condition: " + alist[0])
+def parse_trajectory_modality(trajectory, alist, parameters=None):
     tag = alist[0]
-    condition = None
+    print("parse trajectory condition: " + tag)
+    if tag == "always":
+        condition = parse_condition_aux(alist[1], False)
+        if parameters is not None:
+            condition = UniversalCondition(parameters, [condition])
+        trajectory.add_always_condition(condition)
+    else:
+        assert False, 'not (yet) handled'
+
+    '''condition = None
     index = None
     if tag == "always":
         condition = parse_condition_aux(alist[1], False)
@@ -49,7 +58,7 @@ def parse_trajectory_modality(trajectory_constraints, alist, parameters=None):
     if parameters is not None:
         condition = UniversalCondition(parameters, [condition]) 
     trajectory_constraints[index].append(condition)
-    print(str(condition))
+    print(str(condition))'''
 
 def parse_goal(alist):
     return parse_condition_aux(alist, False)

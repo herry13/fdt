@@ -2,6 +2,7 @@ from __future__ import print_function
 
 import sys
 
+from . import effects
 from . import actions
 from . import axioms
 from . import conditions
@@ -41,6 +42,9 @@ class Task(object):
         domain_name, domain_requirements, types, constants, predicates, functions, actions, axioms \
                      = parse_domain(domain_pddl)
         task_name, task_domain_name, task_requirements, objects, init, goal, use_metric, trajectory = parse_task(task_pddl)
+
+        # modify existing actions and add necessary actions to maintain the trajectory constraints
+        trajectory.modify_actions(actions)
 
         assert domain_name == task_domain_name
         requirements = Requirements(sorted(set(
@@ -209,10 +213,6 @@ def parse_task(task_pddl):
     goal = next(iterator)
     assert goal[0] == ":goal" and len(goal) == 2
     goal_condition = conditions.parse_goal(goal[1])
-    #goal_condition = conditions.parse_condition(goal[1])
-    #yield conditions.parse_condition(goal[1])
-    #yield goal_condition
-    print("goal: " + str(goal_condition))
 
     use_metric = False
     trajectory = None
@@ -224,18 +224,21 @@ def parse_task(task_pddl):
                 assert False, "Unknown metric."
         elif entry[0] == ":constraints": # handle trajectory constraints
             assert trajectory == None
-            goal_condition, trajectory = conditions.parse_trajectory_condition(entry[1], goal_condition)
+            trajectory = Trajectory()
+            conditions.parse_trajectory_condition(entry[1], trajectory)
+            goal_condition = trajectory.modify_goal(goal_condition)
 
     yield goal_condition
-    print("goal: " + str(goal_condition))
+    print("goal: ")
+    goal_condition.dump()
     yield use_metric
-    print("parse trajectory: " + str(trajectory))
+    print("always: ")
+    trajectory.dump()
     yield trajectory
     print("=======================")
 
     for entry in iterator:
         assert False, entry
-
 
 def check_for_duplicates(elements, errmsg, finalmsg):
     seen = set()
@@ -248,3 +251,58 @@ def check_for_duplicates(elements, errmsg, finalmsg):
     if errors:
         raise SystemExit("\n".join(errors) + "\n" + finalmsg)
 
+class Trajectory:
+    def __init__(self):
+        self.atom = conditions.Atom("trajectory", [])
+        self.negated_atom = conditions.NegatedAtom("trajectory", [])
+        self.always = None
+    def add_always_condition(self, condition):
+        if self.always is None:
+            self.always = condition
+        else:
+            self.always = conditions.Conjunction([self.always, condition])
+    def simplified(self):
+        self.always = self.always.simplified()
+    def uniquify_variables(self):
+        self.always.uniquify_variables()
+    def modify_goal(self, goal):
+        if self.always is not None:
+            goal = conditions.Conjunction([goal, self.always, self.atom])
+        return goal.simplified()
+    def dump(self):
+        self.always.dump()
+    def always_list(self):
+        if self.always is not None:
+            if isinstance(self.always, Conjunction):
+                return self.always.parts
+            else:
+                return [self.always]
+    def create_actions(self):
+        # always action
+        always_effect = []
+        cost = effects.create_simple_effect(self.atom, always_effect)
+        self.always_action = actions.Action("verify_always", [], 0, self.always, always_effect, cost)
+    def modify_actions(self, actions):
+        # modify existing actions
+        always_negated_effect = effects.Effect([], conditions.Truth(), self.negated_atom)
+        for action in actions:
+            new_precondition = conditions.Conjunction([self.atom, action.precondition]).simplified()
+            action.precondition = new_precondition
+            action.uniquify_variables()
+            action.effects.append(always_negated_effect)
+        # add "always_verifier" action
+        self.create_actions()
+        actions.append(self.always_action)
+        '''print("---")
+    print(str(task.trajectory) + " <<")
+    always_list = None
+    if task.trajectory[0] is not None:
+        if isinstance(task.trajectory[0], pddl.Conjunction):
+            always_list = task.trajectory[0].parts
+        else:
+            always_list = [task.trajectory[0]]
+        for item in always_list:
+            assert isinstance(item, pddl.Literal)
+    print("---")
+    task.goal.dump()
+    task.trajectory[0].dump()'''

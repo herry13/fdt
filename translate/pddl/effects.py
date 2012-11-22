@@ -14,6 +14,16 @@ def cartesian_product(*sequences):
             for item in sequences[0]:
                 yield (item,) + tup
 
+def create_simple_effect(literal, result):
+    tmp_effect = SimpleEffect(literal)
+    normalized = tmp_effect.normalize()
+    cost_eff, rest_effect = normalized.extract_cost()
+    add_effect(rest_effect, result)
+    if cost_eff:
+        return cost_eff.effect
+    else:
+        return None
+
 def parse_effects(alist, result):
     """Parse a PDDL effect (any combination of simple, conjunctive, conditional, and universal)."""
     tmp_effect = parse_effect(alist)

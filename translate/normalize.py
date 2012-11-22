@@ -104,6 +104,25 @@ class GoalConditionProxy(ConditionProxy):
         self.condition.uniquify_variables(type_map)
         return type_map
 
+class AlwaysConditionProxy(ConditionProxy):
+    def __init__(self, task):
+        self.owner = task
+        self.condition = task.trajectory.always
+    def set(self, new_condition):
+        self.owner.trajectory.always = self.condition = new_condition
+    def register_owner(self, task):
+        assert False, "Disjunctive always conditions not (yet) implemented."
+    def delete_owner(self, task):
+        assert False, "Disjunctive always conditions not (yet) implemented."
+    def build_rules(self, rules):
+        rule_head = pddl.Atom("@always-reachable", [])
+        rule_body = list(condition_to_rule_body([], self.condition))
+        rules.append((rule_body, rule_head))
+    def get_type_map(self):
+        type_map = {}
+        self.condition.uniquify_variables(type_map)
+        return type_map
+
 def get_action_predicate(action):
     name = action
     variables = [par.name for par in action.parameters]
@@ -126,6 +145,7 @@ def all_conditions(task):
     for axiom in task.axioms:
         yield AxiomConditionProxy(axiom)
     yield GoalConditionProxy(task)
+    yield AlwaysConditionProxy(task)
 
 # [1] Remove universal quantifications from conditions.
 #
@@ -159,7 +179,6 @@ def remove_universal_quantifiers(task):
         if proxy.condition.has_universal_part():
             type_map = proxy.get_type_map()
             proxy.set(recurse(proxy.condition))
-
 
 # [2] Pull disjunctions to the root of the condition.
 #
@@ -322,12 +341,30 @@ def substitute_complicated_goal(task):
     new_axiom = task.add_axiom([], goal)
     task.goal = pddl.Atom(new_axiom.name, new_axiom.parameters)
 
+def substitute_complicated_trajectory_constraint(task):
+    always = task.trajectory[0]
+    task.trajectory[0] = substitute_complicated_trajectory_constraint_aux(task, always)
+
+def substitute_complicated_trajectory_constraint_aux(task, condition):
+    if isinstance(condition, pddl.Literal):
+        return
+    elif isinstance(condition, pddl.Conjunction):
+        for item in condition.parts:
+            if not isinstance(item, pddl.Literal):
+                break
+        else:
+            return
+    new_axiom = task.add_axiom([], condition)
+    return pddl.Atom(new_axiom.name, new_axiom.parameters)
+
 # Combine Steps [1], [2], [3], [4], [5] and do some additional verification
 # that the task makes sense.
 
 def normalize(task):
     remove_universal_quantifiers(task)
     substitute_complicated_goal(task)
+    # TODO -- check later if this substitution should be called
+    #substitute_complicated_trajectory_constraint(task)
     build_DNF(task)
     split_disjunctions(task)
     move_existential_quantifiers(task)
