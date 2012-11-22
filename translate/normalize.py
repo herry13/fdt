@@ -123,6 +123,26 @@ class AlwaysConditionProxy(ConditionProxy):
         self.condition.uniquify_variables(type_map)
         return type_map
 
+class SometimeConditionProxy(ConditionProxy):
+    def __init__(self, task, index):
+        self.owner = task
+        self.index = index
+        self.condition = task.trajectory.sometimes[index]
+    def set(self, new_condition):
+        self.owner.trajectory.sometimes[self.index] = self.condition = new_condition
+    def register_owner(self, task):
+        assert False, "Disjunctive sometime condition not (yet) implemented."
+    def delete_owner(self, task):
+        assert False, "Disjunctive sometime condition not (yet) implemented."
+    def build_rules(self, rules):
+        rule_head = pddl.Atom("@sometime-reachable-" + str(self.index), [])
+        rule_body = list(condition_to_rule_body([], self.condition))
+        rules.append((rule_body, rule_head))
+    def get_type_map(self):
+        type_map = {}
+        self.condition.uniquify_variables(type_map)
+        return type_map
+
 def get_action_predicate(action):
     name = action
     variables = [par.name for par in action.parameters]
@@ -146,6 +166,9 @@ def all_conditions(task):
         yield AxiomConditionProxy(axiom)
     yield GoalConditionProxy(task)
     yield AlwaysConditionProxy(task)
+    index = 0
+    for sometime in task.trajectory.sometimes:
+        yield SometimeConditionProxy(task, index)
 
 # [1] Remove universal quantifications from conditions.
 #

@@ -379,8 +379,7 @@ def translate_strips_axioms(axioms, strips_to_sas, ranges, mutex_dict, mutex_ran
 def translate_task(strips_to_sas, ranges, translation_key,
                    mutex_dict, mutex_ranges, mutex_key,
                    init, goals,
-                   actions, axioms, metric, implied_facts,
-                   trajectory):
+                   actions, axioms, metric, implied_facts):
 
     with timers.timing("Processing axioms", block=True):
         axioms, axiom_init, axiom_layer_dict = axiom_rules.handle_axioms(
@@ -485,7 +484,7 @@ def pddl_to_sas(task):
             strips_to_sas, ranges, translation_key,
             mutex_dict, mutex_ranges, mutex_key,
             task.init, goal_list, actions, axioms, task.use_min_cost_metric,
-            implied_facts, task.trajectory)
+            implied_facts)
 
     print("%d implied effects removed" % removed_implied_effect_counter)
     print("%d effect conditions simplified" % simplified_effect_condition_counter)

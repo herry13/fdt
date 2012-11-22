@@ -43,7 +43,8 @@ class Task(object):
                      = parse_domain(domain_pddl)
         task_name, task_domain_name, task_requirements, objects, init, goal, use_metric, trajectory = parse_task(task_pddl)
 
-        # modify existing actions and add necessary actions to maintain the trajectory constraints
+        # modify existing actions & goal, add necessary actions to maintain the trajectory constraints
+        goal = trajectory.modify_goal(goal)
         trajectory.modify_actions(actions)
 
         assert domain_name == task_domain_name
@@ -226,13 +227,10 @@ def parse_task(task_pddl):
             assert trajectory == None
             trajectory = Trajectory()
             conditions.parse_trajectory_condition(entry[1], trajectory)
-            goal_condition = trajectory.modify_goal(goal_condition)
 
     yield goal_condition
-    print("goal: ")
-    goal_condition.dump()
     yield use_metric
-    print("always: ")
+    print("trajectory.dump(): ")
     trajectory.dump()
     yield trajectory
     print("=======================")
@@ -253,56 +251,64 @@ def check_for_duplicates(elements, errmsg, finalmsg):
 
 class Trajectory:
     def __init__(self):
-        self.atom = conditions.Atom("trajectory", [])
-        self.negated_atom = conditions.NegatedAtom("trajectory", [])
+        self.always_atom = conditions.Atom("always", [])
+        self.negated_always_atom = conditions.NegatedAtom("always", [])
         self.always = None
+        self.sometimes = []
+        self.sometime_atoms = []
     def add_always_condition(self, condition):
         if self.always is None:
             self.always = condition
         else:
             self.always = conditions.Conjunction([self.always, condition])
+    def add_sometime_condition(self, condition):
+        self.sometimes.append(condition)
+        atom_name = "sometime-" + str(len(self.sometimes))
+        self.sometime_atoms.append(conditions.Atom(atom_name, []))
     def simplified(self):
         self.always = self.always.simplified()
+        self.sometimes = [condition.simplified() for condition in self.sometimes]
     def uniquify_variables(self):
         self.always.uniquify_variables()
-    def modify_goal(self, goal):
-        if self.always is not None:
-            goal = conditions.Conjunction([goal, self.always, self.atom])
-        return goal.simplified()
     def dump(self):
         self.always.dump()
+        print("sometimes:")
+        for condition in self.sometimes:
+            condition.dump()
     def always_list(self):
         if self.always is not None:
             if isinstance(self.always, Conjunction):
                 return self.always.parts
             else:
                 return [self.always]
-    def create_actions(self):
-        # always action
-        always_effect = []
-        cost = effects.create_simple_effect(self.atom, always_effect)
-        self.always_action = actions.Action("verify_always", [], 0, self.always, always_effect, cost)
-    def modify_actions(self, actions):
+    def modify_goal(self, goal):
+        parts = [goal]
+        for condition in self.sometime_atoms:
+            parts.append(condition)
+        if self.always is not None:
+            parts.append(self.always)
+            parts.append(self.always_atom)
+        goal = conditions.Conjunction(parts)
+        return goal.simplified()
+    def modify_actions(self, actions_list):
         # modify existing actions
-        always_negated_effect = effects.Effect([], conditions.Truth(), self.negated_atom)
-        for action in actions:
-            new_precondition = conditions.Conjunction([self.atom, action.precondition]).simplified()
+        always_negated_effect = effects.Effect([], conditions.Truth(), self.negated_always_atom)
+        for action in actions_list:
+            new_precondition = conditions.Conjunction([self.always_atom, action.precondition]).simplified()
             action.precondition = new_precondition
             action.uniquify_variables()
             action.effects.append(always_negated_effect)
         # add "always_verifier" action
-        self.create_actions()
-        actions.append(self.always_action)
-        '''print("---")
-    print(str(task.trajectory) + " <<")
-    always_list = None
-    if task.trajectory[0] is not None:
-        if isinstance(task.trajectory[0], pddl.Conjunction):
-            always_list = task.trajectory[0].parts
-        else:
-            always_list = [task.trajectory[0]]
-        for item in always_list:
-            assert isinstance(item, pddl.Literal)
-    print("---")
-    task.goal.dump()
-    task.trajectory[0].dump()'''
+        eff = []
+        cost = effects.create_simple_effect(self.always_atom, eff)
+        action = actions.Action("verify_always", [], 0, self.always, eff, cost)
+        actions_list.append(action)
+        # add "sometime_verifier" action
+        index = 0
+        for condition in self.sometimes:
+            eff = []
+            cost = effects.create_simple_effect(self.sometime_atoms[index], eff)
+            name = "verify_" + self.sometime_atoms[index].predicate
+            action = actions.Action(name, [], 0, condition, eff, cost)
+            actions_list.append(action)
+            index += 1
