@@ -364,30 +364,13 @@ def substitute_complicated_goal(task):
     new_axiom = task.add_axiom([], goal)
     task.goal = pddl.Atom(new_axiom.name, new_axiom.parameters)
 
-def substitute_complicated_trajectory_constraint(task):
-    always = task.trajectory[0]
-    task.trajectory[0] = substitute_complicated_trajectory_constraint_aux(task, always)
-
-def substitute_complicated_trajectory_constraint_aux(task, condition):
-    if isinstance(condition, pddl.Literal):
-        return
-    elif isinstance(condition, pddl.Conjunction):
-        for item in condition.parts:
-            if not isinstance(item, pddl.Literal):
-                break
-        else:
-            return
-    new_axiom = task.add_axiom([], condition)
-    return pddl.Atom(new_axiom.name, new_axiom.parameters)
-
 # Combine Steps [1], [2], [3], [4], [5] and do some additional verification
 # that the task makes sense.
 
 def normalize(task):
     remove_universal_quantifiers(task)
     substitute_complicated_goal(task)
-    # TODO -- check later if this substitution should be called
-    #substitute_complicated_trajectory_constraint(task)
+    # TODO -- check later if trajectory constraint substitution should be implemented
     build_DNF(task)
     split_disjunctions(task)
     move_existential_quantifiers(task)
