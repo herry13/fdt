@@ -1,6 +1,7 @@
 from __future__ import print_function
 
 import sys
+from collections import defaultdict
 
 from . import effects
 from . import actions
@@ -41,7 +42,7 @@ class Task(object):
     def parse(domain_pddl, task_pddl):
         domain_name, domain_requirements, types, constants, predicates, functions, actions, axioms \
                      = parse_domain(domain_pddl)
-        task_name, task_domain_name, task_requirements, objects, init, goal, use_metric, trajectory = parse_task(task_pddl)
+        task_name, task_domain_name, task_requirements, objects, init, goal, use_metric, trajectory = parse_task(task_pddl, types)
 
         # modify existing actions & goal, add necessary actions to maintain the trajectory constraints
         goal = trajectory.modify_goal(goal)
@@ -171,7 +172,18 @@ def parse_domain(domain_pddl):
     yield the_actions
     yield the_axioms
 
-def parse_task(task_pddl):
+def get_objects_by_type(objects, types):
+    result = defaultdict(list)
+    supertypes = {}
+    for type in types:
+        supertypes[type.name] = type.supertype_names
+    for obj in objects:
+        result[obj.type].append(obj.name)
+        for type in supertypes[obj.type]:
+            result[type].append(obj.name)
+    return result
+
+def parse_task(task_pddl, types):
     iterator = iter(task_pddl)
     define_tag = next(iterator)
     assert define_tag == "define"
@@ -191,12 +203,15 @@ def parse_task(task_pddl):
         objects_opt = requirements_opt
     yield Requirements(requirements)
 
+    objects = []
     if objects_opt[0] == ":objects":
-        yield pddl_types.parse_typed_list(objects_opt[1:])
+        objects = pddl_types.parse_typed_list(objects_opt[1:])
         init = next(iterator)
     else:
-        yield []
+        objects = []
         init = objects_opt
+    yield objects
+    type_to_objects = get_objects_by_type(objects, types)
 
     assert init[0] == ":init"
     initial = []
@@ -225,7 +240,7 @@ def parse_task(task_pddl):
                 assert False, "Unknown metric."
         elif entry[0] == ":constraints": # handle trajectory constraints
             assert trajectory == None
-            trajectory = Trajectory()
+            trajectory = Trajectory(type_to_objects)
             conditions.parse_trajectory_condition(entry[1], trajectory)
 
     yield goal_condition
@@ -250,21 +265,26 @@ def check_for_duplicates(elements, errmsg, finalmsg):
         raise SystemExit("\n".join(errors) + "\n" + finalmsg)
 
 class Trajectory:
-    def __init__(self):
+    def __init__(self, type_to_objects_map):
         self.always_atom = conditions.Atom("always", [])
         self.negated_always_atom = conditions.NegatedAtom("always", [])
         self.always = None
         self.sometimes = []
-        self.sometime_atoms = []
+        self.sometimes_parameters = []
+        self.sometimes_atom = []
+        self.type_to_objects = type_to_objects_map
     def add_always_condition(self, condition):
         if self.always is None:
             self.always = condition
         else:
             self.always = conditions.Conjunction([self.always, condition])
     def add_sometime_condition(self, condition):
+        self.add_sometime_condition_with_parameters(condition, [])
+    def add_sometime_condition_with_parameters(self, condition, parameters):
         self.sometimes.append(condition)
         atom_name = "sometime-" + str(len(self.sometimes))
-        self.sometime_atoms.append(conditions.Atom(atom_name, []))
+        self.sometimes_atom.append(conditions.Atom(atom_name, []))
+        self.sometimes_parameters.append(parameters)
     def simplified(self):
         self.always = self.always.simplified()
         self.sometimes = [condition.simplified() for condition in self.sometimes]
@@ -283,7 +303,7 @@ class Trajectory:
                 return [self.always]
     def modify_goal(self, goal):
         parts = [goal]
-        for condition in self.sometime_atoms:
+        for condition in self.sometimes_atom:
             parts.append(condition)
         if self.always is not None:
             parts.append(self.always)
@@ -307,8 +327,9 @@ class Trajectory:
         index = 0
         for condition in self.sometimes:
             eff = []
-            cost = effects.create_simple_effect(self.sometime_atoms[index], eff)
-            name = "verify_" + self.sometime_atoms[index].predicate
-            action = actions.Action(name, [], 0, condition, eff, cost)
+            cost = effects.create_simple_effect(self.sometimes_atom[index], eff)
+            name = "verify_" + self.sometimes_atom[index].predicate
+            parameters = self.sometimes_parameters[index]
+            action = actions.Action(name, parameters, 0, condition, eff, cost)
             actions_list.append(action)
             index += 1

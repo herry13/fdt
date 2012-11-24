@@ -9,7 +9,7 @@ def parse_trajectory_condition(alist, trajectory): #, goal):
     assert tag == "and"
     alist = alist[1:]
     for part in alist:
-        tag = part[0] #alist[0]
+        tag = part[0]
         if tag == "forall":
             parameters = pddl_types.parse_typed_list(part[1])
             args = part[2]
@@ -33,8 +33,9 @@ def parse_trajectory_modality(trajectory, alist, parameters=None):
     elif tag == "sometime":
         condition = parse_condition_aux(alist[1], False)
         if parameters is not None:
-            condition = UniversalCondition(parameters, [condition])
-        trajectory.add_sometime_condition(condition)
+            trajectory.add_sometime_condition_with_parameters(condition, parameters)
+        else:
+            trajectory.add_sometime_condition(condition)
     else:
         assert False, 'not (yet) handled'
 
