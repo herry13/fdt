@@ -37,6 +37,11 @@ def instantiate(task, model):
 
     type_to_objects = get_objects_by_type(task.objects, task.types)
 
+    # before instantiating actions, auxiliary actions must be added
+    # into actions list to handle trajectory constraints
+
+    aux_goals = []
+
     instantiated_actions = []
     instantiated_axioms = []
     reachable_action_parameters = defaultdict(list)
@@ -66,6 +71,8 @@ def instantiate(task, model):
                 instantiated_axioms.append(inst_axiom)
         elif atom.predicate == "@goal-reachable":
             relaxed_reachable = True
+
+    print("Goal: " + str(task.goal))
 
     return (relaxed_reachable, fluent_facts, instantiated_actions,
             sorted(instantiated_axioms), reachable_action_parameters)

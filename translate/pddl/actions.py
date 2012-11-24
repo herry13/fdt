@@ -22,6 +22,7 @@ class Action(object):
         self.effects = effects
         self.cost = cost
         self.uniquify_variables() # TODO: uniquify variables in cost?
+        self.trajectory_type = 0
     def __repr__(self):
         return "<Action %r at %#x>" % (self.name, id(self))
     def parse(alist):

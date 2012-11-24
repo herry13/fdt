@@ -165,7 +165,8 @@ def all_conditions(task):
     for axiom in task.axioms:
         yield AxiomConditionProxy(axiom)
     yield GoalConditionProxy(task)
-    yield AlwaysConditionProxy(task)
+    if task.trajectory.always is not None:
+        yield AlwaysConditionProxy(task)
     index = 0
     for sometime in task.trajectory.sometimes:
         yield SometimeConditionProxy(task, index)

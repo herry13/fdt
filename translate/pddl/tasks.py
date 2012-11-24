@@ -272,6 +272,7 @@ class Trajectory:
         self.sometimes = []
         self.sometimes_parameters = []
         self.sometimes_atom = []
+        self.sometimes_action = defaultdict(list)
         self.type_to_objects = type_to_objects_map
     def add_always_condition(self, condition):
         if self.always is None:
@@ -283,15 +284,18 @@ class Trajectory:
     def add_sometime_condition_with_parameters(self, condition, parameters):
         self.sometimes.append(condition)
         atom_name = "sometime-" + str(len(self.sometimes))
-        self.sometimes_atom.append(conditions.Atom(atom_name, []))
+        args = [param.name for param in parameters]
+        self.sometimes_atom.append(conditions.Atom(atom_name, args))
         self.sometimes_parameters.append(parameters)
     def simplified(self):
-        self.always = self.always.simplified()
+        if self.always is not None:
+            self.always = self.always.simplified()
         self.sometimes = [condition.simplified() for condition in self.sometimes]
     def uniquify_variables(self):
         self.always.uniquify_variables()
     def dump(self):
-        self.always.dump()
+        if self.always is not None:
+            self.always.dump()
         print("sometimes:")
         for condition in self.sometimes:
             condition.dump()
@@ -303,26 +307,32 @@ class Trajectory:
                 return [self.always]
     def modify_goal(self, goal):
         parts = [goal]
+        index = 0
         for condition in self.sometimes_atom:
+            parameters = self.sometimes_parameters[index]
+            if len(parameters) > 0:
+                condition = conditions.UniversalCondition(parameters, [self.sometimes_atom[index]])
             parts.append(condition)
+            index += 1
         if self.always is not None:
             parts.append(self.always)
             parts.append(self.always_atom)
         goal = conditions.Conjunction(parts)
         return goal.simplified()
     def modify_actions(self, actions_list):
-        # modify existing actions
-        always_negated_effect = effects.Effect([], conditions.Truth(), self.negated_always_atom)
-        for action in actions_list:
-            new_precondition = conditions.Conjunction([self.always_atom, action.precondition]).simplified()
-            action.precondition = new_precondition
-            action.uniquify_variables()
-            action.effects.append(always_negated_effect)
-        # add "always_verifier" action
-        eff = []
-        cost = effects.create_simple_effect(self.always_atom, eff)
-        action = actions.Action("verify_always", [], 0, self.always, eff, cost)
-        actions_list.append(action)
+        if self.always is not None:
+            # modify existing actions for always constraints
+            always_negated_effect = effects.Effect([], conditions.Truth(), self.negated_always_atom)
+            for action in actions_list:
+                new_precondition = conditions.Conjunction([self.always_atom, action.precondition]).simplified()
+                action.precondition = new_precondition
+                action.uniquify_variables()
+                action.effects.append(always_negated_effect)
+            # add "always_verifier" action
+            eff = []
+            cost = effects.create_simple_effect(self.always_atom, eff)
+            action = actions.Action("verify_always", [], 0, self.always, eff, cost)
+            actions_list.append(action)
         # add "sometime_verifier" action
         index = 0
         for condition in self.sometimes:
@@ -331,5 +341,6 @@ class Trajectory:
             name = "verify_" + self.sometimes_atom[index].predicate
             parameters = self.sometimes_parameters[index]
             action = actions.Action(name, parameters, 0, condition, eff, cost)
+            action.trajectory_type = 1
             actions_list.append(action)
             index += 1
