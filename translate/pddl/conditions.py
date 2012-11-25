@@ -22,22 +22,25 @@ def parse_trajectory_condition(alist, trajectory): #, goal):
 
 # Parse trajectory's modality
 # TODO: parse other modalities - sometime, sometime-before, sometime-after, most-once
-def parse_trajectory_modality(trajectory, alist, parameters=None):
+def parse_trajectory_modality(trajectory, alist, parameters=[]):
     tag = alist[0]
     print("parse trajectory condition: " + tag)
     if tag == "always":
         condition = parse_condition_aux(alist[1], False)
-        if parameters is not None:
-            condition = UniversalCondition(parameters, [condition])
-        trajectory.add_always_condition(condition)
+        condition.uniquify_variables({})
+        trajectory.add_always_condition(condition, parameters)
     elif tag == "sometime":
         condition = parse_condition_aux(alist[1], False)
-        if parameters is not None:
-            trajectory.add_sometime_condition_with_parameters(condition, parameters)
-        else:
-            trajectory.add_sometime_condition(condition)
+        condition.uniquify_variables({})
+        trajectory.add_sometime_condition(condition, parameters)
+    elif tag == "sometime-after":
+        condition1 = parse_condition_aux(alist[1], False)
+        condition1.uniquify_variables({})
+        condition2 = parse_condition_aux(alist[2], False)
+        condition2.uniquify_variables({})
+        trajectory.add_sometime_after_condition(condition1, condition2, parameters)
     else:
-        assert False, 'not (yet) handled'
+        assert False, tag + ' not (yet) handled'
 
 def parse_goal(alist):
     return parse_condition_aux(alist, False)

@@ -26,6 +26,8 @@ Supported Type of Constraint
 CHANGELOG
 =========
 24-11-2012
+- implement 2nd-type sometime-after modality
+- modify "search/search_engine.cc" to remove auxiliary trajectory constraints
 - enable 2nd-type always modality
 - enable 1st-type sometime modality
 

@@ -1,0 +1,39 @@
+#!/bin/bash
+
+DOMAIN=pddl/service.pddl
+PROBLEM=pddl/s02.pddl
+PROBLEMS[1]="pddl/s01.pddl"
+PROBLEMS[2]="pddl/s02.pddl"
+PROBLEMS[3]="pddl/s03.pddl"
+PROBLEMS[4]="pddl/s04.pddl"
+PROBLEMS[5]="pddl/s05.pddl"
+PROBLEMS[6]="pddl/s06.pddl"
+PROBLEMS[7]="pddl/s07.pddl"
+PROBLEMS[8]="pddl/s08.pddl"
+PROBLEMS[9]="pddl/s09.pddl"
+
+
+rm all_plans
+
+for PROBLEM in "${PROBLEMS[@]}"
+do
+
+./cleanup
+
+### Landmark
+./plan $DOMAIN $PROBLEM --landmarks "lm=lm_rhw(conjunctive_landmarks=true, disjunctive_landmarks=true)" --heuristic "hlm=lmcount(lm, admissible=false, optimal=false, pref=false)" --search "lazy_greedy(hlm, preferred=hlm)"
+
+
+# postprocessing
+echo $PROBLEM >> all_plans
+if [ -e "sas_plan" ]; then
+	#sed -i '/\(verify_.* \)/d' sas_plan
+	cat sas_plan >> all_plans
+else
+	echo "no solution" >> all_plans
+fi
+
+done
+
+cat all_plans
+rm all_plans

@@ -21,7 +21,8 @@
 	(forall (?x - client ?y - service)
 		(always (imply (refer ?x ?y) (is_run ?y))))
 
-   (sometime (not (is_run b)))
+   (forall (?s - service)
+		(sometime (not (is_run ?s))))
 
 ))
 

@@ -115,7 +115,7 @@ class AlwaysConditionProxy(ConditionProxy):
     def delete_owner(self, task):
         assert False, "Disjunctive always conditions not (yet) implemented."
     def build_rules(self, rules):
-        rule_head = pddl.Atom("@always-reachable", [])
+        rule_head = pddl.Atom("@reachable-always", [])
         rule_body = list(condition_to_rule_body([], self.condition))
         rules.append((rule_body, rule_head))
     def get_type_map(self):
@@ -124,18 +124,18 @@ class AlwaysConditionProxy(ConditionProxy):
         return type_map
 
 class SometimeConditionProxy(ConditionProxy):
-    def __init__(self, task, index):
+    def __init__(self, task, sometime):
         self.owner = task
-        self.index = index
-        self.condition = task.trajectory.sometimes[index]
+        self.sometime = sometime
+        self.condition = sometime.condition
     def set(self, new_condition):
-        self.owner.trajectory.sometimes[self.index] = self.condition = new_condition
+        self.sometime.condition = self.condition = new_condition
     def register_owner(self, task):
         assert False, "Disjunctive sometime condition not (yet) implemented."
     def delete_owner(self, task):
         assert False, "Disjunctive sometime condition not (yet) implemented."
     def build_rules(self, rules):
-        rule_head = pddl.Atom("@sometime-reachable-" + str(self.index), [])
+        rule_head = pddl.Atom("@reachable-" + self.sometime.atom.predicate, [])
         rule_body = list(condition_to_rule_body([], self.condition))
         rules.append((rule_body, rule_head))
     def get_type_map(self):
@@ -169,7 +169,7 @@ def all_conditions(task):
         yield AlwaysConditionProxy(task)
     index = 0
     for sometime in task.trajectory.sometimes:
-        yield SometimeConditionProxy(task, index)
+        yield SometimeConditionProxy(task, sometime) #index)
 
 # [1] Remove universal quantifications from conditions.
 #

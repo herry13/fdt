@@ -1,27 +1,29 @@
 (define (problem p1)
 (:domain ServiceReference)
 (:objects
-	a - service
-	b - service
+	s1 - service
+	s2 - service
+	s3 - service
 	c1 - client
 	c2 - client)
 
 (:init
-	(is_run a)
-	(refer c1 a)
-	(refer c2 a)
-   (is_run b)
+	(is_run s1)
+	(refer c1 s1)
+	(refer c2 s1)
+   (is_run s2)
 )
 
 (:goal (and
-	(not (is_run a))
+	(forall (?x - client) (refer ?x s1))
 ))
 
 (:constraints (and
+
 	(forall (?x - client ?y - service)
 		(always (imply (refer ?x ?y) (is_run ?y))))
 
-   (sometime (not (is_run b)))
+	(forall (?s - service) (sometime (not (is_run ?s))))
 
 ))
 
