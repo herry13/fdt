@@ -343,8 +343,8 @@ class SometimeBeforeTrajectory:
         self.condition1 = condition1
         self.condition2 = condition2
     def simplified(self):
-        self.condition1.simplified()
-        self.condition2.simplified()
+        self.condition1 = self.condition1.simplified()
+        self.condition2 = self.condition2.simplified()
     def dump(self):
         print("sometime-before:")
         self.condition1.dump()
@@ -352,7 +352,6 @@ class SometimeBeforeTrajectory:
     def get_goal(self):
         return self.atom1
     def get_always_effect(self):
-        yield self.parameters
         eff = effects.SimpleEffect(self.atom2)
         yield effects.ConditionalEffect(self.condition2, eff)
         eff = effects.SimpleEffect(self.atom1)
@@ -360,6 +359,36 @@ class SometimeBeforeTrajectory:
         yield effects.ConditionalEffect(condition, eff)
     def get_always_precondition(self):
         return conditions.Disjunction([self.condition1.negate(), self.atom2])
+
+class AtMostOnceTrajectory:
+    index = 0
+    def __init__(self, condition, parameters):
+        if len(parameters) > 0:
+            assert False, "at-most-once with parameters is not supported (yet)"
+        self.index = AtMostOnceTrajectory.index
+        AtMostOnceTrajectory.index += 1
+        self.parameters = parameters
+        args = [param.name for param in parameters]
+        self.atom1 = conditions.Atom("at_most_once_1-" + str(self.index), args)
+        self.atom2 = conditions.Atom("at_most_once_2-" + str(self.index), args)
+        self.negated_atom2 = conditions.NegatedAtom("at_most_once_2-" + str(self.index), args)
+        self.condition = condition
+        self.negated_condition = condition.negate()
+    def simplified(self):
+        self.condition = self.condition.simplified()
+    def dump(self):
+        print("at-most-once:")
+        self.condition.dump()
+    def get_goal(self):
+        conditions.Truth()
+    def get_always_effect(self):
+        eff = effects.SimpleEffect(self.atom1)
+        yield effects.ConditionalEffect(self.condition, eff)
+        condition = conditions.Conjunction([self.negated_condition, self.atom1])
+        eff = effects.SimpleEffect(self.atom2)
+        yield effects.ConditionalEffect(condition, eff)
+    def get_always_precondition(self):
+        return conditions.Disjunction([self.negated_condition, self.negated_atom2])
 
 class Trajectory:
     def __init__(self):
@@ -369,6 +398,7 @@ class Trajectory:
         self.sometimes = []
         self.sometime_afters = []
         self.sometime_befores = []
+        self.at_most_onces = []
     def add_always_condition(self, condition, parameters):
         if len(parameters) > 0:
             condition = conditions.UniversalCondition(parameters, [condition])
@@ -380,7 +410,8 @@ class Trajectory:
     def add_sometime_before_condition(self, condition1, condition2, parameters):
         self.sometime_befores.append(SometimeBeforeTrajectory(condition1, condition2, parameters))
     def add_at_most_once_condition(self, condition, parameters):
-        assert False, 'TODO -- implement add_at_most_once_condition'
+        #assert False, 'TODO -- implement add_at_most_once_condition'
+        self.at_most_onces.append(AtMostOnceTrajectory(condition, parameters))
     def add_at_end_condition(self, condition, parameters):
         assert False, 'TODO -- implement add_at_end_condition'
     def simplified(self):
@@ -413,24 +444,31 @@ class Trajectory:
             action.precondition = new_precondition
             action.uniquify_variables()
             action.effects.append(always_negated_effect)
-        # add "always_verifier" action
+
+        ### add "always_verifier" action ###
         eff = [effects.SimpleEffect(self.always_atom)]
         pre = [self.always]
         # add "sometime-after" conditional_effect into "verify_always":
         #     if <condition1> then <not_satisfied_condition2>
         for sometime_after in self.sometime_afters:
-            #eff.append(sometime_after.get_always_effect())
             cond_params, cond_effect = sometime_after.get_always_effect()
-            if len(cond_params) > 0:
-                '''TODO -- add parameters'''
             eff.append(cond_effect)
-        # add "sometime-before" conditional_effect
+        # add "sometime-before" conditional_effect and preconditon
         for sometime_before in self.sometime_befores:
-            cond_params, cond_effect1, cond_effect2 = sometime_before.get_always_effect()
-            # TODO -- handle parameters
+            # add conditional effects
+            cond_effect1, cond_effect2 = sometime_before.get_always_effect()
             eff.append(cond_effect1)
             eff.append(cond_effect2)
+            # add precondition
             pre.append(sometime_before.get_always_precondition())
+        # add "at-most-once" conditional_effect and precondition
+        for atmostonce in self.at_most_onces:
+            # add conditional effects
+            cond_effect1, cond_effect2 = atmostonce.get_always_effect()
+            eff.append(cond_effect1)
+            eff.append(cond_effect2)
+            # add precondition
+            pre.append(atmostonce.get_always_precondition())
         # generate the effect
         temp_effect = effects.ConjunctiveEffect(eff)
         normalized = temp_effect.normalize()
