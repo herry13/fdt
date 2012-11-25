@@ -335,6 +335,12 @@ class Trajectory:
         self.sometimes.append(SometimeTrajectory(condition, parameters))
     def add_sometime_after_condition(self, condition1, condition2, parameters):
         self.sometime_afters.append(SometimeAfterTrajectory(condition1, condition2, parameters))
+    def add_sometime_before_condition(self, condition1, condition2, parameters):
+        assert False, 'TODO -- implement add_sometime_before_condition'
+    def add_at_most_once_condition(self, condition, parameters):
+        assert False, 'TODO -- implement add_at_most_once_condition'
+    def add_at_end_condition(self, condition, parameters):
+        assert False, 'TODO -- implement add_at_end_condition'
     def simplified(self):
         self.always = self.always.simplified()
         for sometime in self.sometimes:

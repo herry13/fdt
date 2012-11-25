@@ -39,6 +39,20 @@ def parse_trajectory_modality(trajectory, alist, parameters=[]):
         condition2 = parse_condition_aux(alist[2], False)
         condition2.uniquify_variables({})
         trajectory.add_sometime_after_condition(condition1, condition2, parameters)
+    elif tag == "sometime-before":
+        condition1 = parse_condition_aux(alist[1], False)
+        condition1.uniquify_variables({})
+        condition2 = parse_condition_aux(alist[2], False)
+        condition2.uniquify_variables({})
+        trajectory.add_sometime_before_condition(condition1, condition2, parameters)
+    elif tag == "at-most-once":
+        condition = parse_condition_aux(alist[1], False)
+        condition.uniquify_variables({})
+        trajectory.add_at_most_once_condition(condition, parameters)
+    elif tag == "at end":
+        condition = parse_condition_aux(alist[1], False)
+        condition.uniquify_variables({})
+        trajectory.add_at_end_condition(condition, parameters)
     else:
         assert False, tag + ' not (yet) handled'
 

@@ -2,7 +2,10 @@ TODO
 ====
 - modify: pddl/conditions.py to parse other modalities: sometime-before, sometime-after, most-once
 - try to put always's derived variable as precondition of each action
-- implement "most-once": a variable with init value TRUE, falsify ???
+- implement "at-most-once": a variable with init value TRUE, falsify ???
+- implement "sometime-before", "at end" constraints
+- try to use conditional effect to handle "sometime" constraint
+- implement 1st-type "sometime-after": (forall (...) (sometime-after (...) (...)))
 
 WORKING WITH FILES
 ==================
