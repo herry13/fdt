@@ -328,6 +328,8 @@ class SometimeBeforeTrajectory:
     # add conditional effect into "verifier_always": if <condition2> then <satisfied_condition2>
     # add conditional effect into "verifier_always":
     #     if <condition1> and <satisfied_condition2> then <satisfied_condition1>
+    # add new precondition into "verifier_always":
+    #     if <condition1> then <satisfied_condition2>
     index = 0
     def __init__(self, condition1, condition2, parameters):
         if len(parameters) > 0:
@@ -338,7 +340,7 @@ class SometimeBeforeTrajectory:
         args = [param.name for param in parameters]
         self.atom1 = conditions.Atom("sometime_before_1-" + str(self.index), args)
         self.atom2 = conditions.Atom("sometime_before_2-" + str(self.index), args)
-        self.condition1 = conditions.Conjunction([condition1, self.atom2]).simplified()
+        self.condition1 = condition1
         self.condition2 = condition2
     def simplified(self):
         self.condition1.simplified()
@@ -354,7 +356,10 @@ class SometimeBeforeTrajectory:
         eff = effects.SimpleEffect(self.atom2)
         yield effects.ConditionalEffect(self.condition2, eff)
         eff = effects.SimpleEffect(self.atom1)
-        yield effects.ConditionalEffect(self.condition1, eff)
+        condition = conditions.Conjunction([self.condition1, self.atom2]).simplified()
+        yield effects.ConditionalEffect(condition, eff)
+    def get_always_precondition(self):
+        return conditions.Disjunction([self.condition1.negate(), self.atom2])
 
 class Trajectory:
     def __init__(self):
@@ -373,7 +378,6 @@ class Trajectory:
     def add_sometime_after_condition(self, condition1, condition2, parameters):
         self.sometime_afters.append(SometimeAfterTrajectory(condition1, condition2, parameters))
     def add_sometime_before_condition(self, condition1, condition2, parameters):
-        #assert False, 'TODO -- implement add_sometime_before_condition'
         self.sometime_befores.append(SometimeBeforeTrajectory(condition1, condition2, parameters))
     def add_at_most_once_condition(self, condition, parameters):
         assert False, 'TODO -- implement add_at_most_once_condition'
@@ -411,6 +415,7 @@ class Trajectory:
             action.effects.append(always_negated_effect)
         # add "always_verifier" action
         eff = [effects.SimpleEffect(self.always_atom)]
+        pre = [self.always]
         # add "sometime-after" conditional_effect into "verify_always":
         #     if <condition1> then <not_satisfied_condition2>
         for sometime_after in self.sometime_afters:
@@ -425,6 +430,7 @@ class Trajectory:
             # TODO -- handle parameters
             eff.append(cond_effect1)
             eff.append(cond_effect2)
+            pre.append(sometime_before.get_always_precondition())
         # generate the effect
         temp_effect = effects.ConjunctiveEffect(eff)
         normalized = temp_effect.normalize()
@@ -435,7 +441,10 @@ class Trajectory:
             cost_eff = cost_eff.effect
         else:
             cost_eff = None
-        always_action = actions.Action("verify_always", [], 0, self.always, eff, cost_eff)
+        pre = conditions.Conjunction(pre).simplified()
+        #always_action = actions.Action("verify_always", [], 0, self.always, eff, cost_eff)
+        always_action = actions.Action("verify_always", [], 0, pre, eff, cost_eff)
+        always_action.dump()
         actions_list.append(always_action)
 
         # add "sometime_verifier" action
