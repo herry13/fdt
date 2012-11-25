@@ -27,11 +27,15 @@ do
 # postprocessing
 echo $PROBLEM >> all_plans
 if [ -e "sas_plan" ]; then
-	#sed -i '/\(verify_.* \)/d' sas_plan
+	sed -i '/\(verify_.* \)/d' sas_plan
 	cat sas_plan >> all_plans
+   echo "" >> all_plans
+   ./VAL/validate $DOMAIN $PROBLEM sas_plan >> all_plans
 else
 	echo "no solution" >> all_plans
 fi
+
+echo "=====" >> all_plans
 
 done
 

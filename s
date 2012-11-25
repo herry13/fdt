@@ -4,7 +4,9 @@
 #PROBLEM="pddl/cb-p02.pddl"
 
 DOMAIN=pddl/service.pddl
-PROBLEM=pddl/s09.pddl
+PROBLEM=pddl/s10.pddl
+
+rm sas_plan
 
 #./plan $DOMAIN $PROBLEM --heuristic "hff=ff()" --search "lazy_greedy(hff, preferred=hff)"
 #./plan $DOMAIN $PROBLEM --search "lazy_greedy(cg(), preferred=cg())"
@@ -27,4 +29,6 @@ PROBLEM=pddl/s09.pddl
 if [ -e "sas_plan" ]; then
 	sed -i '/\(verify_.* \)/d' sas_plan
 	cat sas_plan
+   echo ""
+   ./VAL/validate $DOMAIN $PROBLEM sas_plan
 fi
