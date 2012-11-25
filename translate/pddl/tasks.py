@@ -230,7 +230,7 @@ def parse_task(task_pddl):
     goal_condition = conditions.parse_goal(goal[1])
 
     use_metric = False
-    trajectory = None
+    trajectory = Trajectory()
     for entry in iterator:
         if entry[0] == ":metric":
             if entry[1]=="minimize" and entry[2][0] == "total-cost":
@@ -239,7 +239,6 @@ def parse_task(task_pddl):
                 assert False, "Unknown metric."
         elif entry[0] == ":constraints": # handle trajectory constraints
             assert trajectory == None
-            trajectory = Trajectory()
             conditions.parse_trajectory_condition(entry[1], trajectory)
 
     yield goal_condition
