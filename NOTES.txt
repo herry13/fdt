@@ -6,6 +6,8 @@ TODO
 - implement "sometime-before", "at end" constraints
 - try to use conditional effect to handle "sometime" constraint
 - implement 1st-type "sometime-after": (forall (...) (sometime-after (...) (...)))
+- implement 1st-type "sometime-before": (forall (...) (sometime-after (...) (...)))
+- implement 1st-type "at-most-once": (forall (...) (at-most-once (...)))
 
 WORKING WITH FILES
 ==================
@@ -24,19 +26,32 @@ WORKING WITH FILES
 Supported Type of Constraint
 ============================
 1. always:
-2. sometime
+    (forall (...) (always (...)))
+    (always (...))
+2. sometime:
+    (forall (...) (sometime (...)))
+    (sometime (...))
+3. sometime-after:
+    (sometime-after (...) (...))
+4. sometime-before:
+    (sometime-before (...) (...))
+5. at-most-once:
+    (at-most-once (...))
 
 CHANGELOG
 =========
+25-11-2012
+- support 2nd-type sometime-before modality: (sometime-before (...) (...))
+
 24-11-2012
-- implement 2nd-type sometime-after modality
+- implement 2nd-type sometime-after modality: (sometime-after (...) (...))
 - modify "search/search_engine.cc" to remove auxiliary trajectory constraints
-- enable 2nd-type always modality
-- enable 1st-type sometime modality
+- enable 2nd-type always modality: (always (...))
+- enable 1st-type sometime modality: (forall (...) (sometime (...)))
 
 22-11-2012
-- enable 2nd-type sometime modality
-- enable 1st-type always modality of trajectory constraints
+- enable 2nd-type sometime modality: (sometime (...))
+- enable 1st-type always modality of trajectory constraints: (forall (...) (always (...)))
   - add "always-variable" and "always-verifier"
   - given the planning task with 1st-type always, the solution plan can be produced correctly
 

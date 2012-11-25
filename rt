@@ -11,6 +11,8 @@ PROBLEMS[6]="pddl/s06.pddl"
 PROBLEMS[7]="pddl/s07.pddl"
 PROBLEMS[8]="pddl/s08.pddl"
 PROBLEMS[9]="pddl/s09.pddl"
+PROBLEMS[10]="pddl/s10.pddl"
+PROBLEMS[11]="pddl/s11.pddl"
 
 
 rm all_plans

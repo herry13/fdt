@@ -361,6 +361,11 @@ class SometimeBeforeTrajectory:
         return conditions.Disjunction([self.condition1.negate(), self.atom2])
 
 class AtMostOnceTrajectory:
+    # add conditional effect into "verify_always":
+    #     if <condition> then <flag_1>
+    #     if not <condition> and <flag_1> then <flag_2>
+    # add precondition into "verify_always":
+    #     if <condition> then not <flag_2>
     index = 0
     def __init__(self, condition, parameters):
         if len(parameters) > 0:

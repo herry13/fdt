@@ -8,4 +8,5 @@
 #./translate/translate.py pddl/service.pddl pddl/s07.pddl 
 #./translate/translate.py pddl/service.pddl pddl/s08.pddl 
 #./translate/translate.py pddl/service.pddl pddl/s09.pddl 
-./translate/translate.py pddl/service.pddl pddl/s10.pddl 
+#./translate/translate.py pddl/service.pddl pddl/s10.pddl 
+./translate/translate.py pddl/service.pddl pddl/s11.pddl 

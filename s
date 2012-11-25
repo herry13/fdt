@@ -4,7 +4,7 @@
 #PROBLEM="pddl/cb-p02.pddl"
 
 DOMAIN=pddl/service.pddl
-PROBLEM=pddl/s10.pddl
+PROBLEM=pddl/s11.pddl
 
 rm sas_plan
 
