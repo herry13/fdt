@@ -43,8 +43,11 @@ class SometimeCondition(TrajectoryCondition):
 
 class SometimeAfterCondition(TrajectoryCondition):
     # add goal: not <not_satisfied_condition2>
-    # add conditional_effect into "verifier_always": if <condition1> then <not_satisfied_condition2>
-    # create verifier_condition2 with precondition: <condition2>, effect: not <not_satisfied_condition2>
+    # add conditional_effect into "verifier_always":
+    #     if <condition1> then <not_satisfied_condition2>
+    # create verifier_condition2 with
+    #     precondition: <condition2>
+    #     effect: not <not_satisfied_condition2>
     index = 0
     def __init__(self, condition1, condition2, parameters):
         super(SometimeAfterCondition, self).__init__()
@@ -67,14 +70,11 @@ class SometimeAfterCondition(TrajectoryCondition):
         self.condition1.dump()
         self.condition2.dump()
     def get_goal(self):
-        # add goal: not <not_satisfied_condition2>
         return self.negated_atom
     def get_always_effects(self):
-        # add conditional_effect into "verifier_always": if <condition1> then <not_satisfied_condition2>
         eff = effects.SimpleEffect(self.atom)
         return [effects.ConditionalEffect(self.condition1, eff)]
-    def get_action(self): #, always_action):
-        # create verifier_condition2 with precondition: <condition2>, effect: not <not_satisfied_condition2>
+    def get_action(self):
         eff = []
         cost = effects.create_simple_effect(self.negated_atom, eff)
         name = "verify_" + self.atom.predicate
@@ -82,7 +82,8 @@ class SometimeAfterCondition(TrajectoryCondition):
 
 class SometimeBeforeCondition(TrajectoryCondition):
     # add goal: <satisfied_condition1>
-    # add conditional effect into "verifier_always": if <condition2> then <satisfied_condition2>
+    # add conditional effect into "verifier_always":
+    #     if <condition2> then <satisfied_condition2>
     # add conditional effect into "verifier_always":
     #     if <condition1> and <satisfied_condition2> then <satisfied_condition1>
     # add new precondition into "verifier_always":
