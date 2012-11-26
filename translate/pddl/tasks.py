@@ -46,8 +46,9 @@ class Task(object):
         task_name, task_domain_name, task_requirements, objects, init, goal, use_metric, trajectory = parse_task(task_pddl)
 
         # modify existing actions & goal, add necessary actions to maintain the trajectory constraints
+        #trajectory.set_types_and_objects(types, objects)
         goal = trajectory.modify_goal(goal)
-        trajectory.modify_actions(actions)
+        actions = trajectory.modify_actions(actions)
 
         assert domain_name == task_domain_name
         requirements = Requirements(sorted(set(

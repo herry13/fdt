@@ -11,9 +11,9 @@ def parse_trajectory_condition(alist, trajectory): #, goal):
         tag = part[0]
         if tag == "forall":
             parameters = pddl_types.parse_typed_list(part[1])
-            args = part[2]
-            assert len(args) == 2
-            parse_trajectory_modality(trajectory, args, parameters)
+            args = part[2:]
+            assert len(args) == 1
+            parse_trajectory_modality(trajectory, args[0], parameters)
         else:
             parse_trajectory_modality(trajectory, part)
     trajectory.simplified()
@@ -51,7 +51,7 @@ def parse_trajectory_modality(trajectory, alist, parameters=[]):
         condition.uniquify_variables({})
         trajectory.add_at_end_condition(condition, parameters)
     else:
-        assert False, tag + ' not (yet) handled'
+        assert False, str(tag + " not (yet) handled")
 
 def parse_goal(alist):
     return parse_condition_aux(alist, False)
