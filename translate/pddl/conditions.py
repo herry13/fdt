@@ -4,7 +4,6 @@ from . import pddl_types
 
 # Parse trajectory conditions
 def parse_trajectory_condition(alist, trajectory): #, goal):
-    print("\n===============================")
     tag = alist[0]
     assert tag == "and"
     alist = alist[1:]
@@ -21,10 +20,8 @@ def parse_trajectory_condition(alist, trajectory): #, goal):
     return trajectory
 
 # Parse trajectory's modality
-# TODO: parse other modalities - sometime, sometime-before, sometime-after, most-once
 def parse_trajectory_modality(trajectory, alist, parameters=[]):
     tag = alist[0]
-    print("parse trajectory condition: " + tag)
     if tag == "always":
         condition = parse_condition_aux(alist[1], False)
         condition.uniquify_variables({})

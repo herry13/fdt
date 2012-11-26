@@ -611,8 +611,6 @@ def main():
     # import psyco
     # psyco.full()
 
-    print("===>>> init: " + str(task.init))
-
     sas_task = pddl_to_sas(task)
     dump_statistics(sas_task)
 
