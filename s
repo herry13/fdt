@@ -1,10 +1,10 @@
 #!/bin/bash
 
-#DOMAIN="pddl/cloudburst.pddl"
-#PROBLEM="pddl/cb-p02.pddl"
+#DOMAIN="benchmark/cloudburst.pddl"
+#PROBLEM="benchmark/cb-p02.pddl"
 
-DOMAIN=pddl/service.pddl
-PROBLEM=pddl/s11.pddl
+DOMAIN=benchmark/service.pddl
+PROBLEM=benchmark/s16.pddl
 
 rm sas_plan
 

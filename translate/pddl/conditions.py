@@ -388,6 +388,7 @@ class Literal(Condition):
     def uniquify_variables(self, type_map, renamings={}):
         return self.rename_variables(renamings)
     def rename_variables(self, renamings):
+        #print("rename_variables: " + str(renamings))
         new_args = tuple(renamings.get(arg, arg) for arg in self.args)
         return self.__class__(self.predicate, new_args)
     def replace_argument(self, position, new_arg):

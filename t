@@ -1,12 +1,15 @@
 #!/bin/bash
 
-#./translate/translate.py pddl/service.pddl pddl/s02.pddl 
-#./translate/translate.py pddl/service.pddl pddl/s03.pddl 
-#./translate/translate.py pddl/service.pddl pddl/s04.pddl 
-#./translate/translate.py pddl/service.pddl pddl/s05.pddl 
-#./translate/translate.py pddl/service.pddl pddl/s06.pddl 
-#./translate/translate.py pddl/service.pddl pddl/s07.pddl 
-#./translate/translate.py pddl/service.pddl pddl/s08.pddl 
-#./translate/translate.py pddl/service.pddl pddl/s09.pddl 
-#./translate/translate.py pddl/service.pddl pddl/s10.pddl 
-./translate/translate.py pddl/service.pddl pddl/s11.pddl 
+#./translate/translate.py benchmark/service.pddl benchmark/s02.pddl 
+#./translate/translate.py benchmark/service.pddl benchmark/s03.pddl 
+#./translate/translate.py benchmark/service.pddl benchmark/s04.pddl 
+#./translate/translate.py benchmark/service.pddl benchmark/s05.pddl 
+#./translate/translate.py benchmark/service.pddl benchmark/s06.pddl 
+#./translate/translate.py benchmark/service.pddl benchmark/s07.pddl 
+#./translate/translate.py benchmark/service.pddl benchmark/s08.pddl 
+#./translate/translate.py benchmark/service.pddl benchmark/s09.pddl 
+#./translate/translate.py benchmark/service.pddl benchmark/s10.pddl 
+#./translate/translate.py benchmark/service.pddl benchmark/s11.pddl 
+#./translate/translate.py benchmark/service.pddl benchmark/s12.pddl 
+#./translate/translate.py benchmark/service.pddl benchmark/s13.pddl 
+./translate/translate.py benchmark/service.pddl benchmark/s14.pddl 

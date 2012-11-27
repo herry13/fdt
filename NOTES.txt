@@ -1,13 +1,9 @@
 TODO
 ====
-- modify: pddl/conditions.py to parse other modalities: sometime-before, sometime-after, most-once
 - try to put always's derived variable as precondition of each action
-- implement "at-most-once": a variable with init value TRUE, falsify ???
-- implement "sometime-before", "at end" constraints
+- implement "at end" constraints
 - try to use conditional effect to handle "sometime" constraint
-- implement 1st-type "sometime-after": (forall (...) (sometime-after (...) (...)))
-- implement 1st-type "sometime-before": (forall (...) (sometime-after (...) (...)))
-- implement 1st-type "at-most-once": (forall (...) (at-most-once (...)))
+- modify QualitativePreference Rovers domain from IPC5 benchmark suite to contain only hard-constraint
 
 WORKING WITH FILES
 ==================
@@ -32,14 +28,23 @@ Supported Type of Constraint
     (forall (...) (sometime (...)))
     (sometime (...))
 3. sometime-after:
+    (forall (...) (sometime-after (...) (...)))
     (sometime-after (...) (...))
 4. sometime-before:
+    (forall (...) (sometime-before (...) (...)))
     (sometime-before (...) (...))
 5. at-most-once:
+    (forall (...) (at-most-once (...)))
     (at-most-once (...))
 
 CHANGELOG
 =========
+27-11-2012
+- support 1st-type of sometime-after, sometime-before, & at-most-once modalities
+    (forall (...) (sometime-after (...) (...)))
+    (forall (...) (sometime-before (...) (...)))
+    (forall (...) (at-most-once (...)))
+
 25-11-2012
 - support 2nd-type sometime-before modality: (sometime-before (...) (...))
 
@@ -69,3 +74,8 @@ DONE
 - implement method to compile 2nd-type "sometime": (sometime (...))
 - implement method to compile 1st-type "sometime": (forall (...) (sometime (...)))
 - separate between 1st & 2nd types of constraint
+- implement 1st-type "sometime-after": (forall (...) (sometime-after (...) (...)))
+- implement 1st-type "sometime-before": (forall (...) (sometime-after (...) (...)))
+- implement 1st-type "at-most-once": (forall (...) (at-most-once (...)))
+- modify: pddl/conditions.py to parse other modalities: sometime-before, sometime-after, most-once
+

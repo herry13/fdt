@@ -1,6 +1,7 @@
 from __future__ import print_function
 
 import sys
+import copy
 from collections import defaultdict
 
 from . import effects
@@ -52,7 +53,7 @@ class SometimeAfterCondition(TrajectoryCondition):
     def __init__(self, condition1, condition2, parameters):
         super(SometimeAfterCondition, self).__init__()
         if len(parameters) > 0:
-            assert False, "sometime-after with parameters is not supported (yet)"
+            '''assert False, "sometime-after with parameters is not supported (yet)"'''
         self.index = SometimeAfterCondition.index
         SometimeAfterCondition.index += 1
         self.parameters = parameters
@@ -121,7 +122,11 @@ class SometimeBeforeCondition(TrajectoryCondition):
         effs.append(effects.ConditionalEffect(condition, eff))
         return effs
     def get_always_precondition(self):
-        return conditions.Disjunction([self.condition1.negate(), self.atom2])
+        condition = conditions.Disjunction([self.condition1.negate(), self.atom2])
+        if len(self.parameters) > 0:
+            return conditions.UniversalCondition(self.parameters, [condition])
+        else:
+            return condition
 
 class AtMostOnceCondition(TrajectoryCondition):
     # add conditional effect into "verify_always":
@@ -133,7 +138,7 @@ class AtMostOnceCondition(TrajectoryCondition):
     def __init__(self, condition, parameters):
         super(AtMostOnceCondition, self).__init__()
         if len(parameters) > 0:
-            assert False, "at-most-once with parameters is not supported (yet)"
+            '''assert False, "at-most-once with parameters is not supported (yet)"'''
         self.index = AtMostOnceCondition.index
         AtMostOnceCondition.index += 1
         self.parameters = parameters
@@ -160,7 +165,11 @@ class AtMostOnceCondition(TrajectoryCondition):
         effs.append(effects.ConditionalEffect(condition, eff))
         return effs
     def get_always_precondition(self):
-        return conditions.Disjunction([self.negated_condition, self.negated_atom2])
+        condition = conditions.Disjunction([self.negated_condition, self.negated_atom2])
+        if len(self.parameters) > 0:
+            return conditions.UniversalCondition(self.parameters, [condition])
+        else:
+            return condition
 
 class Trajectory:
     def __init__(self):
@@ -190,6 +199,10 @@ class Trajectory:
         self.always = self.always.simplified()
         for sometime in self.sometimes:
             sometime.simplified()
+    def set_types_and_objects(self, types, objects):
+        for condition in (self.sometime_afters + self.sometime_befores + self.at_most_onces):
+            condition.types = types
+            condition.objects = objects
     def dump(self):
         print("always:")
         self.always.dump()
@@ -224,6 +237,7 @@ class Trajectory:
         pre = [self.always]
         # add "sometime-after" conditional_effect
         for sometime_after in self.sometime_afters:
+            parameters.extend(sometime_after.parameters)
             eff.extend(sometime_after.get_always_effects())
         # add "sometime-before" conditional_effect and preconditon
         for sometime_before in self.sometime_befores:
@@ -232,6 +246,7 @@ class Trajectory:
             pre.append(sometime_before.get_always_precondition())
         # add "at-most-once" conditional_effect and precondition
         for atmostonce in self.at_most_onces:
+            parameters.extend(atmostonce.parameters)
             eff.extend(atmostonce.get_always_effects())
             pre.append(atmostonce.get_always_precondition())
         # generate the effect
