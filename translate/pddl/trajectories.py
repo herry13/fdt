@@ -18,6 +18,7 @@ class TrajectoryCondition(object):
         assert False, 'TODO: implement'
 
 class SometimeCondition(TrajectoryCondition):
+    # (sometime (condition))
     index = 0
     def __init__(self, condition, parameters):
         super(SometimeCondition, self).__init__()
@@ -43,6 +44,7 @@ class SometimeCondition(TrajectoryCondition):
         return actions.Action(name, self.parameters, 0, self.condition, eff, cost)
 
 class SometimeAfterCondition(TrajectoryCondition):
+    # (sometime-after (condition1) (condition2))
     # add goal: not <not_satisfied_condition2>
     # add conditional_effect into "verifier_always":
     #     if <condition1> then <not_satisfied_condition2>
@@ -82,13 +84,12 @@ class SometimeAfterCondition(TrajectoryCondition):
         return actions.Action(name, self.parameters, 0, self.condition2, eff, cost)
 
 class SometimeBeforeCondition(TrajectoryCondition):
-    # add goal: <satisfied_condition1>
-    # add conditional effect into "verifier_always":
+    # (sometime-before (condition1) (condition2))
+    # add conditional effects into "verify_always":
     #     if <condition2> then <satisfied_condition2>
-    # add conditional effect into "verifier_always":
-    #     if <condition1> and <satisfied_condition2> then <satisfied_condition1>
-    # add new precondition into "verifier_always":
+    # add preconditions into "verify_always":
     #     if <condition1> then <satisfied_condition2>
+    #
     # TODO:
     # - need to consider "uniquifying" variables in parameters
     index = 0
@@ -113,13 +114,11 @@ class SometimeBeforeCondition(TrajectoryCondition):
         self.condition1.dump()
         self.condition2.dump()
     def get_goal(self):
-        return self.atom1
+        #return self.atom1
+        return conditions.Truth()
     def get_always_effects(self):
         eff = effects.SimpleEffect(self.atom2)
         effs = [effects.ConditionalEffect(self.condition2, eff)]
-        eff = effects.SimpleEffect(self.atom1)
-        condition = conditions.Conjunction([self.condition1, self.atom2]).simplified()
-        effs.append(effects.ConditionalEffect(condition, eff))
         return effs
     def get_always_precondition(self):
         condition = conditions.Disjunction([self.condition1.negate(), self.atom2])
@@ -129,11 +128,13 @@ class SometimeBeforeCondition(TrajectoryCondition):
             return condition
 
 class AtMostOnceCondition(TrajectoryCondition):
+    # (at-most-once (condition))
     # add conditional effect into "verify_always":
     #     if <condition> then <flag_1>
     #     if not <condition> and <flag_1> then <flag_2>
     # add precondition into "verify_always":
     #     if <condition> then not <flag_2>
+    #
     index = 0
     def __init__(self, condition, parameters):
         super(AtMostOnceCondition, self).__init__()
@@ -156,7 +157,7 @@ class AtMostOnceCondition(TrajectoryCondition):
         print("at-most-once:")
         self.condition.dump()
     def get_goal(self):
-        conditions.Truth()
+        return conditions.Truth()
     def get_always_effects(self):
         eff = effects.SimpleEffect(self.atom1)
         effs = [effects.ConditionalEffect(self.condition, eff)]
