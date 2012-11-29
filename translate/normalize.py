@@ -165,11 +165,11 @@ def all_conditions(task):
     for axiom in task.axioms:
         yield AxiomConditionProxy(axiom)
     yield GoalConditionProxy(task)
-    if task.trajectory.always is not None:
-        yield AlwaysConditionProxy(task)
-    index = 0
-    for sometime in task.trajectory.sometimes:
-        yield SometimeConditionProxy(task, sometime) #index)
+    #if task.trajectory.always is not None:
+    #    yield AlwaysConditionProxy(task)
+    #index = 0
+    #for sometime in task.trajectory.sometimes:
+    #    yield SometimeConditionProxy(task, sometime) #index)
 
 # [1] Remove universal quantifications from conditions.
 #
@@ -365,13 +365,25 @@ def substitute_complicated_goal(task):
     new_axiom = task.add_axiom([], goal)
     task.goal = pddl.Atom(new_axiom.name, new_axiom.parameters)
 
+#def substitute_complicated_always_condition(task):
+    '''action = task.trajectory.always_action
+    if isinstance(action.precondition, pddl.Literal):
+        return
+    elif isinstance(action.precondition, pddl.Conjunction):
+        for item in action.precondition.parts:
+            if not isinstance(item, pddl.Literal):
+                break
+        else:
+            return
+    new_axiom = task.add_axiom([], action.precondition)
+    action.precondition = pddl.Atom(new_axiom.name, new_axiom.parameters)'''
+
 # Combine Steps [1], [2], [3], [4], [5] and do some additional verification
 # that the task makes sense.
 
 def normalize(task):
     remove_universal_quantifiers(task)
     substitute_complicated_goal(task)
-    # TODO -- check later if trajectory constraint substitution should be implemented
     build_DNF(task)
     split_disjunctions(task)
     move_existential_quantifiers(task)

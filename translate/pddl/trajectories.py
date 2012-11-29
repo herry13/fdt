@@ -261,10 +261,11 @@ class Trajectory:
         else:
             cost_eff = None
         pre = conditions.Conjunction(pre).simplified()
-        always_action = actions.Action("verify_always", parameters, 0, pre, eff, cost_eff)
+        #pre, axiom = self.substitute_complicated_condition(pre)
+        self.always_action = actions.Action("verify_always", parameters, 0, pre, eff, cost_eff)
         print("=====")
-        always_action.dump()
-        new_actions.append(always_action)
+        self.always_action.dump()
+        new_actions.append(self.always_action)
 
         # add "sometime_verifier" action
         for sometime in self.sometimes:
