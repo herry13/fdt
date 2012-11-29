@@ -18,13 +18,10 @@
 
 (:constraints (and
 	(always
-		(exists (?s - service)
-			(forall (?x - client) (refer ?x ?s))
+		(or
+			(and (refer pc1 s1) (refer pc2 s1) (is_run s1))
+			(and (refer pc1 s2) (refer pc2 s2) (is_run s2))
 		)
-	)
-
-	(forall (?x - client ?s - service)
-		(always (imply (refer ?x ?s) (is_run ?s)))
 	)
 ))
 

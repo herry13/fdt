@@ -34,16 +34,20 @@
               (communicated_rock_data waypoint0)
               (communicated_image_data objective1 low_res)))
         (:constraints
-         (and 
-              (sometime (at rover0 waypoint3))
-              (sometime (at rover0 waypoint2))
+         (and
+              ;(at-most-once (empty rover0store))
+              ;(at-most-once (full rover0store))
+              (always (at rover0 waypoint0))
+
+              ;(sometime (at rover0 waypoint3))
+              ;(sometime (at rover0 waypoint2))
               (sometime (calibrated camera0 rover0))
                (sometime-before (have_soil_analysis rover0 waypoint0)
                 (have_rock_analysis rover0 waypoint0))
                (sometime-before (have_soil_analysis rover0 waypoint0)
                 (calibrated camera0 rover0))
-               (sometime-before (have_image rover0 objective1 low_res)
-                (full rover0store))
+              ; (sometime-before (have_image rover0 objective1 low_res)
+              ;  (full rover0store))
                (sometime-before (have_image rover0 objective1 low_res)
                 (have_soil_analysis rover0 waypoint0))
                (sometime-before (have_image rover0 objective1 low_res)
