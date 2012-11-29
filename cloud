@@ -1,9 +1,9 @@
 #!/bin/bash
 
-OUTPUT="results.all.cloud"
+OUTPUT="results.all.cloud.3"
 DOMAIN="benchmark/cloud/domain.pddl"
-PROBLEMS[1]="benchmark/cloud/p01.pddl"
-PROBLEMS[2]="benchmark/cloud/p02.pddl"
+#PROBLEMS[1]="benchmark/cloud/p01.pddl"
+#PROBLEMS[2]="benchmark/cloud/p02.pddl"
 PROBLEMS[3]="benchmark/cloud/p03.pddl"
 #PROBLEMS[4]="benchmark/rovers/p04.pddl"
 
@@ -25,12 +25,12 @@ do
 	RESULT=$(./cea $DOMAIN $PROBLEM $TIMEOUT)
 	echo $RESULT >> $OUTPUT
 
-	echo "hmax:" >> $OUTPUT
-	RESULT=$(./hmax $DOMAIN $PROBLEM $TIMEOUT)
-	echo $RESULT >> $OUTPUT
-
 	echo "lama:" >> $OUTPUT
 	RESULT=$(./lama $DOMAIN $PROBLEM $TIMEOUT)
+	echo $RESULT >> $OUTPUT
+
+	echo "hmax:" >> $OUTPUT
+	RESULT=$(./hmax $DOMAIN $PROBLEM $TIMEOUT)
 	echo $RESULT >> $OUTPUT
 
 done

@@ -244,8 +244,8 @@ def parse_task(task_pddl):
 
     yield goal_condition
     yield use_metric
-    print("\n=== trajectory.dump(): ")
-    trajectory.dump()
+    #print("\n=== trajectory.dump(): ")
+    #trajectory.dump()
     yield trajectory
 
     for entry in iterator:

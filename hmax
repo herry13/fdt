@@ -1,6 +1,7 @@
 #!/bin/bash
 
 DIR=$(cd $(dirname "$0"); pwd)
+LOG_FILE="$DIR/hmax.log"
 
 DOMAIN=$1
 PROBLEM=$2
@@ -13,10 +14,12 @@ fi
 $DIR/cleanup
 
 ### HMAX 
-LOG=$(command time -o running.time -f "%e" $TIMEOUT $DIR/plan $DOMAIN $PROBLEM --search "astar(hmax())")
+LOG=$(command time -o running.time -f "%U" $TIMEOUT $DIR/plan $DOMAIN $PROBLEM --search "astar(hmax())")
 
 TIME=$(cat running.time)
 rm -f running.time
+
+echo $LOG > $LOG_FILE
 
 # postprocessing
 if [ -e "sas_plan" ]; then
