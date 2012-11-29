@@ -1,0 +1,55 @@
+solving benchmark/rovers/p01.pddl...
+cg:
+benchmark/rovers/domain.pddl benchmark/rovers/p01.pddl cg() valid 1.13
+ff:
+benchmark/rovers/domain.pddl benchmark/rovers/p01.pddl ff valid 1.08
+cea:
+benchmark/rovers/domain.pddl benchmark/rovers/p01.pddl cea valid 1.15
+hmax:
+benchmark/rovers/domain.pddl benchmark/rovers/p01.pddl hmax valid 2.38
+lama:
+benchmark/rovers/domain.pddl benchmark/rovers/p01.pddl lama_syn valid 1.08
+solving benchmark/rovers/p02.pddl...
+cg:
+benchmark/rovers/domain.pddl benchmark/rovers/p02.pddl cg() valid 0.32
+ff:
+benchmark/rovers/domain.pddl benchmark/rovers/p02.pddl ff valid 0.30
+cea:
+benchmark/rovers/domain.pddl benchmark/rovers/p02.pddl cea valid 0.31
+hmax:
+benchmark/rovers/domain.pddl benchmark/rovers/p02.pddl hmax valid 0.33
+lama:
+benchmark/rovers/domain.pddl benchmark/rovers/p02.pddl lama_syn valid 0.31
+solving benchmark/rovers/p03.pddl...
+cg:
+benchmark/rovers/domain.pddl benchmark/rovers/p03.pddl cg() valid 90.22
+ff:
+benchmark/rovers/domain.pddl benchmark/rovers/p03.pddl ff valid 992.59
+cea:
+benchmark/rovers/domain.pddl benchmark/rovers/p03.pddl cea valid 82.37
+hmax:
+benchmark/rovers/domain.pddl benchmark/rovers/p03.pddl hmax valid 256.89
+lama:
+
+solving benchmark/rovers/p04.pddl...
+cg:
+benchmark/rovers/domain.pddl benchmark/rovers/p04.pddl cg() valid 32.68
+ff:
+benchmark/rovers/domain.pddl benchmark/rovers/p04.pddl ff valid 152.56
+cea:
+benchmark/rovers/domain.pddl benchmark/rovers/p04.pddl cea valid 25.36
+hmax:
+benchmark/rovers/domain.pddl benchmark/rovers/p04.pddl hmax valid 256.82
+lama:
+benchmark/rovers/domain.pddl benchmark/rovers/p04.pddl lama_syn valid 3.84
+solving benchmark/rovers/p05.pddl...
+cg:
+benchmark/rovers/domain.pddl benchmark/rovers/p05.pddl cg() valid 155.10
+ff:
+benchmark/rovers/domain.pddl benchmark/rovers/p05.pddl ff valid 223.98
+cea:
+benchmark/rovers/domain.pddl benchmark/rovers/p05.pddl cea valid 153.58
+hmax:
+
+lama:
+
