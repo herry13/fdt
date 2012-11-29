@@ -37,6 +37,15 @@ Supported Type of Constraint
     (forall (...) (at-most-once (...)))
     (at-most-once (...))
 
+Order of Constraints based-on their strength
+============================================
+1. always
+2. at-end
+3. at-most-once
+4. sometime-after
+5. sometime-before
+6. sometime
+
 CHANGELOG
 =========
 27-11-2012

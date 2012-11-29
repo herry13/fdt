@@ -18,6 +18,7 @@ PROBLEMS[13]="benchmark/s13.pddl"
 PROBLEMS[14]="benchmark/s14.pddl"
 PROBLEMS[15]="benchmark/s15.pddl"
 PROBLEMS[16]="benchmark/s16.pddl"
+PROBLEMS[17]="benchmark/s17.pddl"
 
 if [ -e "all_plans" ]; then
 	rm all_plans

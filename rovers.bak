@@ -1,0 +1,42 @@
+#!/bin/bash
+
+OUTPUT="results.all"
+DOMAIN="benchmark/rovers/domain.pddl"
+PROBLEMS[1]="benchmark/rovers/p01.pddl"
+PROBLEMS[2]="benchmark/rovers/p02.pddl"
+#PROBLEMS[3]="benchmark/rovers/p03.pddl"
+
+TIMEOUT="30m"
+
+HEURISTICS=("cg", "ff", "cea", "hmax", "lama")
+
+for PROBLEM in "${PROBLEMS[@]}"
+do
+	echo "solving $PROBLEM..." >> $OUTPUT
+
+	echo "cg:" >> $OUTPUT
+	RESULT=$(./cg $DOMAIN $PROBLEM $TIMEOUT)
+	#echo $RESULT
+	echo $RESULT >> $OUTPUT
+
+	echo "ff:" >> $OUTPUT
+	RESULT=$(./ff $DOMAIN $PROBLEM $TIMEOUT)
+	#echo $RESULT
+	echo $RESULT >> $OUTPUT
+
+	echo "cea:" >> $OUTPUT
+	RESULT=$(./cea $DOMAIN $PROBLEM $TIMEOUT)
+	#echo $RESULT
+	echo $RESULT >> $OUTPUT
+
+	echo "hmax:" >> $OUTPUT
+	RESULT=$(./hmax $DOMAIN $PROBLEM $TIMEOUT)
+	#echo $RESULT
+	echo $RESULT >> $OUTPUT
+
+	echo "lama:" >> $OUTPUT
+	RESULT=$(./lama $DOMAIN $PROBLEM $TIMEOUT)
+	#echo $RESULT
+	echo $RESULT >> $OUTPUT
+
+done

@@ -1,0 +1,25 @@
+#!/bin/bash
+
+DOMAIN=$1
+PROBLEM=$2
+TIMEOUT=$3
+
+./cleanup
+
+### HMAX 
+TIME=$(timeout $TIMEOUT ./plan $DOMAIN $PROBLEM --search "astar(hmax())" | grep "Total time:")
+
+# postprocessing
+if [ -e "sas_plan" ]; then
+	sed -i '/\(verify_.* \)/d' sas_plan
+	RESULT=$(./VAL/validate $DOMAIN $PROBLEM sas_plan)
+	if [[ "$RESULT" == *"Plan valid"* ]]; then
+		echo "$DOMAIN $PROBLEM hmax valid $TIME"
+	else
+		echo "$DOMAIN $PROBLEM hmax invalid $TIME"
+	fi
+
+	if [ "$3" == "1" ]; then
+		echo $RESULT
+	fi
+fi
