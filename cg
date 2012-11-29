@@ -13,7 +13,10 @@ fi
 $DIR/cleanup
 
 ### CG
-TIME=$($TIMEOUT $DIR/plan $DOMAIN $PROBLEM --heuristic "hcg=cg(cost_type=1)" --search "lazy_greedy(hcg)" | grep "Total time:")
+command time -o running.time -f "%e" $TIMEOUT $DIR/plan $DOMAIN $PROBLEM --heuristic "hcg=cg(cost_type=2)" --search "lazy_greedy(hcg)"
+
+TIME=$(cat running.time)
+rm -f running.time
 
 # postprocessing
 if [ -e "sas_plan" ]; then

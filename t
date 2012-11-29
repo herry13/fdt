@@ -13,7 +13,8 @@
 #./translate/translate.py benchmark/service.pddl benchmark/s12.pddl 
 #./translate/translate.py benchmark/service.pddl benchmark/s13.pddl 
 #./translate/translate.py benchmark/service.pddl benchmark/s14.pddl 
-./translate/translate.py benchmark/service.pddl benchmark/s17.pddl 
+#./translate/translate.py benchmark/service.pddl benchmark/s17.pddl 
 
 #./translate/translate.py benchmark/rovers/domain.pddl benchmark/rovers/p01.pddl
 #./translate/translate.py benchmark/rovers/domain.pddl benchmark/rovers/p02.pddl
+./translate/translate.py benchmark/rovers/domain.pddl benchmark/rovers/p05.pddl

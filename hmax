@@ -1,18 +1,27 @@
 #!/bin/bash
 
+DIR=$(cd $(dirname "$0"); pwd)
+
 DOMAIN=$1
 PROBLEM=$2
 TIMEOUT=$3
 
-./cleanup
+if [ "$TIMEOUT" != "" ]; then
+	TIMEOUT="timeout $TIMEOUT"
+fi
+
+$DIR/cleanup
 
 ### HMAX 
-TIME=$(timeout $TIMEOUT ./plan $DOMAIN $PROBLEM --search "astar(hmax())" | grep "Total time:")
+LOG=$(command time -o running.time -f "%e" $TIMEOUT $DIR/plan $DOMAIN $PROBLEM --search "astar(hmax())")
+
+TIME=$(cat running.time)
+rm -f running.time
 
 # postprocessing
 if [ -e "sas_plan" ]; then
 	sed -i '/\(verify_.* \)/d' sas_plan
-	RESULT=$(./VAL/validate $DOMAIN $PROBLEM sas_plan)
+	RESULT=$($DIR/VAL/validate $DOMAIN $PROBLEM sas_plan)
 	if [[ "$RESULT" == *"Plan valid"* ]]; then
 		echo "$DOMAIN $PROBLEM hmax valid $TIME"
 	else

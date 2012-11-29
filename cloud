@@ -1,12 +1,11 @@
 #!/bin/bash
 
-OUTPUT="results.all"
-DOMAIN="benchmark/rovers/domain.pddl"
-PROBLEMS[1]="benchmark/rovers/p01.pddl"
-PROBLEMS[2]="benchmark/rovers/p02.pddl"
-PROBLEMS[3]="benchmark/rovers/p03.pddl"
-PROBLEMS[4]="benchmark/rovers/p04.pddl"
-PROBLEMS[5]="benchmark/rovers/p05.pddl"
+OUTPUT="results.all.cloud"
+DOMAIN="benchmark/cloud/domain.pddl"
+PROBLEMS[1]="benchmark/cloud/p01.pddl"
+PROBLEMS[2]="benchmark/cloud/p02.pddl"
+PROBLEMS[3]="benchmark/cloud/p03.pddl"
+#PROBLEMS[4]="benchmark/rovers/p04.pddl"
 
 TIMEOUT="30m"
 

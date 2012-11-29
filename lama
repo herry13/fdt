@@ -1,20 +1,29 @@
 #!/bin/bash
 
+DIR=$(cd $(dirname "$0"); pwd)
+
 DOMAIN=$1
 PROBLEM=$2
 TIMEOUT=$3
 
-./cleanup
+if [ "$TIMEOUT" != "" ]; then
+	TIMEOUT="timeout $TIMEOUT"
+fi
+
+$DIR/cleanup
 
 ### LAMA-FF
-TIME=$(timeout $TIMEOUT ./plan $DOMAIN $PROBLEM \
-	--heuristic "hlm,hff=lm_ff_syn(lm_rhw(reasonable_orders=true,lm_cost_type=2,cost_type=2), admissible=false, optimal=false, cost_type=2)" \
-	--search "lazy_greedy([hff,hlm],preferred=[hff,hlm])" | grep "Total time:")
+command time -o running.time -f "%e" $TIMEOUT $DIR/plan $DOMAIN $PROBLEM \
+	--heuristic "hlm,hff=lm_ff_syn(lm_rhw(reasonable_orders=true,lm_cost_type=2,cost_type=0), admissible=false, optimal=false, cost_type=0)" \
+	--search "lazy_greedy([hff,hlm],preferred=[hff,hlm])"
+
+TIME=$(cat running.time)
+rm -f running.time
 
 # postprocessing
 if [ -e "sas_plan" ]; then
 	sed -i '/\(verify_.* \)/d' sas_plan
-	RESULT=$(./VAL/validate $DOMAIN $PROBLEM sas_plan)
+	RESULT=$($DIR/VAL/validate $DOMAIN $PROBLEM sas_plan)
 	if [[ "$RESULT" == *"Plan valid"* ]]; then
 		echo "$DOMAIN $PROBLEM lama_syn valid $TIME"
 	else
