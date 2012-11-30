@@ -1,7 +1,12 @@
 #!/bin/bash
 
 DIR=$(cd $(dirname "$0"); pwd)
-LOG_FILE="$DIR/lama.log"
+
+if [ "$4" != "" ]; then
+	LOG_FILE="$4"
+else
+	LOG_FILE="$DIR/lama.log"
+fi
 
 DOMAIN=$1
 PROBLEM=$2
@@ -14,14 +19,12 @@ fi
 $DIR/cleanup
 
 ### LAMA-FF
-LOG=$(command time -o running.time -f "%U" $TIMEOUT $DIR/plan $DOMAIN $PROBLEM \
+command time -o running.time -f "%U" $TIMEOUT $DIR/plan $DOMAIN $PROBLEM \
 	--heuristic "hlm,hff=lm_ff_syn(lm_rhw(reasonable_orders=true,lm_cost_type=2,cost_type=0), admissible=false, optimal=false, cost_type=0)" \
-	--search "lazy_greedy([hff,hlm],preferred=[hff,hlm])")
+	--search "lazy_greedy([hff,hlm],preferred=[hff,hlm])" > $LOG_FILE
 
 TIME=$(cat running.time)
 rm -f running.time
-
-echo $LOG > $LOG_FILE
 
 # postprocessing
 if [ -e "sas_plan" ]; then

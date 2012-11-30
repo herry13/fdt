@@ -20,11 +20,11 @@
 	app22 - appservice
 	db21 - dbservice
 	db22 - dbservice
-	vm-app22 - vm
-	vm-db22 - vm
 	vm-ws2 - vm
 	vm-app21 - vm
 	vm-db21 - vm
+	vm-app22 - vm
+	vm-db22 - vm
 
 	c1 - client
 	c2 - client
@@ -33,8 +33,6 @@
 )
 
 (:init
-	(satisfied-global)
-
 	(running ws1)
 	(running app11)
 	(running db11)
@@ -45,10 +43,10 @@
 	(running vm-db11)
 	(running vm-app12)
 	(running vm-db12)
-	(depend ws1 app11)
-	(depend app11 db11)
-	(depend ws1 app12)
-	(depend app12 db12)
+	(web_depend_app ws1 app11)
+	(web_depend_app ws1 app12)
+	(app_depend_db app11 db11)
+	(app_depend_db app12 db12)
 	(is_in ws1 vm-ws1)
 	(is_in app11 vm-app11)
 	(is_in db11 vm-db11)
@@ -61,10 +59,10 @@
 	(in_cloud vm-db12 cloud1)
 
 
-	(depend ws2 app21)
-	(depend app21 db21)
-	(depend ws2 app22)
-	(depend app22 db22)
+	(web_depend_app ws2 app21)
+	(web_depend_app ws2 app22)
+	(app_depend_db app21 db21)
+	(app_depend_db app22 db22)
 	(is_in ws2 vm-ws2)
 	(is_in app21 vm-app21)
 	(is_in db21 vm-db21)
@@ -83,8 +81,6 @@
 )
 
 (:goal (and
-	(satisfied-global)
-
 	(refer c1 ws1)
 	(refer c2 ws1)
 	(refer c3 ws1)
@@ -101,6 +97,37 @@
 	(not (running vm-db21))
 	(not (running vm-app22))
 	(not (running vm-db22))
+))
+
+;(:constraints (and
+;	(forall (?s - service ?v - vm)
+;		(always (imply (and (is_in ?s ?v) (running ?s)) (running ?v))))
+;	(forall (?s1 ?s2 - service)
+;		(always (imply (and (depend ?s1 ?s2) (running ?s1)) (running ?s2))))
+;	(forall (?c - client ?w - webservice)
+;		(always (imply (refer ?c ?w) (running ?w))))))
+
+(:constraints (and
+	(forall (?s - service)
+		(always
+			(exists (?v - vm)
+				(and (is_in ?s ?v)
+					(imply (running ?s) (running ?v))))))
+
+	(forall (?w - webservice ?a - appservice)
+		(always
+			(imply
+				(and (web_depend_app ?w ?a) (running ?w))
+				(running ?a))))
+
+	(forall (?a - appservice ?d - dbservice)
+		(always
+			(imply
+				(and (app_depend_db ?a ?d) (running ?a))
+				(running ?d))))
+
+	(forall (?c - client ?w - webservice)
+		(always (imply (refer ?c ?w) (running ?w))))
 ))
 
 )

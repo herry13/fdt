@@ -14,12 +14,10 @@ fi
 $DIR/cleanup
 
 ### HMAX 
-LOG=$(command time -o running.time -f "%U" $TIMEOUT $DIR/plan $DOMAIN $PROBLEM --search "astar(hmax())")
+command time -o running.time -f "%U" $TIMEOUT $DIR/plan $DOMAIN $PROBLEM --search "astar(hmax())" > $LOG_FILE
 
 TIME=$(cat running.time)
 rm -f running.time
-
-echo $LOG > $LOG_FILE
 
 # postprocessing
 if [ -e "sas_plan" ]; then

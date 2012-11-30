@@ -1,7 +1,12 @@
 #!/bin/bash
 
 DIR=$(cd $(dirname "$0"); pwd)
-LOG_FILE="$DIR/cea.log"
+
+if [ "$4" != "" ]; then
+	LOG_FILE="$4"
+else
+	LOG_FILE="$DIR/cea.log"
+fi
 
 DOMAIN=$1
 PROBLEM=$2
@@ -14,12 +19,10 @@ fi
 $DIR/cleanup
 
 ### CEA 
-LOG=$(command time -o running.time -f "%U" $TIMEOUT $DIR/plan $DOMAIN $PROBLEM --heuristic "hcea=cea(cost_type=2)" --search "lazy_greedy(hcea)")
+command time -o running.time -f "%U" $TIMEOUT $DIR/plan $DOMAIN $PROBLEM --heuristic "hcea=cea(cost_type=2)" --search "lazy_greedy(hcea)" > $LOG_FILE
 
 TIME=$(cat running.time)
 rm -f running.time
-
-echo $LOG > $LOG_FILE
 
 # postprocessing
 if [ -e "sas_plan" ]; then

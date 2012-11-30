@@ -1,0 +1,49 @@
+solving p01.pddl...
+cg:
+domain.pddl p01.pddl cg() valid 0.21
+ff:
+domain.pddl p01.pddl ff valid 0.22
+cea:
+domain.pddl p01.pddl cea valid 0.20
+lama:
+domain.pddl p01.pddl lama_syn valid 0.25
+hmax:
+domain.pddl p01.pddl hmax valid 0.33
+solving p01.pddl...
+cg:
+domain.pddl p01.pddl cg() valid 0.22
+ff:
+domain.pddl p01.pddl ff valid 0.23
+cea:
+domain.pddl p01.pddl cea valid 0.19
+lama:
+domain.pddl p01.pddl lama_syn valid 0.26
+hmax:
+domain.pddl p01.pddl hmax valid 0.33
+solving p02.pddl...
+cg:
+domain.pddl p02.pddl cg() valid 4.04
+ff:
+domain.pddl p02.pddl ff valid 4.54
+cea:
+domain.pddl p02.pddl cea valid 5.37
+lama:
+domain.pddl p02.pddl lama_syn valid 10.18
+hmax:
+domain.pddl p02.pddl hmax valid 211.42
+solving p03.pddl...
+cg:
+domain.pddl p03.pddl cg() valid 2632.39
+ff:
+domain.pddl p03.pddl ff valid 2833.74
+cea:
+domain.pddl p03.pddl cea valid 3259.67
+lama:
+domain.pddl p03.pddl lama_syn valid 5938.91
+hmax:
+solving p04.pddl...
+cg:
+
+ff:
+
+cea:

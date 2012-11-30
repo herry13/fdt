@@ -16,7 +16,7 @@ import sys
 # 3) the number of application services for each layer
 # 4) the number of application layers (default: 1)
 
-PLANNER_TIMEOUT = "1h"
+PLANNER_TIMEOUT = "8h"
 
 def get_header(name):
     header = "(problem " + str(name) + ''')

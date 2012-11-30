@@ -1,7 +1,12 @@
 #!/bin/bash
 
 DIR=$(cd $(dirname "$0"); pwd)
-LOG_FILE="$DIR/ff.log"
+
+if [ "$4" != "" ]; then
+	LOG_FILE="$4"
+else
+	LOG_FILE="$DIR/ff.log"
+fi
 
 DOMAIN=$1
 PROBLEM=$2
@@ -14,12 +19,10 @@ fi
 $DIR/cleanup
 
 ### FF 
-LOG=$(command time -o running.time -f "%U" $TIMEOUT $DIR/plan $DOMAIN $PROBLEM --heuristic "hff=ff(cost_type=0)" --search "lazy_greedy(hff)")
+command time -o running.time -f "%U" $TIMEOUT $DIR/plan $DOMAIN $PROBLEM --heuristic "hff=ff(cost_type=0)" --search "lazy_greedy(hff)" > $LOG_FILE
 
 TIME=$(cat running.time)
 rm -f running.time
-
-echo $LOG > $LOG_FILE
 
 # postprocessing
 if [ -e "sas_plan" ]; then
