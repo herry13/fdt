@@ -5,3 +5,4 @@ rm -f result.all
 ../../cleanup
 rm -f p*.pddl
 rm -f running.time
+rm -f *.sas

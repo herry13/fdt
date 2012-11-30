@@ -11,6 +11,7 @@ fi
 DOMAIN=$1
 PROBLEM=$2
 TIMEOUT=$3
+PLANNER="$DIR/plan2"
 
 if [ "$TIMEOUT" != "" ]; then
 	TIMEOUT="timeout $TIMEOUT"
@@ -19,7 +20,7 @@ fi
 $DIR/cleanup
 
 ### LAMA-FF
-command time -o running.time -f "%U" $TIMEOUT $DIR/plan $DOMAIN $PROBLEM \
+command time -o running.time -f "%U" $TIMEOUT $PLANNER $DOMAIN $PROBLEM \
 	--heuristic "hlm,hff=lm_ff_syn(lm_rhw(reasonable_orders=true,lm_cost_type=2,cost_type=0), admissible=false, optimal=false, cost_type=0)" \
 	--search "lazy_greedy([hff,hlm],preferred=[hff,hlm])" > $LOG_FILE
 

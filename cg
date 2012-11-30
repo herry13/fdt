@@ -11,6 +11,7 @@ fi
 DOMAIN=$1
 PROBLEM=$2
 TIMEOUT=$3
+PLANNER="$DIR/plan2"
 
 if [ "$TIMEOUT" != "" ]; then
 	TIMEOUT="timeout $TIMEOUT"
@@ -19,7 +20,7 @@ fi
 $DIR/cleanup
 
 ### CG
-command time -o running.time -f "%U" $TIMEOUT $DIR/plan $DOMAIN $PROBLEM --heuristic "hcg=cg(cost_type=2)" --search "lazy_greedy(hcg)" > $LOG_FILE
+command time -o running.time -f "%U" $TIMEOUT $PLANNER $DOMAIN $PROBLEM --heuristic "hcg=cg(cost_type=2)" --search "lazy_greedy(hcg)" > $LOG_FILE
 
 TIME=$(cat running.time)
 rm -f running.time
