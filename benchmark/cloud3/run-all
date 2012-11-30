@@ -1,0 +1,40 @@
+#!/bin/bash
+OUTPUT="result.all"
+DOMAIN="domain.pddl"
+PROBLEMS[1]="p1.pddl"
+TIMEOUT="1h"
+rm -f $OUTPUT
+rm -rf log
+mkdir -p log
+for PROBLEM in "${PROBLEMS[@]}"; do
+   echo "=== solving $PROBLEM ===" >> $OUTPUT
+   echo -ne "cg: " >> $OUTPUT
+   LOG_FILE="log/cg-$PROBLEM.log"
+   ../../cg $DOMAIN $PROBLEM $TIMEOUT $LOG_FILE >> $OUTPUT
+   if [ -e "sas_plan" ]; then
+      mv sas_plan log/cg-$PROBLEM.sas_plan
+   fi
+
+   echo -ne "ff: " >> $OUTPUT
+   LOG_FILE="log/ff-$PROBLEM.log"
+   ../../ff $DOMAIN $PROBLEM $TIMEOUT $LOG_FILE >> $OUTPUT
+   if [ -e "sas_plan" ]; then
+      mv sas_plan log/ff-$PROBLEM.sas_plan
+   fi
+
+   echo -ne "cea: " >> $OUTPUT
+   LOG_FILE="log/cea-$PROBLEM.log"
+   ../../cea $DOMAIN $PROBLEM $TIMEOUT $LOG_FILE >> $OUTPUT
+   if [ -e "sas_plan" ]; then
+      mv sas_plan log/cea-$PROBLEM.sas_plan
+   fi
+
+   echo -ne "lama: " >> $OUTPUT
+   LOG_FILE="log/lama-$PROBLEM.log"
+   ../../lama $DOMAIN $PROBLEM $TIMEOUT $LOG_FILE >> $OUTPUT
+   if [ -e "sas_plan" ]; then
+      mv sas_plan log/lama-$PROBLEM.sas_plan
+   fi
+done
+
+../../cleanup

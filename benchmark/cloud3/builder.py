@@ -16,6 +16,8 @@ import sys
 # 3) the number of application services for each layer
 # 4) the number of application layers (default: 1)
 
+PLANNER_TIMEOUT = "1h"
+
 def get_header(name):
     header = "(problem " + str(name) + ''')
 (:domain CloudBurst)'''
@@ -145,8 +147,7 @@ def get_pddl(name, webs, clients):
     return pddl
 
 def generate_problem(outfile, options):
-    print(str(options))
-    print(outfile)
+    print("Generate..." + outfile)
 
     webs = []
     for i in range(0,2):
@@ -163,13 +164,60 @@ def generate_problem(outfile, options):
     for i in range(0, int(options.total_clients)):
         clients.append("pc-" + str(i))
 
-    print(str(webs))
     name, ext = outfile.split(".")
     pddl = get_pddl(name, webs, clients)
-    #print(pddl)
 
     f = open(outfile, "w")
     f.write(pddl)
+    f.close()
+
+def generate_run_all_script(last_index):
+    script = '''#!/bin/bash
+OUTPUT="result.all"
+DOMAIN="domain.pddl"
+'''
+    for i in range(1, last_index+1):
+        script += "PROBLEMS[" + str(i) + ']="p' + str(i) + '.pddl"' + "\n"
+
+    script += 'TIMEOUT="' + PLANNER_TIMEOUT + '''"
+rm -f $OUTPUT
+rm -rf log
+mkdir -p log
+for PROBLEM in "${PROBLEMS[@]}"; do
+   echo "=== solving $PROBLEM ===" >> $OUTPUT
+   echo -ne "cg: " >> $OUTPUT
+   LOG_FILE="log/cg-$PROBLEM.log"
+   ../../cg $DOMAIN $PROBLEM $TIMEOUT $LOG_FILE >> $OUTPUT
+   if [ -e "sas_plan" ]; then
+      mv sas_plan log/cg-$PROBLEM.sas_plan
+   fi
+
+   echo -ne "ff: " >> $OUTPUT
+   LOG_FILE="log/ff-$PROBLEM.log"
+   ../../ff $DOMAIN $PROBLEM $TIMEOUT $LOG_FILE >> $OUTPUT
+   if [ -e "sas_plan" ]; then
+      mv sas_plan log/ff-$PROBLEM.sas_plan
+   fi
+
+   echo -ne "cea: " >> $OUTPUT
+   LOG_FILE="log/cea-$PROBLEM.log"
+   ../../cea $DOMAIN $PROBLEM $TIMEOUT $LOG_FILE >> $OUTPUT
+   if [ -e "sas_plan" ]; then
+      mv sas_plan log/cea-$PROBLEM.sas_plan
+   fi
+
+   echo -ne "lama: " >> $OUTPUT
+   LOG_FILE="log/lama-$PROBLEM.log"
+   ../../lama $DOMAIN $PROBLEM $TIMEOUT $LOG_FILE >> $OUTPUT
+   if [ -e "sas_plan" ]; then
+      mv sas_plan log/lama-$PROBLEM.sas_plan
+   fi
+done
+
+../../cleanup
+'''
+    f = open("run-all", "w")
+    f.write(script)
     f.close()
 
 class Option:
@@ -183,7 +231,7 @@ class Option:
               "clients=" + str(self.total_clients))
 
 def generate_combination_problems(options):
-    index = 0
+    index = 1
     opt = Option()
     for l in range(1, int(options.total_applayers)+1):
         for a in range(1, int(options.total_appservices)+1):
@@ -194,6 +242,8 @@ def generate_combination_problems(options):
                 opt.total_clients = c
                 generate_problem(outfile, opt)
                 index += 1
+
+    generate_run_all_script(index-1)
 
 def parse_options():
     parser = optparse.OptionParser(usage="Usage: %prog [options] <output.pddl>")
