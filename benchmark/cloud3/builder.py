@@ -171,13 +171,17 @@ def generate_problem(outfile, options):
     f.write(pddl)
     f.close()
 
-def generate_run_all_script(last_index):
+def generate_run_all_script(problems):
     script = '''#!/bin/bash
 OUTPUT="result.all"
 DOMAIN="domain.pddl"
 '''
-    for i in range(1, last_index+1):
-        script += "PROBLEMS[" + str(i) + ']="p' + str(i) + '.pddl"' + "\n"
+    #for i in range(1, last_index+1):
+    #    script += "PROBLEMS[" + str(i) + ']="p' + str(i) + '.pddl"' + "\n"
+    index = 0
+    for p in problems:
+        script += "PROBLEMS[" + str(index) + ']="' + p + '.pddl"' + "\n"
+        index += 1
 
     script += 'TIMEOUT="' + PLANNER_TIMEOUT + '''"
 rm -f $OUTPUT
@@ -212,6 +216,8 @@ for PROBLEM in "${PROBLEMS[@]}"; do
    if [ -e "sas_plan" ]; then
       mv sas_plan log/lama-$PROBLEM.sas_plan
    fi
+
+   mv -f *-output.sas log
 done
 
 ../../cleanup
@@ -225,25 +231,31 @@ class Option:
         self.total_applayers = 1
         self.total_appservices = 1
         self.total_clients = 1
+        self.name = "problem"
     def dump(self):
         print("applayers=" + str(self.total_applayers) + \
               "appservices=" + str(self.total_appservices) + \
               "clients=" + str(self.total_clients))
 
 def generate_combination_problems(options):
-    index = 1
+    index = 0
     opt = Option()
+    problems = []
     for l in range(1, int(options.total_applayers)+1):
         for a in range(1, int(options.total_appservices)+1):
             for c in range(1, int(options.total_clients)+1):
-                outfile = "p" + str(index) + ".pddl"
+                name = "p-" + str(l) + "-" + str(a) + "-" + str(c)
                 opt.total_applayers = l
                 opt.total_appservices = a
                 opt.total_clients = c
+                opt.name = name
+                outfile = name + ".pddl"
                 generate_problem(outfile, opt)
+                problems.append(name)
                 index += 1
 
-    generate_run_all_script(index-1)
+    generate_run_all_script(problems)
+    print("Total problems: " + str(index))
 
 def parse_options():
     parser = optparse.OptionParser(usage="Usage: %prog [options] <output.pddl>")
