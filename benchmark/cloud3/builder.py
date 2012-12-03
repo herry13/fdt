@@ -5,6 +5,7 @@ from __future__ import print_function
 
 import optparse
 import sys
+import os
 
 # CloudBurst problem generator
 #
@@ -176,48 +177,117 @@ def generate_run_all_script(problems):
 OUTPUT="result.all"
 DOMAIN="domain.pddl"
 '''
-    #for i in range(1, last_index+1):
-    #    script += "PROBLEMS[" + str(i) + ']="p' + str(i) + '.pddl"' + "\n"
+    translate = '''#!/bin/bash
+DOMAIN="domain.pddl"
+TRANSLATE="../../translate/translate.py"
+'''
+
     index = 0
     for p in problems:
         script += "PROBLEMS[" + str(index) + ']="' + p + '.pddl"' + "\n"
+        translate += "PROBLEMS[" + str(index) + ']="' + p + '.pddl"' + "\n"
         index += 1
 
-    script += 'TIMEOUT="' + PLANNER_TIMEOUT + '''"
-rm -f $OUTPUT
-rm -rf log
-mkdir -p log
+    translate += '''rm -rf $DIR
+SAS="sas"
+OPTIONS="" #--force-old-python
+
+mkdir -p $SAS
 for PROBLEM in "${PROBLEMS[@]}"; do
-   echo "=== solving $PROBLEM ===" >> $OUTPUT
+    DEST="$SAS/$PROBLEM-output.sas"
+    if [[ -e "$DEST" ]]; then
+       echo "$PROBLEM has been translated!"
+    else
+       command time --output="translate.time" --format="%U" $TRANSLATE $OPTIONS $DOMAIN $PROBLEM 1> $PROBLEM-translate-out.log 2> $PROBLEM-translate-err.log
+       mv output.sas "$SAS/$PROBLEM-output.sas"
+       mv translate.time "$SAS/$PROBLEM-translate.time"
+       mv "$PROBLEM-translate-out.log" "$SAS"
+       mv "$PROBLEM-translate-err.log" "$SAS"
+    fi
+done
+
+'''
+
+    script += 'TIMEOUT="' + PLANNER_TIMEOUT + '''"
+$PLAN="plan"
+PREPROCESS="../../preprocess/preprocess"
+SEARCH="../../search/downward"
+VAL="../../VAL/validate"
+
+mkdir -p $DIR
+for PROBLEM in "${PROBLEMS[@]}"; do
+   SAS_FILE="$SAS/$PROBLEM-output.sas"
+   echo "=== solving $PROBLEM === $SAS_FILE" >> $OUTPUT
+
+   # preprocessing
+   command time --output="preprocess.time" --format="%U" "$PREPROCESS" < $SAS_FILE 1> "$PLAN/$PROBLEM-preprocess-out.log" 2> "$PLAN/$PROBLEM-preprocess-err.log"
+   RUNTIME=$(cat preprocess.time)
+   echo "preprocessing: $RUNTIME" >> $OUTPUT
+   mv preprocess.time "$PLAN/$PROBLEM-preprocess.time"
+
+   ### CG
    echo -ne "cg: " >> $OUTPUT
-   LOG_FILE="log/cg-$PROBLEM.log"
-   ../../cg $DOMAIN $PROBLEM $TIMEOUT $LOG_FILE >> $OUTPUT
+   LOG_FILE="$PLAN/cg-$PROBLEM-search-out.log"
+   ERROR_FILE="$PLAN/cg-$PROBLEM-search-err.log"
+   PLAN_FILE="$PLAN/cg-$PRObLEM-sas.plan"
+   command time --output="search.time" -f "%U" "$SEARCH" --heuristic "hcg=cg(cost_type=2)" --search "lazy_greedy(hcg)" < output 1> $LOG_FILE 2> $ERROR_FILE
    if [ -e "sas_plan" ]; then
-      mv sas_plan log/cg-$PROBLEM.sas_plan
+      RESULT=$($VAL $DOMAIN $PROBLEM sas_plan)
+      if [[ "$RESULT" == *"Plan valid"* ]]; then
+         RUNTIME=$(cat search.time)
+         echo "valid $RUNTIME" >> $OUTPUT
+      else
+         echo "invalid" >> $OUTPUT
+      fi
+      mv sas_plan $PLAN/cg-$PROBLEM.sas_plan
+   else
+      echo "no-plan" >> $OUTPUT
+      touch $PLAN/cg-$PROBLEM.no_plan
    fi
+   rm -f search.time
 
+   ### FF
    echo -ne "ff: " >> $OUTPUT
-   LOG_FILE="log/ff-$PROBLEM.log"
-   ../../ff $DOMAIN $PROBLEM $TIMEOUT $LOG_FILE >> $OUTPUT
+   LOG_FILE="$PLAN/ff-$PROBLEM-search-out.log"
+   ERROR_FILE="$PLAN/ff-$PROBLEM-search-err.log"
+   PLAN_FILE="$PLAN/ff-$PRObLEM-sas.plan"
+   command time --output="search.time" -f "%U" "$SEARCH" --heuristic "hff=ff(cost_type=0)" --search "lazy_greedy(hff)" < output 1> $LOG_FILE 2> $ERROR_FILE
    if [ -e "sas_plan" ]; then
-      mv sas_plan log/ff-$PROBLEM.sas_plan
+      RESULT=$($VAL $DOMAIN $PROBLEM sas_plan)
+      if [[ "$RESULT" == *"Plan valid"* ]]; then
+         RUNTIME=$(cat search.time)
+         echo "valid $RUNTIME" >> $OUTPUT
+      else
+         echo "invalid" >> $OUTPUT
+      fi
+      mv sas_plan $PLAN/ff-$PROBLEM.sas_plan
+   else
+      echo "no-plan" >> $OUTPUT
+      touch $PLAN/ff-$PROBLEM.no_plan
    fi
+   rm -f search.time
 
+   ### CEA
    echo -ne "cea: " >> $OUTPUT
-   LOG_FILE="log/cea-$PROBLEM.log"
-   ../../cea $DOMAIN $PROBLEM $TIMEOUT $LOG_FILE >> $OUTPUT
+   LOG_FILE="$PLAN/cea-$PROBLEM-search-out.log"
+   ERROR_FILE="$PLAN/cea-$PROBLEM-search-err.log"
+   PLAN_FILE="$PLAN/cea-$PRObLEM-sas.plan"
+   command time --output="search.time" -f "%U" "$SEARCH" --heuristic "hcea=cea(cost_type=2)" --search "lazy_greedy(hcea)" < output 1> $LOG_FILE 2> $ERROR_FILE
    if [ -e "sas_plan" ]; then
-      mv sas_plan log/cea-$PROBLEM.sas_plan
+      RESULT=$($VAL $DOMAIN $PROBLEM sas_plan)
+      if [[ "$RESULT" == *"Plan valid"* ]]; then
+         RUNTIME=$(cat search.time)
+         echo "valid $RUNTIME" >> $OUTPUT
+      else
+         echo "invalid" >> $OUTPUT
+      fi
+      mv sas_plan $PLAN/cea-$PROBLEM.sas_plan
+   else
+      echo "no-plan" >> $OUTPUT
+      touch $PLAN/cea-$PROBLEM.no_plan
    fi
+   rm -f search.time
 
-   echo -ne "lama: " >> $OUTPUT
-   LOG_FILE="log/lama-$PROBLEM.log"
-   ../../lama $DOMAIN $PROBLEM $TIMEOUT $LOG_FILE >> $OUTPUT
-   if [ -e "sas_plan" ]; then
-      mv sas_plan log/lama-$PROBLEM.sas_plan
-   fi
-
-   mv -f *-output.sas log
 done
 
 ../../cleanup
@@ -225,6 +295,11 @@ done
     f = open("run-all", "w")
     f.write(script)
     f.close()
+
+    f = open("translate-all", "w")
+    f.write(translate)
+    f.close()
+
 
 class Option:
     def __init__(self):
