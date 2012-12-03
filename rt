@@ -1,24 +1,25 @@
 #!/bin/bash
 
 DEBUG=0
-DOMAIN=benchmark/service.pddl
-PROBLEMS[1]="benchmark/s01.pddl"
-PROBLEMS[2]="benchmark/s02.pddl"
-PROBLEMS[3]="benchmark/s03.pddl"
-PROBLEMS[4]="benchmark/s04.pddl"
-PROBLEMS[5]="benchmark/s05.pddl"
-PROBLEMS[6]="benchmark/s06.pddl"
-PROBLEMS[7]="benchmark/s07.pddl"
-PROBLEMS[8]="benchmark/s08.pddl"
-PROBLEMS[9]="benchmark/s09.pddl"
-PROBLEMS[10]="benchmark/s10.pddl"
-PROBLEMS[11]="benchmark/s11.pddl"
-PROBLEMS[12]="benchmark/s12.pddl"
-PROBLEMS[13]="benchmark/s13.pddl"
-PROBLEMS[14]="benchmark/s14.pddl"
-PROBLEMS[15]="benchmark/s15.pddl"
-PROBLEMS[16]="benchmark/s16.pddl"
-PROBLEMS[17]="benchmark/s17.pddl"
+DOMAIN=benchmark/service/domain.pddl
+PROBLEMS[1]="benchmark/service/p01.pddl"
+PROBLEMS[2]="benchmark/service/p02.pddl"
+PROBLEMS[3]="benchmark/service/p03.pddl"
+PROBLEMS[4]="benchmark/service/p04.pddl"
+PROBLEMS[5]="benchmark/service/p05.pddl"
+PROBLEMS[6]="benchmark/service/p06.pddl"
+PROBLEMS[7]="benchmark/service/p07.pddl"
+PROBLEMS[8]="benchmark/service/p08.pddl"
+PROBLEMS[9]="benchmark/service/p09.pddl"
+PROBLEMS[10]="benchmark/service/p10.pddl"
+PROBLEMS[11]="benchmark/service/p11.pddl"
+PROBLEMS[12]="benchmark/service/p12.pddl"
+PROBLEMS[13]="benchmark/service/p13.pddl"
+PROBLEMS[14]="benchmark/service/p14.pddl"
+PROBLEMS[15]="benchmark/service/p15.pddl"
+PROBLEMS[16]="benchmark/service/p16.pddl"
+PROBLEMS[17]="benchmark/service/p17.pddl"
+PROBLEMS[18]="benchmark/service/p18.pddl"
 
 if [ -e "all_plans" ]; then
 	rm all_plans
