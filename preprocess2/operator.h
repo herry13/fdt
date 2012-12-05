@@ -36,10 +36,10 @@ public:
 private:
     string name;
     int cost;
-public:
     vector<Prevail> prevail;    // var, val
     vector<PrePost> pre_post; // var, old-val, new-val
 
+public:
     Operator(istream &in, const vector<Variable *> &variables);
     Operator(const string &name, const int &cost);
 
@@ -54,6 +54,9 @@ public:
     void set_name(const string &name) { this->name = name; }
     const vector<Prevail> &get_prevail() const {return prevail; }
     const vector<PrePost> &get_pre_post() const {return pre_post; }
+
+    vector<Prevail> &prevails() { return prevail; }
+    vector<PrePost> &pre_posts() { return pre_post; }
 };
 
 extern void strip_operators(vector<Operator> &operators);

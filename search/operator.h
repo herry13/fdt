@@ -65,6 +65,8 @@ class Operator {
     int cost;
 
     mutable bool marked; // Used for short-term marking of preferred operators
+    mutable int index;
+
 public:
     Operator(std::istream &in, bool is_axiom);
     void dump() const;
@@ -100,7 +102,9 @@ public:
     int get_cost() const {return cost; }
 
     //void set_index(int i) const { this->index = i; }
-    mutable int index;
+    //mutable int index;
+    void set_index(const int i) const { index = i; }
+    int get_index() const { return index; }
 };
 
 #endif

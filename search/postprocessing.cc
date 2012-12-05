@@ -14,7 +14,8 @@ Operator * create_operator(string name, int cost, int index) {
     stringstream sas;
     sas << "begin_operator\n" << name << "\n0\n0\n" << cost << "\nend_operator";
     Operator * op = new Operator(sas, false);
-    op->index = index;
+    //op->index = index;
+    op->set_index(index);
     return op;
 }
 
@@ -24,7 +25,7 @@ void break_concurrent_actions(SearchEngine::Plan &plan) {
         name = plan[i]->get_name();
         int post = name.find_first_of('|');
         if (post > 0) {
-            int index = plan[i]->index;
+            int index = plan[i]->get_index(); //plan[i]->index;
             int cost = plan[i]->get_cost();
             do {
                 string sub_name = name.substr(0, post);
@@ -50,7 +51,8 @@ void remove_auxiliary_actions(SearchEngine::Plan &plan) {
         } else if (name.length() > 15 && name.substr(0, 15).compare("verify_sometime") == 0) {
             plan.erase(plan.begin()+i);
         } else {
-            plan[i]->index = index++;
+            //plan[i]->index = index++;
+            plan[i]->set_index(index++);
             i++;
         }
     }
