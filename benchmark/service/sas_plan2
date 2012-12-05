@@ -1,4 +1,0 @@
-(start-service s2)
-(redirect_from_to pc1 s1 s2)
-(redirect_from_to pc2 s1 s2)
-(stop-service s1)

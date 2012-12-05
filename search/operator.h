@@ -98,6 +98,9 @@ public:
     mutable bool marker1, marker2; // HACK! HACK!
 
     int get_cost() const {return cost; }
+
+    //void set_index(int i) const { this->index = i; }
+    mutable int index;
 };
 
 #endif

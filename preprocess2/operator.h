@@ -41,6 +41,7 @@ public:
     vector<PrePost> pre_post; // var, old-val, new-val
 
     Operator(istream &in, const vector<Variable *> &variables);
+    Operator(const string &name, const int &cost);
 
     void strip_unimportant_effects();
     bool is_redundant() const;
@@ -50,6 +51,7 @@ public:
     void generate_cpp_input(ofstream &outfile) const;
     int get_cost() const {return cost; }
     string get_name() const {return name; }
+    void set_name(const string &name) { this->name = name; }
     const vector<Prevail> &get_prevail() const {return prevail; }
     const vector<PrePost> &get_pre_post() const {return pre_post; }
 };

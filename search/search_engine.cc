@@ -7,6 +7,7 @@ using namespace std;
 #include "search_engine.h"
 #include "timer.h"
 #include "option_parser.h"
+#include "postprocessing.h"
 
 SearchEngine::SearchEngine(const Options &opts)
     : search_space(OperatorCost(opts.get_enum("cost_type"))),
@@ -54,17 +55,7 @@ bool SearchEngine::check_goal_and_set_plan(const State &state) {
         Plan plan;
         search_space.trace_path(state, plan);
 
-        // removing auxiliary actions for trajectory constraints
-        string name;
-        for (int i=0; i<plan.size(); ) {
-            name = plan[i]->get_name();
-            if (name.compare("verify_always ") == 0)
-                plan.erase(plan.begin()+i);
-            else if (name.length() > 15 && name.substr(0, 15).compare("verify_sometime") == 0)
-                plan.erase(plan.begin()+i);
-            else
-                i++;
-        }
+        do_postprocessing(plan);
 
         set_plan(plan);
         return true;

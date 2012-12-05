@@ -67,7 +67,7 @@ void save_plan(const vector<const Operator *> &plan, int iter) {
     }
     for (int i = 0; i < plan.size(); i++) {
         cout << plan[i]->get_name() << " (" << plan[i]->get_cost() << ")" << endl;
-        outfile << "(" << plan[i]->get_name() << ")" << endl;
+        outfile << plan[i]->index << ": (" << plan[i]->get_name() << ")" << endl;
     }
     outfile.close();
     int plan_cost = calculate_plan_cost(plan);

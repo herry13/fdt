@@ -40,6 +40,11 @@ Operator::Operator(istream &in, const vector<Variable *> &variables) {
     // TODO: Evtl. effektiver: conditions schon sortiert einlesen?
 }
 
+Operator::Operator(const string &name, const int &cost) {
+    this->name = name;
+    this->cost = cost;
+}
+
 void Operator::dump() const {
     cout << name << ":" << endl;
     cout << "prevail:";

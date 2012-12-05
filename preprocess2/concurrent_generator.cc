@@ -4,6 +4,7 @@
 #include "axiom.h"
 #include "state.h"
 #include <map>
+#include <sstream>
 
 bool op1_threat_prevail_op2(const Operator &op1, const Operator &op2) {
     for (int i = 0; i < op2.get_prevail().size(); i++) {
@@ -14,7 +15,38 @@ bool op1_threat_prevail_op2(const Operator &op1, const Operator &op2) {
             }
         }
     }
+    return false;
+}
 
+bool op1_threat_pre_post_op2(const Operator &op1, const Operator &op2) {
+    for (int i = 0; i < op2.get_pre_post().size(); i++) {
+        for (int j = 0; j < op1.get_pre_post().size(); j++) {
+            if (op1.get_pre_post()[j].var == op2.get_pre_post()[i].var &&
+                (op1.get_pre_post()[j].pre != op2.get_pre_post()[i].pre ||
+                 op1.get_pre_post()[j].post != op2.get_pre_post()[i].post)) {
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
+bool op1_parallel_op2(const Operator &op1, const Operator &op2) {
+    return !(op1_threat_prevail_op2(op1, op2) ||
+             op1_threat_pre_post_op2(op1, op2) ||
+             op1_threat_prevail_op2(op2, op1) ||
+             op1_threat_pre_post_op2(op2, op1));
+}
+
+bool op1_prevail_require_op2_post(const Operator &op1, const Operator &op2) {
+    for (int i = 0; i < op1.get_prevail().size(); i++) {
+        for (int j = 0; j < op2.get_pre_post().size(); j++) {
+            if (op1.get_prevail()[i].var == op2.get_pre_post()[j].var &&
+                op1.get_prevail()[i].prev == op2.get_pre_post()[j].post) {
+                return true;
+            }
+        }
+    }
     return false;
 }
 
@@ -39,14 +71,65 @@ void enforce_op1_prevail_on_op2(Operator &op1, Operator &op2) {
     }
 }
 
-void merge_operators(Operator &op1, Operator &op2, vector<Operator> &operators) {
-    cout << "merge: " << op1.get_name() << " + " << op2.get_name() << " -- " << operators.size() << endl;
+int get_prevail_index(const Operator &op, const Variable * var) {
+    for (int j = 0; j < op.get_prevail().size(); j++) {
+        if (op.get_prevail()[j].var == var)
+            return j;
+    }
+    return -1;
+}
+
+int get_pre_post_index(const Operator &op, const Variable * var) {
+    for (int j = 0; j < op.get_pre_post().size(); j++) {
+        if (op.get_pre_post()[j].var == var)
+            return j;
+    }
+    return -1;
+}
+
+int merge_operators(Operator &op1, Operator &op2, vector<Operator> &operators) {
+    stringstream ss;
+    ss << op1.get_name() << "|" << op2.get_name();
+    Operator op_merged = Operator(ss.str(), op2.get_cost());
+
+    for (int i = 0; i < op1.get_prevail().size(); i++)
+        op_merged.prevail.push_back(op1.get_prevail()[i]);
+
+    for (int i = 0; i < op1.get_pre_post().size(); i++) {
+        op_merged.pre_post.push_back(op1.get_pre_post()[i]);
+    }
+
+    for (int i = 0; i < op2.get_prevail().size(); i++) {
+        if (get_prevail_index(op_merged, op2.get_prevail()[i].var) < 0 &&
+            get_pre_post_index(op_merged, op2.get_prevail()[i].var) < 0) {
+
+            op_merged.prevail.push_back(op2.get_prevail()[i]);
+        }
+    }
+
+    int prevail_index;
+    for (int i = 0; i < op2.get_pre_post().size(); i++) {
+        if (get_pre_post_index(op_merged, op2.get_pre_post()[i].var) < 0) {
+            op_merged.pre_post.push_back(op2.get_pre_post()[i]);
+
+            prevail_index = get_prevail_index(op_merged, op2.get_pre_post()[i].var);
+            if (prevail_index >= 0) {
+                op_merged.prevail.erase(op_merged.prevail.begin()+prevail_index);
+            }
+        }
+    }
+
+    operators.push_back(op_merged);
+    return (operators.size() - 1);
 }
 
 bool are_mutually_inclusive(Operator &op1, Operator &op2) {
-    cout << op1.get_name() << " :: " << op2.get_name() << endl;
-    // 1) both operators are not threatening each other
+    // 1) both operators are not threatening each other (can be run in parallel)
     // 2) there's op1's prevail condition required by op2, and vice versa
+    if (op1_parallel_op2(op1, op2) &&
+        (op1_prevail_require_op2_post(op1, op2) && op1_prevail_require_op2_post(op2, op1))) {
+        return true;
+    }
     return false;
 }
 
@@ -75,21 +158,21 @@ void generate_concurrent_operators(vector<Operator> &operators,
     }
 
     vector<Operator> new_operators;
-    vector<Operator> satisfied;
+    vector<Operator*> satisfied;
     map< Operator*, vector<int> > groups;
     int index = 0;
     for (int i = 0; i < operators.size(); ) {
         satisfied.clear();
         for (int j = 0; j < always_operators.size(); j++) {
             if (!op1_threat_prevail_op2(operators[i], always_operators[j]))
-                satisfied.push_back(always_operators[j]);
+                satisfied.push_back(&(always_operators[j]));
         }
         if (satisfied.size() < always_operators.size()) {
             for (int j = 0; j < satisfied.size(); j++) {
                 new_operators.push_back(operators[i]);
                 index = new_operators.size() - 1;
-                enforce_op1_prevail_on_op2(satisfied[j], new_operators[index]);
-                groups[ &(satisfied[j]) ].push_back(index);
+                enforce_op1_prevail_on_op2( *(satisfied[j]), new_operators[index]);
+                groups[ satisfied[j] ].push_back(index);
             }
             operators.erase(operators.begin()+i);
         } else {
@@ -107,7 +190,7 @@ void generate_concurrent_operators(vector<Operator> &operators,
             for (int j = i+1; j < itr->second.size(); j++) {
                 index2 = itr->second[j];
                 if (are_mutually_inclusive(new_operators[index1], new_operators[index2]))
-                    merge_operators(new_operators[index1], new_operators[index2], new_operators);
+                    index1 = merge_operators(new_operators[index1], new_operators[index2], new_operators);
             }
         }
     }

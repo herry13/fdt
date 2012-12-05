@@ -2,24 +2,25 @@
 
 DEBUG=0
 DOMAIN=benchmark/service/domain.pddl
-PROBLEMS[1]="benchmark/service/p01.pddl"
-PROBLEMS[2]="benchmark/service/p02.pddl"
-PROBLEMS[3]="benchmark/service/p03.pddl"
-PROBLEMS[4]="benchmark/service/p04.pddl"
-PROBLEMS[5]="benchmark/service/p05.pddl"
-PROBLEMS[6]="benchmark/service/p06.pddl"
-PROBLEMS[7]="benchmark/service/p07.pddl"
-PROBLEMS[8]="benchmark/service/p08.pddl"
-PROBLEMS[9]="benchmark/service/p09.pddl"
-PROBLEMS[10]="benchmark/service/p10.pddl"
-PROBLEMS[11]="benchmark/service/p11.pddl"
-PROBLEMS[12]="benchmark/service/p12.pddl"
-PROBLEMS[13]="benchmark/service/p13.pddl"
-PROBLEMS[14]="benchmark/service/p14.pddl"
-PROBLEMS[15]="benchmark/service/p15.pddl"
+#PROBLEMS[1]="benchmark/service/p01.pddl"
+#PROBLEMS[2]="benchmark/service/p02.pddl"
+#PROBLEMS[3]="benchmark/service/p03.pddl"
+#PROBLEMS[4]="benchmark/service/p04.pddl"
+#PROBLEMS[5]="benchmark/service/p05.pddl"
+#PROBLEMS[6]="benchmark/service/p06.pddl"
+#PROBLEMS[7]="benchmark/service/p07.pddl"
+#PROBLEMS[8]="benchmark/service/p08.pddl"
+#PROBLEMS[9]="benchmark/service/p09.pddl"
+#PROBLEMS[10]="benchmark/service/p10.pddl"
+#PROBLEMS[11]="benchmark/service/p11.pddl"
+#PROBLEMS[12]="benchmark/service/p12.pddl"
+#PROBLEMS[13]="benchmark/service/p13.pddl"
+#PROBLEMS[14]="benchmark/service/p14.pddl"
+#PROBLEMS[15]="benchmark/service/p15.pddl"
 PROBLEMS[16]="benchmark/service/p16.pddl"
 PROBLEMS[17]="benchmark/service/p17.pddl"
 PROBLEMS[18]="benchmark/service/p18.pddl"
+PROBLEMS[19]="benchmark/service/p19.pddl"
 
 if [ -e "all_plans" ]; then
 	rm all_plans
@@ -31,9 +32,19 @@ do
 
 	if [ $DEBUG == 1 ]; then
 		### Landmark
-		./plan $DOMAIN $PROBLEM --landmarks "lm=lm_rhw(conjunctive_landmarks=true, disjunctive_landmarks=true)" --heuristic "hlm=lmcount(lm, admissible=false, optimal=false, pref=false)" --search "lazy_greedy(hlm, preferred=hlm)"
+		#./plan $DOMAIN $PROBLEM \
+      #       --landmarks "lm=lm_rhw(conjunctive_landmarks=true, disjunctive_landmarks=true)" \
+      #       --heuristic "hlm=lmcount(lm, admissible=false, optimal=false, pref=false)" \
+      #       --search "lazy_greedy(hlm, preferred=hlm)"
+      ### FF
+      ./plan $DOMAIN $PROBLEM --search "lazy_greedy(ff(cost_type=0))"
 	else
-		./plan $DOMAIN $PROBLEM --landmarks "lm=lm_rhw(conjunctive_landmarks=true, disjunctive_landmarks=true)" --heuristic "hlm=lmcount(lm, admissible=false, optimal=false, pref=false)" --search "lazy_greedy(hlm, preferred=hlm)" 1>/dev/null 2>/dev/null
+		### Landmark
+		#./plan $DOMAIN $PROBLEM \
+      #       --landmarks "lm=lm_rhw(conjunctive_landmarks=true, disjunctive_landmarks=true)" \
+      #       --heuristic "hlm=lmcount(lm, admissible=false, optimal=false, pref=false)" \
+      #       --search "lazy_greedy(hlm, preferred=hlm)" 1>/dev/null 2>/dev/null
+      ./plan $DOMAIN $PROBLEM --search "lazy_greedy(ff(cost_type=0))" 1>/dev/null 2>/dev/null
 	fi	
 
 	echo -n "$PROBLEM..."
