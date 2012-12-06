@@ -150,12 +150,12 @@ void generate_concurrent_operators(vector<Operator> &operators,
 
     cout << "Detecting and merging concurrent operators...";
     bool doable = true;
-    //bool has_cond_effect = false;
+    bool has_cond_effect = false;
 
     // collect all "verify_always" operators
     string always = "verify_always ";
     vector<Operator> always_operators;
-    //vector<Operator*> always_operators_cond_eff;
+    vector<Operator> always_operators_cond_eff;
     Variable * always_variable = NULL;
     for (int i = 0; i < operators.size(); ) {
         if (operators[i].get_name().compare(always) == 0) {
@@ -173,13 +173,13 @@ void generate_concurrent_operators(vector<Operator> &operators,
                 break;
             }
             // check conditional effect
-            /*for (int j = 0; j < operators[i].get_pre_post().size(); j++) {
+            for (int j = 0; j < operators[i].get_pre_post().size(); j++) {
                 if (operators[i].get_pre_post()[j].is_conditional_effect) {
                     has_cond_effect = true;
-                    always_operators_cond_eff.push_back(&(operators[i]));
-                    break;
+                    always_operators_cond_eff.push_back(operators[i]);
+                    //break;
                 }
-            }*/
+            }
             always_operators.push_back(operators[i]);
             operators.erase(operators.begin()+i);
         } else {
@@ -253,10 +253,10 @@ void generate_concurrent_operators(vector<Operator> &operators,
     for (int i = 0; i < new_operators.size(); i++)
         operators.push_back(new_operators[i]);
 
-    //for (int i = 0; i < always_operators_cond_eff.size(); i++)
-    //    operators.push_back(*(always_operators_cond_eff[i]));
+    for (int i = 0; i < always_operators_cond_eff.size(); i++)
+        operators.push_back(always_operators_cond_eff[i]);
 
-    //if (!has_cond_effect) {
+    if (!has_cond_effect) {
     // Remove any prevail/pre-post conditions of variable "always" from all operators
     // and axioms since all operators are assured satisfying the "always" condition.
     for (int j = 0; j < operators.size(); j++) {
@@ -281,7 +281,7 @@ void generate_concurrent_operators(vector<Operator> &operators,
                 j++;
         }
     }
-    //}
+    }
 
     cout << "final total operators: " << operators.size() << endl;
 }

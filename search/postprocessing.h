@@ -5,8 +5,8 @@
 
 using namespace std;
 
-void remove_auxiliary_actions(SearchEngine::Plan &plan);
-void break_concurrent_actions(SearchEngine::Plan &plan);
-void do_postprocessing(SearchEngine::Plan &plan);
+void remove_auxiliary_actions(SearchEngine::Plan &plan, SearchEngine::PlanIndex &planIndex);
+void break_concurrent_actions(SearchEngine::Plan &plan, SearchEngine::PlanIndex &planIndex);
+void do_postprocessing(SearchEngine::Plan &plan, SearchEngine::PlanIndex &planIndex);
 
 #endif
