@@ -32,6 +32,9 @@ from pygraph.classes.graph import graph
 from pygraph.classes.digraph import digraph
 from pygraph.readwrite.dot import write
 
+INCLUDE_ALWAYS = False
+INCLUDE_DERIVED_VARIABLE = True
+
 # TODO -- parse the variable one-by-one
 class Variable:
     def __init__(self, index):
@@ -90,11 +93,20 @@ def create_dtg_graph(sas):
         gr.add_node(var.get_label())
 
     for cg in sas.causal_graphs:
-        if not cg.variable.is_always: # skip "always" variable
+        if cg.variable.is_always and not INCLUDE_ALWAYS:
+            '''skip "always" variable'''
+        elif cg.variable.isderived() and not INCLUDE_DERIVED_VARIABLE:
+            ''' skip '''
+        else:
             '''if not cg.variable.isderived():
                 print(str(cg.variable.index) + ": " + cg.variable.name + " => " + str(cg.variable.isderived()))'''
             for causal in cg.causals:
-                if not causal[0].is_always:
+                if causal[0].is_always and not INCLUDE_ALWAYS:
+                    ''' skip '''
+                elif causal[0].isderived() and not INCLUDE_DERIVED_VARIABLE:
+                    ''' skip '''
+                else:
+                    #gr.add_edge((causal[0].get_label(), cg.variable.get_label()))
                     gr.add_edge((cg.variable.get_label(), causal[0].get_label()))
 
     return gr
