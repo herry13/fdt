@@ -190,7 +190,7 @@ void generate_concurrent_operators(vector<Operator> &operators,
     if (doable) {
         cout << "is doable" << endl;
     } else {
-        cout << "is not doable (always constraint has an axiom!)" << endl;
+        cout << "is not doable (always constraint has axiom)!" << endl;
         // put back "verify_always" operators
         for (int i = 0; i < always_operators.size(); i++)
             operators.push_back(always_operators[i]);
