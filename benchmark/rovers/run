@@ -18,6 +18,7 @@ for PROBLEM in "${PROBLEMS[@]}"; do
    echo "Problem: $PROBLEM" > $PROBLEM-out.log
    echo "--- translation ---" >>$PROBLEM-out.log
    $TRANSLATOR $DOMAIN $PROBLEM 1>> $PROBLEM-out.log 2>$PROBLEM-err.log
+   cp output.sas $PROBLEM-output.sas
 
    echo "--- preprocessing ---" >>$PROBLEM-out.log
    if [ -e "output.sas" ]; then
