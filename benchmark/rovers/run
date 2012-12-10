@@ -1,0 +1,49 @@
+#!/bin/bash
+
+DOMAIN="domain.pddl"
+PROBLEMS[0]="p01.pddl"
+PROBLEMS[1]="p02.pddl"
+PROBLEMS[2]="p03.pddl"
+PROBLEMS[3]="p04.pddl"
+PROBLEMS[4]="p05.pddl"
+
+TRANSLATOR="../../translate/translate.py"
+PREPROCESSING="../../preprocess/preprocess"
+SEARCH="../../search/downward"
+SEARCH_OPTIONS="lazy_greedy(cg())"
+VAL="../../VAL/validate"
+CLEANUP="../../cleanup"
+
+for PROBLEM in "${PROBLEMS[@]}"; do
+   echo "Problem: $PROBLEM" > $PROBLEM-out.log
+   echo "--- translation ---" >>$PROBLEM-out.log
+   $TRANSLATOR $DOMAIN $PROBLEM 1>> $PROBLEM-out.log 2>$PROBLEM-err.log
+
+   echo "--- preprocessing ---" >>$PROBLEM-out.log
+   if [ -e "output.sas" ]; then
+      $PREPROCESSING < output.sas 1>> $PROBLEM-out.log 2>>$PROBLEM-err.log
+   else
+      echo "Error: output.sas is not available!"
+      echo "Error: output.sas is not available!" >>$PROBLEM-err.log
+   fi
+
+   echo "--- searching ---" >>$PROBLEM-out.log
+   if [ -e "output" ]; then
+      $SEARCH --search $SEARCH_OPTIONS < output 1>>$PROBLEM-out.log 2>>$PROBLEM-err.log
+   else
+      echo "Error: output is not available!"
+      echo "Error: output is not available!" >>$PROBLEM-err.log
+   fi
+
+   echo "--- validation ---" >>$PROBLEM-out.log
+   if [ -e "sas_plan" ]; then
+      $VAL $DOMAIN $PROBLEM sas_plan 1>>$PROBLEM-out.log 2>>$PROBLEM-err.log
+      echo "-- plan ---" >>$PROBLEM-out.log
+      cat sas_plan >>$PROBLEM-out.log
+   else
+      echo "Error: sas_plan is not available!"
+      echo "Error: sas_plan is not available!" >>$PROBLEM-err.log
+   fi
+done
+
+$CLEANUP
