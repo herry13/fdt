@@ -400,6 +400,7 @@ def translate_task(strips_to_sas, ranges, translation_key,
             init_values[var] = val
     init = sas_tasks.SASInit(init_values)
 
+    print("Translate goal conditions...")
     goal_dict_list = translate_strips_conditions(goals, strips_to_sas, ranges, mutex_dict, mutex_ranges)
     assert len(goal_dict_list) == 1, "Negative goal not supported"
     ## we could substitute the negative goal literal in
@@ -411,9 +412,12 @@ def translate_task(strips_to_sas, ranges, translation_key,
     goal_pairs = list(goal_dict_list[0].items())
     goal = sas_tasks.SASGoal(goal_pairs)
 
+    print("Translate strips operators...")
     operators = translate_strips_operators(actions, strips_to_sas, ranges, mutex_dict, mutex_ranges, implied_facts)
+    print("Translate strips axioms...")
     axioms = translate_strips_axioms(axioms, strips_to_sas, ranges, mutex_dict, mutex_ranges)
 
+    print("Create SAS task...")
     axiom_layers = [-1] * len(ranges)
     for atom, layer in axiom_layer_dict.items():
         assert layer >= 0

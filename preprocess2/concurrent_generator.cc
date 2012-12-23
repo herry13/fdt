@@ -197,7 +197,8 @@ void generate_concurrent_operators(vector<Operator> &operators,
         return;
     }
 
-    // All trajectory constraints are compiled and the required "always" conditions are saved as the prevail
+    // Apply Patrik's approach:
+    // All trajectory constraints were compiled, all "always" conditions are saved as the prevail
     // conditions of "verify_always" operators (see file "translator/pddl/trajectories.py").
     //
     // 1) Remove operator which does not satisfy the prevail conditions of all "verify_always" operators
