@@ -1,0 +1,5 @@
+*.pddl
+*.log
+*.sas
+run-all
+translate-all

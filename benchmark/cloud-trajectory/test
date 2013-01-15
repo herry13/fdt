@@ -1,0 +1,1 @@
+../../search/downward-2 --heuristic "hAdd=add(cost_type=0)" --search "lazy(alt([single(sum([g(),weight(hAdd, 7)])),single(sum([g(),weight(hAdd,7)]),pref_only=true)], boost=0),preferred=[hAdd],reopen_closed=true,cost_type=0)" < output
