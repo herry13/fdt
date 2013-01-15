@@ -54,6 +54,8 @@ HEADERS = \
           open_lists/pareto_open_list.h \
           open_lists/standard_scalar_open_list.h \
           open_lists/tiebreaking_open_list.h \
+          \
+          postprocessing.h \
 
 ## Each of the following "HEADERS += ..." constructs defines a
 ## "plugin" feature that can be enabled or disabled by simply
@@ -171,7 +173,7 @@ DEPEND = g++ -MM
 
 CCOPT = -Iext
 CCOPT += -g
-CCOPT += -m32
+#CCOPT += -m32
 CCOPT += -Wall -W -Wno-sign-compare -Wno-deprecated -ansi -pedantic -Werror -DSTATE_VAR_BYTES=$(STATE_VAR_BYTES)
 
 ## The following lines contain workarounds for bugs when
@@ -192,7 +194,7 @@ ifdef HAVE_GCC_4_5
 endif
 
 LINKOPT  = -g
-LINKOPT += -m32
+#LINKOPT += -m32
 LINKOPT +=
 
 POSTLINKOPT =

@@ -15,9 +15,11 @@ class Options;
 class SearchEngine {
 public:
     typedef std::vector<const Operator *> Plan;
+    typedef std::vector<int> PlanIndex;
 private:
     bool solved;
     Plan plan;
+    PlanIndex planIndex;
 protected:
     SearchSpace search_space;
     SearchProgress search_progress;

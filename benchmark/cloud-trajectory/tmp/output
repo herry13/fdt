@@ -1,0 +1,1656 @@
+begin_version
+3
+end_version
+begin_metric
+0
+end_metric
+31
+begin_variable
+var23
+-1
+2
+Atom running(app0-0-0)
+<none of those>
+end_variable
+begin_variable
+var5
+1
+2
+Atom new-axiom@0(app0-0-0)
+<none of those>
+end_variable
+begin_variable
+var24
+-1
+2
+Atom running(app1-0-0)
+<none of those>
+end_variable
+begin_variable
+var6
+1
+2
+Atom new-axiom@0(app1-0-0)
+<none of those>
+end_variable
+begin_variable
+var25
+-1
+2
+Atom running(vm-app0-0-0)
+<none of those>
+end_variable
+begin_variable
+var27
+-1
+2
+Atom running(vm-ws0)
+<none of those>
+end_variable
+begin_variable
+var7
+1
+2
+Atom new-axiom@0(ws0)
+<none of those>
+end_variable
+begin_variable
+var9
+1
+2
+Atom new-axiom@1()
+<none of those>
+end_variable
+begin_variable
+var8
+1
+2
+Atom new-axiom@0(ws1)
+<none of those>
+end_variable
+begin_variable
+var29
+-1
+2
+Atom running(ws0)
+<none of those>
+end_variable
+begin_variable
+var30
+-1
+2
+Atom running(ws1)
+<none of those>
+end_variable
+begin_variable
+var11
+1
+2
+Atom new-axiom@4()
+<none of those>
+end_variable
+begin_variable
+var14
+-1
+2
+Atom refer(pc-0, ws0)
+Atom refer(pc-0, ws1)
+end_variable
+begin_variable
+var15
+-1
+2
+Atom refer(pc-1, ws0)
+Atom refer(pc-1, ws1)
+end_variable
+begin_variable
+var16
+-1
+2
+Atom refer(pc-2, ws0)
+Atom refer(pc-2, ws1)
+end_variable
+begin_variable
+var17
+-1
+2
+Atom refer(pc-3, ws0)
+Atom refer(pc-3, ws1)
+end_variable
+begin_variable
+var18
+-1
+2
+Atom refer(pc-4, ws0)
+Atom refer(pc-4, ws1)
+end_variable
+begin_variable
+var19
+-1
+2
+Atom refer(pc-5, ws0)
+Atom refer(pc-5, ws1)
+end_variable
+begin_variable
+var20
+-1
+2
+Atom refer(pc-6, ws0)
+Atom refer(pc-6, ws1)
+end_variable
+begin_variable
+var21
+-1
+2
+Atom refer(pc-7, ws0)
+Atom refer(pc-7, ws1)
+end_variable
+begin_variable
+var22
+-1
+2
+Atom refer(pc-8, ws0)
+Atom refer(pc-8, ws1)
+end_variable
+begin_variable
+var26
+-1
+2
+Atom running(vm-app1-0-0)
+<none of those>
+end_variable
+begin_variable
+var28
+-1
+2
+Atom running(vm-ws1)
+<none of those>
+end_variable
+begin_variable
+var1
+-1
+2
+Atom in_cloud(vm-app0-0-0, cloud1)
+Atom in_cloud(vm-app0-0-0, cloud2)
+end_variable
+begin_variable
+var3
+-1
+2
+Atom in_cloud(vm-ws0, cloud1)
+Atom in_cloud(vm-ws0, cloud2)
+end_variable
+begin_variable
+var2
+-1
+2
+Atom in_cloud(vm-app1-0-0, cloud1)
+Atom in_cloud(vm-app1-0-0, cloud2)
+end_variable
+begin_variable
+var4
+-1
+2
+Atom in_cloud(vm-ws1, cloud1)
+Atom in_cloud(vm-ws1, cloud2)
+end_variable
+begin_variable
+var10
+1
+2
+Atom new-axiom@2()
+<none of those>
+end_variable
+begin_variable
+var0
+-1
+2
+Atom always()
+<none of those>
+end_variable
+begin_variable
+var12
+1
+2
+Atom new-axiom@5()
+<none of those>
+end_variable
+begin_variable
+var13
+1
+2
+Atom new-axiom@6()
+<none of those>
+end_variable
+0
+begin_state
+0
+1
+1
+1
+0
+0
+1
+0
+1
+0
+1
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+1
+1
+0
+0
+0
+0
+0
+1
+0
+0
+end_state
+begin_goal
+19
+12 0
+13 0
+14 0
+15 0
+16 0
+17 0
+18 0
+19 0
+20 0
+21 1
+22 1
+23 1
+24 1
+25 0
+26 0
+27 1
+28 0
+29 1
+30 1
+end_goal
+43
+begin_operator
+change_ref pc-0 ws0 ws1
+0
+2
+0 28 0 1
+0 12 0 1
+0
+end_operator
+begin_operator
+change_ref pc-0 ws1 ws0
+0
+2
+0 28 0 1
+0 12 1 0
+0
+end_operator
+begin_operator
+change_ref pc-1 ws0 ws1
+0
+2
+0 28 0 1
+0 13 0 1
+0
+end_operator
+begin_operator
+change_ref pc-1 ws1 ws0
+0
+2
+0 28 0 1
+0 13 1 0
+0
+end_operator
+begin_operator
+change_ref pc-2 ws0 ws1
+0
+2
+0 28 0 1
+0 14 0 1
+0
+end_operator
+begin_operator
+change_ref pc-2 ws1 ws0
+0
+2
+0 28 0 1
+0 14 1 0
+0
+end_operator
+begin_operator
+change_ref pc-3 ws0 ws1
+0
+2
+0 28 0 1
+0 15 0 1
+0
+end_operator
+begin_operator
+change_ref pc-3 ws1 ws0
+0
+2
+0 28 0 1
+0 15 1 0
+0
+end_operator
+begin_operator
+change_ref pc-4 ws0 ws1
+0
+2
+0 28 0 1
+0 16 0 1
+0
+end_operator
+begin_operator
+change_ref pc-4 ws1 ws0
+0
+2
+0 28 0 1
+0 16 1 0
+0
+end_operator
+begin_operator
+change_ref pc-5 ws0 ws1
+0
+2
+0 28 0 1
+0 17 0 1
+0
+end_operator
+begin_operator
+change_ref pc-5 ws1 ws0
+0
+2
+0 28 0 1
+0 17 1 0
+0
+end_operator
+begin_operator
+change_ref pc-6 ws0 ws1
+0
+2
+0 28 0 1
+0 18 0 1
+0
+end_operator
+begin_operator
+change_ref pc-6 ws1 ws0
+0
+2
+0 28 0 1
+0 18 1 0
+0
+end_operator
+begin_operator
+change_ref pc-7 ws0 ws1
+0
+2
+0 28 0 1
+0 19 0 1
+0
+end_operator
+begin_operator
+change_ref pc-7 ws1 ws0
+0
+2
+0 28 0 1
+0 19 1 0
+0
+end_operator
+begin_operator
+change_ref pc-8 ws0 ws1
+0
+2
+0 28 0 1
+0 20 0 1
+0
+end_operator
+begin_operator
+change_ref pc-8 ws1 ws0
+0
+2
+0 28 0 1
+0 20 1 0
+0
+end_operator
+begin_operator
+migrate-vm vm-app0-0-0 cloud1 cloud2
+1
+4 1
+2
+0 28 0 1
+0 23 0 1
+0
+end_operator
+begin_operator
+migrate-vm vm-app0-0-0 cloud2 cloud1
+1
+4 1
+2
+0 28 0 1
+0 23 1 0
+0
+end_operator
+begin_operator
+migrate-vm vm-app1-0-0 cloud1 cloud2
+1
+21 1
+2
+0 28 0 1
+0 25 0 1
+0
+end_operator
+begin_operator
+migrate-vm vm-app1-0-0 cloud2 cloud1
+1
+21 1
+2
+0 28 0 1
+0 25 1 0
+0
+end_operator
+begin_operator
+migrate-vm vm-ws0 cloud1 cloud2
+1
+5 1
+2
+0 28 0 1
+0 24 0 1
+0
+end_operator
+begin_operator
+migrate-vm vm-ws0 cloud2 cloud1
+1
+5 1
+2
+0 28 0 1
+0 24 1 0
+0
+end_operator
+begin_operator
+migrate-vm vm-ws1 cloud1 cloud2
+1
+22 1
+2
+0 28 0 1
+0 26 0 1
+0
+end_operator
+begin_operator
+migrate-vm vm-ws1 cloud2 cloud1
+1
+22 1
+2
+0 28 0 1
+0 26 1 0
+0
+end_operator
+begin_operator
+start-runnable app0-0-0
+0
+2
+0 28 0 1
+0 0 1 0
+0
+end_operator
+begin_operator
+start-runnable app1-0-0
+0
+2
+0 28 0 1
+0 2 1 0
+0
+end_operator
+begin_operator
+start-runnable vm-app0-0-0
+0
+2
+0 28 0 1
+0 4 1 0
+0
+end_operator
+begin_operator
+start-runnable vm-app1-0-0
+0
+2
+0 28 0 1
+0 21 1 0
+0
+end_operator
+begin_operator
+start-runnable vm-ws0
+0
+2
+0 28 0 1
+0 5 1 0
+0
+end_operator
+begin_operator
+start-runnable vm-ws1
+0
+2
+0 28 0 1
+0 22 1 0
+0
+end_operator
+begin_operator
+start-runnable ws0
+0
+2
+0 28 0 1
+0 9 1 0
+0
+end_operator
+begin_operator
+start-runnable ws1
+0
+2
+0 28 0 1
+0 10 1 0
+0
+end_operator
+begin_operator
+stop-runnable app0-0-0
+0
+2
+0 28 0 1
+0 0 0 1
+0
+end_operator
+begin_operator
+stop-runnable app1-0-0
+0
+2
+0 28 0 1
+0 2 0 1
+0
+end_operator
+begin_operator
+stop-runnable vm-app0-0-0
+0
+2
+0 28 0 1
+0 4 0 1
+0
+end_operator
+begin_operator
+stop-runnable vm-app1-0-0
+0
+2
+0 28 0 1
+0 21 0 1
+0
+end_operator
+begin_operator
+stop-runnable vm-ws0
+0
+2
+0 28 0 1
+0 5 0 1
+0
+end_operator
+begin_operator
+stop-runnable vm-ws1
+0
+2
+0 28 0 1
+0 22 0 1
+0
+end_operator
+begin_operator
+stop-runnable ws0
+0
+2
+0 28 0 1
+0 9 0 1
+0
+end_operator
+begin_operator
+stop-runnable ws1
+0
+2
+0 28 0 1
+0 10 0 1
+0
+end_operator
+begin_operator
+verify_always 
+3
+7 1
+27 1
+11 1
+1
+0 28 -1 0
+0
+end_operator
+20
+begin_rule
+4
+1 0
+3 0
+6 0
+8 0
+7 0 1
+end_rule
+begin_rule
+4
+1 0
+3 0
+6 0
+8 0
+29 0 1
+end_rule
+begin_rule
+10
+12 0
+13 0
+14 0
+15 0
+16 0
+17 0
+18 0
+19 0
+20 0
+9 0
+11 0 1
+end_rule
+begin_rule
+10
+12 0
+13 0
+14 0
+15 0
+16 0
+17 0
+18 0
+19 0
+20 0
+9 0
+30 0 1
+end_rule
+begin_rule
+10
+12 1
+13 1
+14 1
+15 1
+16 1
+17 1
+18 1
+19 1
+20 1
+10 0
+11 0 1
+end_rule
+begin_rule
+10
+12 1
+13 1
+14 1
+15 1
+16 1
+17 1
+18 1
+19 1
+20 1
+10 0
+30 0 1
+end_rule
+begin_rule
+2
+0 0
+2 0
+27 0 1
+end_rule
+begin_rule
+2
+0 0
+10 1
+27 0 1
+end_rule
+begin_rule
+1
+0 1
+1 1 0
+end_rule
+begin_rule
+2
+2 0
+9 1
+27 0 1
+end_rule
+begin_rule
+1
+2 1
+3 1 0
+end_rule
+begin_rule
+1
+4 0
+1 1 0
+end_rule
+begin_rule
+1
+21 0
+3 1 0
+end_rule
+begin_rule
+1
+5 0
+6 1 0
+end_rule
+begin_rule
+1
+22 0
+8 1 0
+end_rule
+begin_rule
+2
+9 0
+10 0
+11 0 1
+end_rule
+begin_rule
+2
+9 0
+10 0
+30 0 1
+end_rule
+begin_rule
+1
+9 1
+6 1 0
+end_rule
+begin_rule
+2
+9 1
+10 1
+27 0 1
+end_rule
+begin_rule
+1
+10 1
+8 1 0
+end_rule
+begin_SG
+switch 28
+check 0
+switch 23
+check 0
+switch 4
+check 0
+check 0
+check 1
+18
+check 0
+switch 4
+check 0
+check 0
+check 1
+19
+check 0
+switch 25
+check 0
+switch 21
+check 0
+check 0
+check 1
+20
+check 0
+switch 21
+check 0
+check 0
+check 1
+21
+check 0
+switch 24
+check 0
+switch 5
+check 0
+check 0
+check 1
+22
+check 0
+switch 5
+check 0
+check 0
+check 1
+23
+check 0
+switch 26
+check 0
+switch 22
+check 0
+check 0
+check 1
+24
+check 0
+switch 22
+check 0
+check 0
+check 1
+25
+check 0
+switch 12
+check 0
+check 1
+0
+check 1
+1
+switch 13
+check 0
+check 1
+2
+check 1
+3
+switch 14
+check 0
+check 1
+4
+check 1
+5
+switch 15
+check 0
+check 1
+6
+check 1
+7
+switch 16
+check 0
+check 1
+8
+check 1
+9
+switch 17
+check 0
+check 1
+10
+check 1
+11
+switch 18
+check 0
+check 1
+12
+check 1
+13
+switch 19
+check 0
+check 1
+14
+check 1
+15
+switch 20
+check 0
+check 1
+16
+check 1
+17
+switch 0
+check 0
+check 1
+34
+check 1
+26
+switch 2
+check 0
+check 1
+35
+check 1
+27
+switch 4
+check 0
+check 1
+36
+check 1
+28
+switch 21
+check 0
+check 1
+37
+check 1
+29
+switch 5
+check 0
+check 1
+38
+check 1
+30
+switch 22
+check 0
+check 1
+39
+check 1
+31
+switch 9
+check 0
+check 1
+40
+check 1
+32
+switch 10
+check 0
+check 1
+41
+check 1
+33
+check 0
+check 0
+switch 7
+check 0
+check 0
+switch 27
+check 0
+check 0
+switch 11
+check 0
+check 0
+check 1
+42
+check 0
+check 0
+check 0
+end_SG
+begin_DTG
+1
+1
+34
+1
+28 0
+1
+0
+26
+1
+28 0
+end_DTG
+begin_DTG
+0
+2
+0
+8
+1
+0 1
+0
+11
+1
+4 0
+end_DTG
+begin_DTG
+1
+1
+35
+1
+28 0
+1
+0
+27
+1
+28 0
+end_DTG
+begin_DTG
+0
+2
+0
+10
+1
+2 1
+0
+12
+1
+21 0
+end_DTG
+begin_DTG
+1
+1
+36
+1
+28 0
+1
+0
+28
+1
+28 0
+end_DTG
+begin_DTG
+1
+1
+38
+1
+28 0
+1
+0
+30
+1
+28 0
+end_DTG
+begin_DTG
+0
+2
+0
+13
+1
+5 0
+0
+17
+1
+9 1
+end_DTG
+begin_DTG
+1
+1
+0
+4
+1 0
+3 0
+6 0
+8 0
+0
+end_DTG
+begin_DTG
+0
+2
+0
+14
+1
+22 0
+0
+19
+1
+10 1
+end_DTG
+begin_DTG
+1
+1
+40
+1
+28 0
+1
+0
+32
+1
+28 0
+end_DTG
+begin_DTG
+1
+1
+41
+1
+28 0
+1
+0
+33
+1
+28 0
+end_DTG
+begin_DTG
+3
+1
+15
+2
+9 0
+10 0
+1
+2
+10
+12 0
+13 0
+14 0
+15 0
+16 0
+17 0
+18 0
+19 0
+20 0
+9 0
+1
+4
+10
+12 1
+13 1
+14 1
+15 1
+16 1
+17 1
+18 1
+19 1
+20 1
+10 0
+0
+end_DTG
+begin_DTG
+1
+1
+0
+1
+28 0
+1
+0
+1
+1
+28 0
+end_DTG
+begin_DTG
+1
+1
+2
+1
+28 0
+1
+0
+3
+1
+28 0
+end_DTG
+begin_DTG
+1
+1
+4
+1
+28 0
+1
+0
+5
+1
+28 0
+end_DTG
+begin_DTG
+1
+1
+6
+1
+28 0
+1
+0
+7
+1
+28 0
+end_DTG
+begin_DTG
+1
+1
+8
+1
+28 0
+1
+0
+9
+1
+28 0
+end_DTG
+begin_DTG
+1
+1
+10
+1
+28 0
+1
+0
+11
+1
+28 0
+end_DTG
+begin_DTG
+1
+1
+12
+1
+28 0
+1
+0
+13
+1
+28 0
+end_DTG
+begin_DTG
+1
+1
+14
+1
+28 0
+1
+0
+15
+1
+28 0
+end_DTG
+begin_DTG
+1
+1
+16
+1
+28 0
+1
+0
+17
+1
+28 0
+end_DTG
+begin_DTG
+1
+1
+37
+1
+28 0
+1
+0
+29
+1
+28 0
+end_DTG
+begin_DTG
+1
+1
+39
+1
+28 0
+1
+0
+31
+1
+28 0
+end_DTG
+begin_DTG
+1
+1
+18
+2
+28 0
+4 1
+1
+0
+19
+2
+28 0
+4 1
+end_DTG
+begin_DTG
+1
+1
+22
+2
+28 0
+5 1
+1
+0
+23
+2
+28 0
+5 1
+end_DTG
+begin_DTG
+1
+1
+20
+2
+28 0
+21 1
+1
+0
+21
+2
+28 0
+21 1
+end_DTG
+begin_DTG
+1
+1
+24
+2
+28 0
+22 1
+1
+0
+25
+2
+28 0
+22 1
+end_DTG
+begin_DTG
+4
+1
+6
+2
+0 0
+2 0
+1
+7
+2
+0 0
+10 1
+1
+9
+2
+2 0
+9 1
+1
+18
+2
+9 1
+10 1
+0
+end_DTG
+begin_DTG
+34
+1
+34
+1
+0 0
+1
+26
+1
+0 1
+1
+27
+1
+2 1
+1
+28
+1
+4 1
+1
+29
+1
+21 1
+1
+30
+1
+5 1
+1
+31
+1
+22 1
+1
+32
+1
+9 1
+1
+33
+1
+10 1
+1
+0
+1
+12 0
+1
+35
+1
+2 0
+1
+36
+1
+4 0
+1
+37
+1
+21 0
+1
+38
+1
+5 0
+1
+39
+1
+22 0
+1
+40
+1
+9 0
+1
+41
+1
+10 0
+1
+13
+1
+18 1
+1
+1
+1
+12 1
+1
+2
+1
+13 0
+1
+3
+1
+13 1
+1
+4
+1
+14 0
+1
+5
+1
+14 1
+1
+6
+1
+15 0
+1
+7
+1
+15 1
+1
+8
+1
+16 0
+1
+9
+1
+16 1
+1
+10
+1
+17 0
+1
+11
+1
+17 1
+1
+12
+1
+18 0
+1
+17
+1
+20 1
+1
+14
+1
+19 0
+1
+15
+1
+19 1
+1
+16
+1
+20 0
+1
+0
+42
+3
+7 1
+27 1
+11 1
+end_DTG
+begin_DTG
+1
+1
+1
+4
+1 0
+3 0
+6 0
+8 0
+0
+end_DTG
+begin_DTG
+3
+1
+16
+2
+9 0
+10 0
+1
+3
+10
+12 0
+13 0
+14 0
+15 0
+16 0
+17 0
+18 0
+19 0
+20 0
+9 0
+1
+5
+10
+12 1
+13 1
+14 1
+15 1
+16 1
+17 1
+18 1
+19 1
+20 1
+10 0
+0
+end_DTG
+begin_CG
+3
+28 2
+1 1
+27 2
+2
+7 1
+29 1
+3
+28 2
+3 1
+27 2
+2
+7 1
+29 1
+3
+28 4
+23 2
+1 1
+3
+28 4
+24 2
+6 1
+2
+7 1
+29 1
+1
+28 1
+2
+7 1
+29 1
+5
+28 2
+6 1
+27 2
+11 2
+30 2
+5
+28 2
+8 1
+27 2
+11 2
+30 2
+1
+28 1
+3
+28 2
+11 2
+30 2
+3
+28 2
+11 2
+30 2
+3
+28 2
+11 2
+30 2
+3
+28 2
+11 2
+30 2
+3
+28 2
+11 2
+30 2
+3
+28 2
+11 2
+30 2
+3
+28 2
+11 2
+30 2
+3
+28 2
+11 2
+30 2
+3
+28 2
+11 2
+30 2
+3
+28 4
+25 2
+3 1
+3
+28 4
+26 2
+8 1
+1
+28 2
+1
+28 2
+1
+28 2
+1
+28 2
+1
+28 1
+21
+23 2
+25 2
+24 2
+26 2
+12 2
+13 2
+14 2
+15 2
+16 2
+17 2
+18 2
+19 2
+20 2
+0 2
+2 2
+4 2
+21 2
+5 2
+22 2
+9 2
+10 2
+0
+0
+end_CG

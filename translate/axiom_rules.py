@@ -8,9 +8,11 @@ def handle_axioms(operators, axioms, goals):
     axiom_init = get_axiom_init(axioms_by_atom, axiom_literals)
     with timers.timing("Simplifying axioms"):
         axioms = simplify_axioms(axioms_by_atom, axiom_literals)
+    print("Compute negative axioms...")
     axioms = compute_negative_axioms(axioms_by_atom, axiom_literals)
     # NOTE: compute_negative_axioms more or less invalidates axioms_by_atom.
     #       Careful with that axe, Eugene!
+    print("Compute axiom layers...")
     axiom_layers = compute_axiom_layers(axioms, axiom_init)
     return axioms, list(axiom_init), axiom_layers
 
@@ -165,19 +167,41 @@ def negate(axioms):
     result = [pddl.PropositionalAxiom(axioms[0].name, [], axioms[0].effect.negate())]
     for axiom in axioms:
         condition = axiom.condition
-        assert len(condition) > 0, "Negated axiom impossible; cannot deal with that"
-        if len(condition) == 1: # Handle easy special case quickly.
+        length_cond = len(condition)
+        assert length_cond > 0, "Negated axiom impossible; cannot deal with that"
+        if length_cond == 1: # Handle easy special case quickly.
             new_literal = condition[0].negate()
             for result_axiom in result:
                 result_axiom.condition.append(new_literal)
+        elif length_cond == 2:
+            new_literal1 = condition[0].negate()
+            new_literal2 = condition[1].negate()
+            new_result = []
+            for result_axiom in result:
+                new_axiom = result_axiom.clone()
+                new_axiom.condition.append(new_literal1)
+                new_result.append(new_axiom)
+                result_axiom.condition.append(new_literal2)
+            result.extend(new_result)
         else:
             new_result = []
-            for literal in condition:
-                literal = literal.negate()
+            for i in range(1, len(condition)):
+                literal = condition[i].negate()
                 for result_axiom in result:
                     new_axiom = result_axiom.clone()
                     new_axiom.condition.append(literal)
                     new_result.append(new_axiom)
-            result = new_result
+            for result_axiom in result:
+                result_axiom.append(literal)
+            result.extend(new_result)
+        #else:
+        #    new_result = []
+        #    for literal in condition:
+        #        literal = literal.negate()
+        #        for result_axiom in result:
+        #            new_axiom = result_axiom.clone()
+        #            new_axiom.condition.append(literal)
+        #            new_result.append(new_axiom)
+        #    result = new_result
     result = simplify(result)
     return result

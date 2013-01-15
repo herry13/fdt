@@ -65,6 +65,7 @@ class Operator {
     int cost;
 
     mutable bool marked; // Used for short-term marking of preferred operators
+
 public:
     Operator(std::istream &in, bool is_axiom);
     void dump() const;

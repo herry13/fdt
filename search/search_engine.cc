@@ -1,5 +1,6 @@
 #include <cassert>
 #include <iostream>
+#include <fstream>
 #include <limits>
 using namespace std;
 
@@ -7,6 +8,7 @@ using namespace std;
 #include "search_engine.h"
 #include "timer.h"
 #include "option_parser.h"
+#include "postprocessing.h"
 
 SearchEngine::SearchEngine(const Options &opts)
     : search_space(OperatorCost(opts.get_enum("cost_type"))),
@@ -54,17 +56,7 @@ bool SearchEngine::check_goal_and_set_plan(const State &state) {
         Plan plan;
         search_space.trace_path(state, plan);
 
-        // removing auxiliary actions for trajectory constraints
-        string name;
-        for (int i=0; i<plan.size(); ) {
-            name = plan[i]->get_name();
-            if (name.compare("verify_always ") == 0)
-                plan.erase(plan.begin()+i);
-            else if (name.length() > 15 && name.substr(0, 15).compare("verify_sometime") == 0)
-                plan.erase(plan.begin()+i);
-            else
-                i++;
-        }
+        do_postprocessing(plan, planIndex);
 
         set_plan(plan);
         return true;
@@ -72,9 +64,33 @@ bool SearchEngine::check_goal_and_set_plan(const State &state) {
     return false;
 }
 
+void save_temporal_plan(const vector<const Operator *> &plan, const vector<int> &planIndex, int iter) {
+    ofstream outfile;
+    if (iter == 0) {
+        outfile.open(g_plan_filename.c_str(), ios::out);
+    } else {
+        ostringstream out;
+        out << g_plan_filename << "." << iter;
+        outfile.open(out.str().c_str(), ios::out);
+    }   
+    for (int i = 0; i < plan.size(); i++) {
+        cout << planIndex[i] << ": " << plan[i]->get_name() << " (" << plan[i]->get_cost() << ")" << endl;
+        outfile << planIndex[i] << ": (" << plan[i]->get_name() << ")" << endl;
+    }   
+    outfile.close();
+    int plan_cost = calculate_plan_cost(plan);
+    ofstream statusfile;
+    statusfile.open("plan_numbers_and_cost", ios::out | ios::app);
+    statusfile << iter << " " << plan_cost << endl;
+    statusfile.close();
+    cout << "Plan length: " << plan.size() << " step(s)." << endl;
+    cout << "Plan cost: " << plan_cost << endl;
+}
+
 void SearchEngine::save_plan_if_necessary() const {
     if (found_solution())
-        save_plan(get_plan(), 0);
+        //save_plan(get_plan(), 0);
+        save_temporal_plan(get_plan(), planIndex, 0);
 }
 
 int SearchEngine::get_adjusted_cost(const Operator &op) const {

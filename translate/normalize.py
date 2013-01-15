@@ -165,11 +165,6 @@ def all_conditions(task):
     for axiom in task.axioms:
         yield AxiomConditionProxy(axiom)
     yield GoalConditionProxy(task)
-    #if task.trajectory.always is not None:
-    #    yield AlwaysConditionProxy(task)
-    #index = 0
-    #for sometime in task.trajectory.sometimes:
-    #    yield SometimeConditionProxy(task, sometime) #index)
 
 # [1] Remove universal quantifications from conditions.
 #
@@ -203,6 +198,8 @@ def remove_universal_quantifiers(task):
         if proxy.condition.has_universal_part():
             type_map = proxy.get_type_map()
             proxy.set(recurse(proxy.condition))
+
+#def remove_disjunctive_condition(
 
 # [2] Pull disjunctions to the root of the condition.
 #

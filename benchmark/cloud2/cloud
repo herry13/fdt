@@ -1,0 +1,36 @@
+#!/bin/bash
+
+OUTPUT="results.all.cloud"
+DOMAIN="domain.pddl"
+#PROBLEMS[1]="p01.pddl"
+#PROBLEMS[2]="p02.pddl"
+#PROBLEMS[3]="p03.pddl"
+PROBLEMS[4]="p04.pddl"
+
+TIMEOUT="24h"
+
+for PROBLEM in "${PROBLEMS[@]}"
+do
+	echo "solving $PROBLEM..." >> $OUTPUT
+
+	echo "cg:" >> $OUTPUT
+	RESULT=$(../../cg $DOMAIN $PROBLEM $TIMEOUT)
+	echo $RESULT >> $OUTPUT
+
+	echo "ff:" >> $OUTPUT
+	RESULT=$(../../ff $DOMAIN $PROBLEM $TIMEOUT)
+	echo $RESULT >> $OUTPUT
+
+	echo "cea:" >> $OUTPUT
+	RESULT=$(../../cea $DOMAIN $PROBLEM $TIMEOUT)
+	echo $RESULT >> $OUTPUT
+
+	echo "lama:" >> $OUTPUT
+	RESULT=$(../../lama $DOMAIN $PROBLEM $TIMEOUT)
+	echo $RESULT >> $OUTPUT
+
+	echo "hmax:" >> $OUTPUT
+	RESULT=$(../../hmax $DOMAIN $PROBLEM $TIMEOUT)
+	echo $RESULT >> $OUTPUT
+
+done

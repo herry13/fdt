@@ -1,0 +1,109 @@
+=== solving p-3-1-1.pddl === ../sas/p-3-1-1.pddl-output.sas
+preprocessing: 0.00
+cg: valid 0.04
+ff: valid 0.06
+cea: valid 0.04
+=== solving p-3-1-2.pddl === ../sas/p-3-1-2.pddl-output.sas
+preprocessing: 0.00
+cg: valid 0.05
+ff: valid 0.08
+cea: valid 0.05
+=== solving p-3-1-3.pddl === ../sas/p-3-1-3.pddl-output.sas
+preprocessing: 0.00
+cg: valid 0.07
+ff: valid 0.10
+cea: valid 0.06
+=== solving p-3-1-4.pddl === ../sas/p-3-1-4.pddl-output.sas
+preprocessing: 0.00
+cg: valid 0.08
+ff: valid 0.11
+cea: valid 0.09
+=== solving p-3-1-5.pddl === ../sas/p-3-1-5.pddl-output.sas
+preprocessing: 0.00
+cg: valid 0.11
+ff: valid 0.16
+cea: valid 0.10
+=== solving p-3-1-6.pddl === ../sas/p-3-1-6.pddl-output.sas
+preprocessing: 0.00
+cg: valid 0.15
+ff: valid 0.23
+cea: valid 0.15
+=== solving p-3-1-7.pddl === ../sas/p-3-1-7.pddl-output.sas
+preprocessing: 0.00
+cg: valid 0.23
+ff: valid 0.38
+cea: valid 0.26
+=== solving p-3-1-8.pddl === ../sas/p-3-1-8.pddl-output.sas
+preprocessing: 0.00
+cg: valid 0.52
+ff: valid 0.84
+cea: valid 0.51
+=== solving p-3-1-9.pddl === ../sas/p-3-1-9.pddl-output.sas
+preprocessing: 0.00
+cg: valid 1.15
+ff: valid 1.78
+cea: valid 1.09
+=== solving p-3-1-10.pddl === ../sas/p-3-1-10.pddl-output.sas
+preprocessing: 0.00
+cg: valid 2.37
+ff: valid 3.23
+cea: valid 2.28
+=== solving p-3-2-1.pddl === ../sas/p-3-2-1.pddl-output.sas
+preprocessing: 0.00
+cg: valid 7.01
+ff: valid 15.50
+cea: valid 7.41
+=== solving p-3-2-2.pddl === ../sas/p-3-2-2.pddl-output.sas
+preprocessing: 0.00
+cg: valid 8.63
+ff: valid 20.66
+cea: valid 11.05
+=== solving p-3-2-3.pddl === ../sas/p-3-2-3.pddl-output.sas
+preprocessing: 0.00
+cg: valid 13.39
+ff: valid 23.39
+cea: valid 13.18
+=== solving p-3-2-4.pddl === ../sas/p-3-2-4.pddl-output.sas
+preprocessing: 0.00
+cg: valid 15.61
+ff: valid 26.73
+cea: valid 16.06
+=== solving p-3-2-5.pddl === ../sas/p-3-2-5.pddl-output.sas
+preprocessing: 0.01
+cg: valid 17.00
+ff: valid 27.50
+cea: valid 20.72
+=== solving p-3-2-6.pddl === ../sas/p-3-2-6.pddl-output.sas
+preprocessing: 0.00
+cg: valid 21.75
+ff: valid 27.69
+cea: valid 17.46
+=== solving p-3-2-7.pddl === ../sas/p-3-2-7.pddl-output.sas
+preprocessing: 0.00
+cg: valid 21.44
+ff: valid 35.34
+cea: valid 26.81
+=== solving p-3-2-8.pddl === ../sas/p-3-2-8.pddl-output.sas
+preprocessing: 0.00
+cg: valid 29.53
+ff: valid 44.74
+cea: valid 30.92
+=== solving p-3-2-9.pddl === ../sas/p-3-2-9.pddl-output.sas
+preprocessing: 0.00
+cg: valid 34.98
+ff: valid 57.98
+cea: valid 37.32
+=== solving p-3-2-10.pddl === ../sas/p-3-2-10.pddl-output.sas
+preprocessing: 0.00
+cg: valid 46.92
+ff: valid 78.27
+cea: valid 49.56
+=== solving p-3-3-1.pddl === ../sas/p-3-3-1.pddl-output.sas
+preprocessing: 0.04
+cg: valid 2341.86
+ff: valid 9852.86
+cea: valid 4188.10
+
+=== solving p-3-3-2.pddl === ../sas/p-3-3-2.pddl-output.sas
+preprocessing: 0.05
+cg: valid 2966.72

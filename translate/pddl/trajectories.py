@@ -37,6 +37,9 @@ class SometimeCondition(TrajectoryCondition):
         if len(self.parameters) > 0:
             return conditions.UniversalCondition(self.parameters, [self.atom])
         return self.atom
+    def get_always_effects(self):
+        eff = effects.SimpleEffect(self.atom)
+        return [effects.ConditionalEffect(self.condition, eff)]
     def get_action(self):
         eff = []
         cost = effects.create_simple_effect(self.atom, eff)
@@ -229,13 +232,17 @@ class Trajectory:
         for action in new_actions:
             new_precondition = conditions.Conjunction([self.always_atom, action.precondition]).simplified()
             action.precondition = new_precondition
-            action.uniquify_variables()
+            #action.uniquify_variables()
             action.effects.append(always_negated_effect)
 
         ### add "always_verifier" action ###
         parameters = []
         eff = [effects.SimpleEffect(self.always_atom)]
         pre = [self.always]
+        # add "sometime" conditional_effect
+        for sometime in self.sometimes:
+            parameters.extend(sometime.parameters)
+            eff.extend(sometime.get_always_effects())
         # add "sometime-after" conditional_effect
         for sometime_after in self.sometime_afters:
             parameters.extend(sometime_after.parameters)
@@ -263,13 +270,13 @@ class Trajectory:
         pre = conditions.Conjunction(pre).simplified()
         #pre, axiom = self.substitute_complicated_condition(pre)
         self.always_action = actions.Action("verify_always", parameters, 0, pre, eff, cost_eff)
-        print("=====")
-        self.always_action.dump()
+        #print("=====")
+        #self.always_action.dump()
         new_actions.append(self.always_action)
 
         # add "sometime_verifier" action
-        for sometime in self.sometimes:
-            new_actions.append(sometime.get_action())
+        #for sometime in self.sometimes:
+        #    new_actions.append(sometime.get_action())
 
         # add "sometime_after" verifier action
         for sometime_after in self.sometime_afters:
