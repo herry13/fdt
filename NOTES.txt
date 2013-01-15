@@ -4,6 +4,7 @@ TODO
 - implement "at end" constraints
 - try to use conditional effect to handle "sometime" constraint
 - modify QualitativePreference Rovers domain from IPC5 benchmark suite to contain only hard-constraint
+- add an action that separates real-plans and "preference-evaluation" plan
 
 WORKING WITH FILES
 ==================
