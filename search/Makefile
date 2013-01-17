@@ -120,6 +120,10 @@ HEADERS += pdbs/canonical_pdbs_heuristic.h \
            pdbs/util.h \
            pdbs/zero_one_pdbs_heuristic.h \
 
+HEADERS += mad_additive_heuristic.h \
+           mad_heuristic.h \
+           mad_relaxation_heuristic.h \
+
 SHELL = /bin/bash
 
 SOURCES = planner.cc $(HEADERS:%.h=%.cc)

@@ -47,33 +47,6 @@ Order of Constraints based-on their strength
 5. sometime-before
 6. sometime
 
-CHANGELOG
-=========
-27-11-2012
-- support 1st-type of sometime-after, sometime-before, & at-most-once modalities
-    (forall (...) (sometime-after (...) (...)))
-    (forall (...) (sometime-before (...) (...)))
-    (forall (...) (at-most-once (...)))
-
-25-11-2012
-- support 2nd-type sometime-before modality: (sometime-before (...) (...))
-
-24-11-2012
-- implement 2nd-type sometime-after modality: (sometime-after (...) (...))
-- modify "search/search_engine.cc" to remove auxiliary trajectory constraints
-- enable 2nd-type always modality: (always (...))
-- enable 1st-type sometime modality: (forall (...) (sometime (...)))
-
-22-11-2012
-- enable 2nd-type sometime modality: (sometime (...))
-- enable 1st-type always modality of trajectory constraints: (forall (...) (always (...)))
-  - add "always-variable" and "always-verifier"
-  - given the planning task with 1st-type always, the solution plan can be produced correctly
-
-21-11-2012
-- parse & normalize 1st-type always: (forall (...) (always (...)))
-- add 1st-type always in goal condition
-
 DONE
 ====
 - find-out how "goal" condition is compiled, then use the same method to compile "1st-type always"

@@ -57,6 +57,8 @@ elif [[ "$1" == "ff" ]]; then
 	"$SEARCH" < output --search "lazy_greedy(ff(cost_type=0))"
 elif [[ "$1" == "cea" ]]; then
 	"$SEARCH" < output --search "lazy_greedy(cea(cost_type=2))"
+elif [[ "$1" == "mad" ]]; then
+	"$SEARCH" < output --heuristic "hmad=mad()" --search "lazy_greedy(hmad,preferred=hmad)"
 elif [[ "$1" == "lama" ]]; then
 	"$SEARCH" < output \
 	--heuristic "hlm,hff=lm_ff_syn(lm_rhw(reasonable_orders=true,lm_cost_type=2,cost_type=0), admissible=false, optimal=false, cost_type=0)" \
