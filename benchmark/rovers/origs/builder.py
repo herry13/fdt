@@ -55,7 +55,7 @@ def generate_random_problems(header, footer, constraints, outfile, total):
         values.extend(val)
     constraints = set(values)
     total_constraints = len(values)
-    for i in range(0, total):
+    for i in range(0, int(total)):
         selected = random.sample(values, random.randint(1, total_constraints))
         pddl = "; " + str(len(selected)) + " constraints\n"
         pddl += header + "\n"
