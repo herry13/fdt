@@ -1,0 +1,55 @@
+Problem: p06-19.pddl
+1. Running translator
+Second argument is a file name: use two translator arguments.
+Parsing... Atom have_soil_analysis(rover1, waypoint2)
+Atom have_image(rover0, objective1, low_res)
+Atom have_rock_analysis(rover0, waypoint0)
+Atom at(rover1, waypoint5)
+Atom have_soil_analysis(rover1, waypoint1)
+Atom have_rock_analysis(rover0, waypoint3)
+Atom have_soil_analysis(rover1, waypoint4)
+Atom have_rock_analysis(rover0, waypoint3)
+[0.010s CPU, 0.015s wall-clock]
+Instantiating...
+Normalizing task... [2.230s CPU, 2.238s wall-clock]
+Generating Datalog program... [3.970s CPU, 3.984s wall-clock]
+Normalizing Datalog program...
+Trivial rules: Converted to facts.
+Normalizing Datalog program: [6.640s CPU, 6.646s wall-clock]
+Preparing model... [12.740s CPU, 12.788s wall-clock]
+Generated 180285 rules.
+Computing model... [2.530s CPU, 2.541s wall-clock]
+8581 relevant atoms
+863 auxiliary atoms
+9444 final queue length
+181595 total queue pushes
+Completing instantiation... Goal: <pddl.conditions.Conjunction object at 0x7fb19a969290>
+[4.650s CPU, 4.672s wall-clock]
+Instantiating: [33.510s CPU, 33.617s wall-clock]
+Computing fact groups...
+Finding invariants...
+31 initial candidates
+Finding invariants: [0.180s CPU, 0.184s wall-clock]
+Checking invariant weight... [0.000s CPU, 0.001s wall-clock]
+Instantiating groups... [0.000s CPU, 0.001s wall-clock]
+Collecting mutex groups... [0.000s CPU, 0.000s wall-clock]
+Choosing groups...
+47 uncovered facts
+Choosing groups: [0.000s CPU, 0.000s wall-clock]
+Building translation key... [0.000s CPU, 0.000s wall-clock]
+Computing fact groups: [0.180s CPU, 0.189s wall-clock]
+Building STRIPS to SAS dictionary... [0.000s CPU, 0.000s wall-clock]
+Building dictionary for full mutex groups... [0.000s CPU, 0.000s wall-clock]
+Building mutex information...
+Building mutex information: [0.000s CPU, 0.000s wall-clock]
+Translating task...
+Processing axioms...
+Simplifying axioms... [0.000s CPU, 0.000s wall-clock]
+Compute negative axioms...
+Compute axiom layers...
+Processing axioms: [0.500s CPU, 0.498s wall-clock]
+
+--- planning time ---
+p06-19.pddl: 0.00
+--- validation ---
+Error: sas_plan is not available!

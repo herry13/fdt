@@ -1,0 +1,110 @@
+Problem: p06-22.pddl
+1. Running translator
+Second argument is a file name: use two translator arguments.
+Parsing... Atom have_soil_analysis(rover1, waypoint4)
+Atom at(rover0, waypoint0)
+Atom have_soil_analysis(rover1, waypoint1)
+Atom have_rock_analysis(rover0, waypoint3)
+Atom at(rover0, waypoint2)
+Atom have_image(rover0, objective1, low_res)
+Atom have_image(rover0, objective1, low_res)
+Atom at(rover1, waypoint5)
+[0.020s CPU, 0.015s wall-clock]
+Instantiating...
+Normalizing task... [1.470s CPU, 1.474s wall-clock]
+Generating Datalog program... [1.430s CPU, 1.446s wall-clock]
+Normalizing Datalog program...
+Trivial rules: Converted to facts.
+Normalizing Datalog program: [3.480s CPU, 3.476s wall-clock]
+Preparing model... [3.960s CPU, 3.980s wall-clock]
+Generated 81997 rules.
+Computing model... [1.470s CPU, 1.474s wall-clock]
+4483 relevant atoms
+863 auxiliary atoms
+5346 final queue length
+83291 total queue pushes
+Completing instantiation... Goal: <pddl.conditions.Conjunction object at 0x7f90e3dfe210>
+[1.920s CPU, 1.926s wall-clock]
+Instantiating: [14.050s CPU, 14.100s wall-clock]
+Computing fact groups...
+Finding invariants...
+31 initial candidates
+Finding invariants: [0.150s CPU, 0.143s wall-clock]
+Checking invariant weight... [0.000s CPU, 0.001s wall-clock]
+Instantiating groups... [0.000s CPU, 0.002s wall-clock]
+Collecting mutex groups... [0.000s CPU, 0.000s wall-clock]
+Choosing groups...
+45 uncovered facts
+Choosing groups: [0.000s CPU, 0.001s wall-clock]
+Building translation key... [0.000s CPU, 0.001s wall-clock]
+Computing fact groups: [0.150s CPU, 0.150s wall-clock]
+Building STRIPS to SAS dictionary... [0.000s CPU, 0.000s wall-clock]
+Building dictionary for full mutex groups... [0.000s CPU, 0.000s wall-clock]
+Building mutex information...
+Building mutex information: [0.000s CPU, 0.000s wall-clock]
+Translating task...
+Processing axioms...
+Simplifying axioms... [0.000s CPU, 0.000s wall-clock]
+Compute negative axioms...
+Compute axiom layers...
+Processing axioms: [0.290s CPU, 0.291s wall-clock]
+Translate goal conditions...
+Translate strips operators...
+Translate strips axioms...
+Create SAS task...
+Translating task: [614.020s CPU, 694.087s wall-clock]
+1505952 implied effects removed
+0 effect conditions simplified
+0 implied preconditions added
+Detecting unreachable propositions...
+403200 operators removed
+13 propositions removed
+Detecting unreachable propositions: [47.030s CPU, 47.224s wall-clock]
+Translator variables: 58
+Translator derived variables: 0
+Translator facts: 124
+Translator mutex groups: 13
+Translator total mutex groups size: 34
+Translator operators: 63538
+Translator task size: 4632655
+Translator peak memory: 4900768 KB
+Writing output... [20.660s CPU, 21.298s wall-clock]
+Done! [696.900s CPU, 777.840s wall-clock]
+
+2. Running preprocessor
+Building causal graph...
+The causal graph is not acyclic.
+53 variables of 58 necessary
+0 of 13 mutex groups necessary.
+63538 of 63538 operators necessary.
+0 of 0 axiom rules necessary.
+Building domain transition graphs...
+solveable in poly time 0
+Building successor generator...
+Preprocessor facts: 114
+Preprocessor derived variables: 0
+Preprocessor task size: 4632576
+Writing output...
+done
+
+
+3. Running search
+Dispatcher selected state size 1.
+This is a unit task.
+Simplifying transitions... done!
+Initializing heuristic cache... done!
+Conducting lazy best first search, (real) bound = 2147483647
+Initializing causal graph heuristic...
+Best heuristic value: 35 [g=0, 1 evaluated, 0 expanded, t=6.49s]
+Best heuristic value: 24 [g=1, 2 evaluated, 1 expanded, t=6.49s]
+Best heuristic value: 23 [g=5, 25 evaluated, 21 expanded, t=6.54s]
+Best heuristic value: 22 [g=7, 36 evaluated, 31 expanded, t=6.57s]
+Best heuristic value: 21 [g=11, 58 evaluated, 50 expanded, t=6.62s]
+Best heuristic value: 20 [g=13, 69 evaluated, 60 expanded, t=6.64s]
+Peak memory: 778048 KB
+caught signal 15 -- exiting
+
+--- planning time ---
+p06-22.pddl: 851.53
+--- validation ---
+Error: sas_plan is not available!

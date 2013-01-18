@@ -1,0 +1,116 @@
+Problem: p01-59.pddl
+1. Running translator
+Second argument is a file name: use two translator arguments.
+Parsing... Atom have_rock_analysis(rover0, waypoint3)
+Atom have_rock_analysis(rover0, waypoint3)
+Atom have_image(rover0, objective1, high_res)
+Atom have_rock_analysis(rover0, waypoint3)
+Atom have_soil_analysis(rover0, waypoint2)
+Atom have_rock_analysis(rover0, waypoint3)
+Atom have_rock_analysis(rover0, waypoint3)
+Atom at(rover0, waypoint2)
+Atom have_soil_analysis(rover0, waypoint2)
+[0.010s CPU, 0.013s wall-clock]
+Instantiating...
+Normalizing task... [1.010s CPU, 1.013s wall-clock]
+Generating Datalog program... [1.210s CPU, 1.207s wall-clock]
+Normalizing Datalog program...
+Normalizing Datalog program: [2.480s CPU, 2.492s wall-clock]
+Preparing model... [4.950s CPU, 4.967s wall-clock]
+Generated 82013 rules.
+Computing model... [1.340s CPU, 1.338s wall-clock]
+4288 relevant atoms
+327 auxiliary atoms
+4615 final queue length
+82464 total queue pushes
+Completing instantiation... Goal: <pddl.conditions.Conjunction object at 0x7f6780ad3e50>
+[1.980s CPU, 1.992s wall-clock]
+Instantiating: [13.400s CPU, 13.438s wall-clock]
+Computing fact groups...
+Finding invariants...
+31 initial candidates
+Finding invariants: [0.160s CPU, 0.159s wall-clock]
+Checking invariant weight... [0.000s CPU, 0.001s wall-clock]
+Instantiating groups... [0.000s CPU, 0.001s wall-clock]
+Collecting mutex groups... [0.000s CPU, 0.000s wall-clock]
+Choosing groups...
+34 uncovered facts
+Choosing groups: [0.000s CPU, 0.000s wall-clock]
+Building translation key... [0.000s CPU, 0.001s wall-clock]
+Computing fact groups: [0.160s CPU, 0.163s wall-clock]
+Building STRIPS to SAS dictionary... [0.000s CPU, 0.000s wall-clock]
+Building dictionary for full mutex groups... [0.000s CPU, 0.000s wall-clock]
+Building mutex information...
+Building mutex information: [0.000s CPU, 0.000s wall-clock]
+Translating task...
+Processing axioms...
+Simplifying axioms... [0.000s CPU, 0.000s wall-clock]
+Compute negative axioms...
+Compute axiom layers...
+Processing axioms: [0.220s CPU, 0.219s wall-clock]
+Translate goal conditions...
+Translate strips operators...
+Translate strips axioms...
+Create SAS task...
+Translating task: [55.950s CPU, 56.132s wall-clock]
+274176 implied effects removed
+0 effect conditions simplified
+0 implied preconditions added
+Detecting unreachable propositions...
+54800 operators removed
+8 propositions removed
+Detecting unreachable propositions: [4.590s CPU, 4.606s wall-clock]
+Translator variables: 42
+Translator derived variables: 0
+Translator facts: 86
+Translator mutex groups: 9
+Translator total mutex groups size: 20
+Translator operators: 8767
+Translator task size: 503704
+Translator peak memory: 775736 KB
+Writing output... [1.800s CPU, 1.835s wall-clock]
+Done! [76.060s CPU, 76.333s wall-clock]
+
+2. Running preprocessor
+Building causal graph...
+The causal graph is not acyclic.
+35 variables of 42 necessary
+0 of 9 mutex groups necessary.
+8767 of 8767 operators necessary.
+0 of 0 axiom rules necessary.
+Building domain transition graphs...
+solveable in poly time 0
+Building successor generator...
+Preprocessor facts: 72
+Preprocessor derived variables: 0
+Preprocessor task size: 503642
+Writing output...
+done
+
+
+3. Running search
+Dispatcher selected state size 1.
+This is a unit task.
+Simplifying transitions... done!
+Initializing heuristic cache... done!
+Conducting lazy best first search, (real) bound = 2147483647
+Initializing causal graph heuristic...
+Best heuristic value: 19 [g=0, 1 evaluated, 0 expanded, t=0.4s]
+Best heuristic value: 15 [g=1, 2 evaluated, 1 expanded, t=0.4s]
+Completely explored state space -- no solution!
+Actual search time: 2.1s [t=2.5s]
+Initial state h value: 19.
+Expanded 3419 state(s).
+Reopened 0 state(s).
+Evaluated 4331 state(s).
+Evaluations: 4331
+Generated 2361332 state(s).
+Dead ends: 912 state(s).
+Search time: 2.1s
+Total time: 2.5s
+Peak memory: 43964 KB
+
+--- planning time ---
+p01-59.pddl: 80.66
+--- validation ---
+Error: sas_plan is not available!

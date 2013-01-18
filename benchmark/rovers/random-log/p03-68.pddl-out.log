@@ -1,0 +1,154 @@
+Problem: p03-68.pddl
+1. Running translator
+Second argument is a file name: use two translator arguments.
+Parsing... Atom have_rock_analysis(rover0, waypoint0)
+Atom have_image(rover1, objective0, colour)
+[0.010s CPU, 0.012s wall-clock]
+Instantiating...
+Normalizing task... [0.010s CPU, 0.002s wall-clock]
+Generating Datalog program... [0.000s CPU, 0.003s wall-clock]
+Normalizing Datalog program...
+Trivial rules: Converted to facts.
+Normalizing Datalog program: [0.020s CPU, 0.023s wall-clock]
+Preparing model... [0.010s CPU, 0.011s wall-clock]
+Generated 163 rules.
+Computing model... [0.020s CPU, 0.024s wall-clock]
+228 relevant atoms
+428 auxiliary atoms
+656 final queue length
+761 total queue pushes
+Completing instantiation... Goal: <pddl.conditions.Conjunction object at 0x7f8d2e6a0b90>
+[0.020s CPU, 0.015s wall-clock]
+Instantiating: [0.080s CPU, 0.079s wall-clock]
+Computing fact groups...
+Finding invariants...
+31 initial candidates
+Finding invariants: [0.010s CPU, 0.016s wall-clock]
+Checking invariant weight... [0.000s CPU, 0.001s wall-clock]
+Instantiating groups... [0.000s CPU, 0.001s wall-clock]
+Collecting mutex groups... [0.000s CPU, 0.000s wall-clock]
+Choosing groups...
+28 uncovered facts
+Choosing groups: [0.000s CPU, 0.000s wall-clock]
+Building translation key... [0.000s CPU, 0.001s wall-clock]
+Computing fact groups: [0.020s CPU, 0.020s wall-clock]
+Building STRIPS to SAS dictionary... [0.000s CPU, 0.000s wall-clock]
+Building dictionary for full mutex groups... [0.000s CPU, 0.000s wall-clock]
+Building mutex information...
+Building mutex information: [0.000s CPU, 0.000s wall-clock]
+Translating task...
+Processing axioms...
+Simplifying axioms... [0.000s CPU, 0.000s wall-clock]
+Compute negative axioms...
+Compute axiom layers...
+Processing axioms: [0.000s CPU, 0.001s wall-clock]
+Translate goal conditions...
+Translate strips operators...
+Translate strips axioms...
+Create SAS task...
+Translating task: [0.020s CPU, 0.022s wall-clock]
+18 implied effects removed
+0 effect conditions simplified
+0 implied preconditions added
+Detecting unreachable propositions...
+12 operators removed
+8 propositions removed
+Detecting unreachable propositions: [0.000s CPU, 0.005s wall-clock]
+Translator variables: 36
+Translator derived variables: 0
+Translator facts: 77
+Translator mutex groups: 8
+Translator total mutex groups size: 21
+Translator operators: 88
+Translator task size: 829
+Translator peak memory: 130840 KB
+Writing output... [0.010s CPU, 0.010s wall-clock]
+Done! [0.140s CPU, 0.149s wall-clock]
+
+2. Running preprocessor
+Building causal graph...
+The causal graph is not acyclic.
+29 variables of 36 necessary
+0 of 8 mutex groups necessary.
+88 of 88 operators necessary.
+0 of 0 axiom rules necessary.
+Building domain transition graphs...
+solveable in poly time 0
+Building successor generator...
+Preprocessor facts: 63
+Preprocessor derived variables: 0
+Preprocessor task size: 760
+Writing output...
+done
+
+
+3. Running search
+Dispatcher selected state size 1.
+This is a unit task.
+Simplifying transitions... done!
+Initializing heuristic cache... done!
+Conducting lazy best first search, (real) bound = 2147483647
+Initializing causal graph heuristic...
+Best heuristic value: 20 [g=0, 1 evaluated, 0 expanded, t=0s]
+Best heuristic value: 16 [g=1, 2 evaluated, 1 expanded, t=0s]
+Best heuristic value: 13 [g=3, 9 evaluated, 8 expanded, t=0s]
+Best heuristic value: 9 [g=7, 43 evaluated, 42 expanded, t=0s]
+Best heuristic value: 8 [g=11, 76 evaluated, 75 expanded, t=0s]
+Best heuristic value: 7 [g=13, 84 evaluated, 83 expanded, t=0s]
+Best heuristic value: 5 [g=17, 6231 evaluated, 6230 expanded, t=0.07s]
+Best heuristic value: 3 [g=19, 6241 evaluated, 6240 expanded, t=0.07s]
+Best heuristic value: 2 [g=21, 6249 evaluated, 6248 expanded, t=0.07s]
+Best heuristic value: 1 [g=31, 18608 evaluated, 18607 expanded, t=0.2s]
+Solution found!
+Actual search time: 0.2s [t=0.2s]
+1: sample_rock rover0 rover0store waypoint1 (1)
+2: navigate rover1 waypoint3 waypoint0 (1)
+3: navigate rover1 waypoint0 waypoint1 (1)
+4: calibrate rover1 camera1 objective0 waypoint1 (1)
+5: take_image rover1 waypoint1 objective0 camera1 colour (1)
+6: communicate_image_data rover1 general objective0 colour waypoint1 waypoint0 (1)
+7: navigate rover1 waypoint1 waypoint0 (1)
+8: sample_rock rover1 rover1store waypoint0 (1)
+9: navigate rover1 waypoint0 waypoint1 (1)
+10: communicate_rock_data rover1 general waypoint0 waypoint1 waypoint0 (1)
+11: navigate rover1 waypoint1 waypoint0 (1)
+12: navigate rover1 waypoint0 waypoint3 (1)
+13: navigate rover1 waypoint3 waypoint2 (1)
+14: drop rover1 rover1store (1)
+15: sample_soil rover1 rover1store waypoint2 (1)
+16: communicate_soil_data rover1 general waypoint2 waypoint2 waypoint0 (1)
+Plan length: 16 step(s).
+Plan cost: 16
+Initial state h value: 20.
+Expanded 18615 state(s).
+Reopened 0 state(s).
+Evaluated 18616 state(s).
+Evaluations: 18616
+Generated 95100 state(s).
+Dead ends: 0 state(s).
+Search time: 0.2s
+Total time: 0.2s
+Peak memory: 7608 KB
+
+
+--- planning time ---
+p03-68.pddl: 0.43
+--- validation ---
+Bad problem file!
+-- plan ---
+1: (sample_rock rover0 rover0store waypoint1)
+2: (navigate rover1 waypoint3 waypoint0)
+3: (navigate rover1 waypoint0 waypoint1)
+4: (calibrate rover1 camera1 objective0 waypoint1)
+5: (take_image rover1 waypoint1 objective0 camera1 colour)
+6: (communicate_image_data rover1 general objective0 colour waypoint1 waypoint0)
+7: (navigate rover1 waypoint1 waypoint0)
+8: (sample_rock rover1 rover1store waypoint0)
+9: (navigate rover1 waypoint0 waypoint1)
+10: (communicate_rock_data rover1 general waypoint0 waypoint1 waypoint0)
+11: (navigate rover1 waypoint1 waypoint0)
+12: (navigate rover1 waypoint0 waypoint3)
+13: (navigate rover1 waypoint3 waypoint2)
+14: (drop rover1 rover1store)
+15: (sample_soil rover1 rover1store waypoint2)
+16: (communicate_soil_data rover1 general waypoint2 waypoint2 waypoint0)

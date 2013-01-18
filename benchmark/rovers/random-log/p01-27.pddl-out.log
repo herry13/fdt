@@ -1,0 +1,115 @@
+Problem: p01-27.pddl
+1. Running translator
+Second argument is a file name: use two translator arguments.
+Parsing... Atom have_rock_analysis(rover0, waypoint3)
+Atom have_rock_analysis(rover0, waypoint3)
+Atom have_soil_analysis(rover0, waypoint2)
+Atom at(rover0, waypoint2)
+Atom have_soil_analysis(rover0, waypoint2)
+[0.010s CPU, 0.012s wall-clock]
+Instantiating...
+Normalizing task... [0.060s CPU, 0.068s wall-clock]
+Generating Datalog program... [0.070s CPU, 0.073s wall-clock]
+Normalizing Datalog program...
+Trivial rules: Converted to facts.
+Normalizing Datalog program: [0.150s CPU, 0.155s wall-clock]
+Preparing model... [0.190s CPU, 0.186s wall-clock]
+Generated 3413 rules.
+Computing model... [0.080s CPU, 0.091s wall-clock]
+441 relevant atoms
+327 auxiliary atoms
+768 final queue length
+3872 total queue pushes
+Completing instantiation... Goal: <pddl.conditions.Conjunction object at 0x7f25b5b03d50>
+[0.120s CPU, 0.119s wall-clock]
+Instantiating: [0.680s CPU, 0.707s wall-clock]
+Computing fact groups...
+Finding invariants...
+31 initial candidates
+Finding invariants: [0.020s CPU, 0.021s wall-clock]
+Checking invariant weight... [0.000s CPU, 0.001s wall-clock]
+Instantiating groups... [0.000s CPU, 0.001s wall-clock]
+Collecting mutex groups... [0.000s CPU, 0.000s wall-clock]
+Choosing groups...
+27 uncovered facts
+Choosing groups: [0.000s CPU, 0.000s wall-clock]
+Building translation key... [0.000s CPU, 0.000s wall-clock]
+Computing fact groups: [0.030s CPU, 0.025s wall-clock]
+Building STRIPS to SAS dictionary... [0.000s CPU, 0.000s wall-clock]
+Building dictionary for full mutex groups... [0.000s CPU, 0.000s wall-clock]
+Building mutex information...
+Building mutex information: [0.000s CPU, 0.000s wall-clock]
+Translating task...
+Processing axioms...
+Simplifying axioms... [0.000s CPU, 0.000s wall-clock]
+Compute negative axioms...
+Compute axiom layers...
+Processing axioms: [0.010s CPU, 0.017s wall-clock]
+Translate goal conditions...
+Translate strips operators...
+Translate strips axioms...
+Create SAS task...
+Translating task: [2.370s CPU, 2.379s wall-clock]
+7812 implied effects removed
+0 effect conditions simplified
+0 implied preconditions added
+Detecting unreachable propositions...
+2984 operators removed
+8 propositions removed
+Detecting unreachable propositions: [0.180s CPU, 0.190s wall-clock]
+Translator variables: 35
+Translator derived variables: 0
+Translator facts: 72
+Translator mutex groups: 9
+Translator total mutex groups size: 20
+Translator operators: 607
+Translator task size: 23966
+Translator peak memory: 157944 KB
+Writing output... [0.170s CPU, 0.177s wall-clock]
+Done! [3.450s CPU, 3.498s wall-clock]
+
+2. Running preprocessor
+Building causal graph...
+The causal graph is not acyclic.
+28 variables of 35 necessary
+0 of 9 mutex groups necessary.
+607 of 607 operators necessary.
+0 of 0 axiom rules necessary.
+Building domain transition graphs...
+solveable in poly time 0
+Building successor generator...
+Preprocessor facts: 58
+Preprocessor derived variables: 0
+Preprocessor task size: 23904
+Writing output...
+done
+
+
+3. Running search
+Dispatcher selected state size 1.
+This is a unit task.
+Simplifying transitions... done!
+Initializing heuristic cache... done!
+Conducting lazy best first search, (real) bound = 2147483647
+Initializing causal graph heuristic...
+Best heuristic value: 10 [g=0, 1 evaluated, 0 expanded, t=0.03s]
+Best heuristic value: 6 [g=1, 2 evaluated, 1 expanded, t=0.03s]
+Best heuristic value: 5 [g=5, 17 evaluated, 14 expanded, t=0.03s]
+Best heuristic value: 4 [g=7, 24 evaluated, 20 expanded, t=0.03s]
+Completely explored state space -- no solution!
+Actual search time: 0.68s [t=0.71s]
+Initial state h value: 10.
+Expanded 20968 state(s).
+Reopened 0 state(s).
+Evaluated 21640 state(s).
+Evaluations: 21640
+Generated 689374 state(s).
+Dead ends: 672 state(s).
+Search time: 0.68s
+Total time: 0.71s
+Peak memory: 14936 KB
+
+--- planning time ---
+p01-27.pddl: 4.29
+--- validation ---
+Error: sas_plan is not available!

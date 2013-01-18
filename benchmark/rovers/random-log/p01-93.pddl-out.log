@@ -1,0 +1,115 @@
+Problem: p01-93.pddl
+1. Running translator
+Second argument is a file name: use two translator arguments.
+Parsing... Atom have_image(rover0, objective1, high_res)
+Atom have_rock_analysis(rover0, waypoint3)
+Atom have_rock_analysis(rover0, waypoint3)
+Atom have_image(rover0, objective1, high_res)
+Atom have_rock_analysis(rover0, waypoint3)
+[0.010s CPU, 0.011s wall-clock]
+Instantiating...
+Normalizing task... [0.010s CPU, 0.014s wall-clock]
+Generating Datalog program... [0.030s CPU, 0.015s wall-clock]
+Normalizing Datalog program...
+Normalizing Datalog program: [0.030s CPU, 0.040s wall-clock]
+Preparing model... [0.030s CPU, 0.023s wall-clock]
+Generated 733 rules.
+Computing model... [0.010s CPU, 0.017s wall-clock]
+246 relevant atoms
+327 auxiliary atoms
+573 final queue length
+1184 total queue pushes
+Completing instantiation... Goal: <pddl.conditions.Conjunction object at 0x7f6b9ddb3cd0>
+[0.020s CPU, 0.017s wall-clock]
+Instantiating: [0.130s CPU, 0.128s wall-clock]
+Computing fact groups...
+Finding invariants...
+31 initial candidates
+Finding invariants: [0.020s CPU, 0.015s wall-clock]
+Checking invariant weight... [0.000s CPU, 0.001s wall-clock]
+Instantiating groups... [0.000s CPU, 0.001s wall-clock]
+Collecting mutex groups... [0.000s CPU, 0.000s wall-clock]
+Choosing groups...
+24 uncovered facts
+Choosing groups: [0.000s CPU, 0.000s wall-clock]
+Building translation key... [0.000s CPU, 0.000s wall-clock]
+Computing fact groups: [0.020s CPU, 0.019s wall-clock]
+Building STRIPS to SAS dictionary... [0.000s CPU, 0.000s wall-clock]
+Building dictionary for full mutex groups... [0.000s CPU, 0.000s wall-clock]
+Building mutex information...
+Building mutex information: [0.000s CPU, 0.000s wall-clock]
+Translating task...
+Processing axioms...
+Simplifying axioms... [0.000s CPU, 0.000s wall-clock]
+Compute negative axioms...
+Compute axiom layers...
+Processing axioms: [0.000s CPU, 0.003s wall-clock]
+Translate goal conditions...
+Translate strips operators...
+Translate strips axioms...
+Create SAS task...
+Translating task: [0.110s CPU, 0.114s wall-clock]
+432 implied effects removed
+0 effect conditions simplified
+0 implied preconditions added
+Detecting unreachable propositions...
+116 operators removed
+8 propositions removed
+Detecting unreachable propositions: [0.010s CPU, 0.007s wall-clock]
+Translator variables: 32
+Translator derived variables: 0
+Translator facts: 66
+Translator mutex groups: 9
+Translator total mutex groups size: 20
+Translator operators: 127
+Translator task size: 1807
+Translator peak memory: 132508 KB
+Writing output... [0.020s CPU, 0.020s wall-clock]
+Done! [0.300s CPU, 0.301s wall-clock]
+
+2. Running preprocessor
+Building causal graph...
+The causal graph is not acyclic.
+25 variables of 32 necessary
+0 of 9 mutex groups necessary.
+127 of 127 operators necessary.
+0 of 0 axiom rules necessary.
+Building domain transition graphs...
+solveable in poly time 0
+Building successor generator...
+Preprocessor facts: 52
+Preprocessor derived variables: 0
+Preprocessor task size: 1745
+Writing output...
+done
+
+
+3. Running search
+Dispatcher selected state size 1.
+This is a unit task.
+Simplifying transitions... done!
+Initializing heuristic cache... done!
+Conducting lazy best first search, (real) bound = 2147483647
+Initializing causal graph heuristic...
+Best heuristic value: 13 [g=0, 1 evaluated, 0 expanded, t=0s]
+Best heuristic value: 9 [g=1, 2 evaluated, 1 expanded, t=0s]
+Best heuristic value: 8 [g=3, 8 evaluated, 6 expanded, t=0s]
+Best heuristic value: 7 [g=11, 314 evaluated, 233 expanded, t=0s]
+Best heuristic value: 6 [g=13, 318 evaluated, 237 expanded, t=0s]
+Completely explored state space -- no solution!
+Actual search time: 0.03s [t=0.03s]
+Initial state h value: 13.
+Expanded 2736 state(s).
+Reopened 0 state(s).
+Evaluated 3496 state(s).
+Evaluations: 3496
+Generated 16856 state(s).
+Dead ends: 760 state(s).
+Search time: 0.03s
+Total time: 0.03s
+Peak memory: 8780 KB
+
+--- planning time ---
+p01-93.pddl: 0.39
+--- validation ---
+Error: sas_plan is not available!

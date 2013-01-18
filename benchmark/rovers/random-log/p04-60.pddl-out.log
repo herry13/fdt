@@ -1,0 +1,121 @@
+Problem: p04-60.pddl
+1. Running translator
+Second argument is a file name: use two translator arguments.
+Parsing... Atom have_rock_analysis(rover1, waypoint1)
+Atom at(rover1, waypoint1)
+Atom have_soil_analysis(rover0, waypoint3)
+Atom have_image(rover1, objective0, high_res)
+Atom have_rock_analysis(rover1, waypoint1)
+Atom have_image(rover1, objective0, high_res)
+Atom at(rover1, waypoint1)
+Atom at(rover1, waypoint1)
+Atom have_image(rover1, objective0, high_res)
+[0.010s CPU, 0.013s wall-clock]
+Instantiating...
+Normalizing task... [0.210s CPU, 0.205s wall-clock]
+Generating Datalog program... [0.240s CPU, 0.236s wall-clock]
+Normalizing Datalog program...
+Normalizing Datalog program: [0.600s CPU, 0.610s wall-clock]
+Preparing model... [0.840s CPU, 0.839s wall-clock]
+Generated 18525 rules.
+Computing model... [0.260s CPU, 0.260s wall-clock]
+1276 relevant atoms
+399 auxiliary atoms
+1675 final queue length
+19118 total queue pushes
+Completing instantiation... Goal: <pddl.conditions.Conjunction object at 0x7f37658c1490>
+[0.400s CPU, 0.398s wall-clock]
+Instantiating: [2.610s CPU, 2.606s wall-clock]
+Computing fact groups...
+Finding invariants...
+31 initial candidates
+Finding invariants: [0.040s CPU, 0.046s wall-clock]
+Checking invariant weight... [0.000s CPU, 0.001s wall-clock]
+Instantiating groups... [0.000s CPU, 0.001s wall-clock]
+Collecting mutex groups... [0.000s CPU, 0.000s wall-clock]
+Choosing groups...
+45 uncovered facts
+Choosing groups: [0.000s CPU, 0.000s wall-clock]
+Building translation key... [0.010s CPU, 0.001s wall-clock]
+Computing fact groups: [0.050s CPU, 0.051s wall-clock]
+Building STRIPS to SAS dictionary... [0.000s CPU, 0.000s wall-clock]
+Building dictionary for full mutex groups... [0.000s CPU, 0.000s wall-clock]
+Building mutex information...
+Building mutex information: [0.000s CPU, 0.000s wall-clock]
+Translating task...
+Processing axioms...
+Simplifying axioms... [0.000s CPU, 0.000s wall-clock]
+Compute negative axioms...
+Compute axiom layers...
+Processing axioms: [0.060s CPU, 0.067s wall-clock]
+Translate goal conditions...
+Translate strips operators...
+Translate strips axioms...
+Create SAS task...
+Translating task: [12.810s CPU, 12.851s wall-clock]
+77016 implied effects removed
+0 effect conditions simplified
+0 implied preconditions added
+Detecting unreachable propositions...
+15264 operators removed
+8 propositions removed
+Detecting unreachable propositions: [1.180s CPU, 1.183s wall-clock]
+Translator variables: 53
+Translator derived variables: 0
+Translator facts: 109
+Translator mutex groups: 8
+Translator total mutex groups size: 19
+Translator operators: 4310
+Translator task size: 153002
+Translator peak memory: 261368 KB
+Writing output... [0.790s CPU, 0.810s wall-clock]
+Done! [17.490s CPU, 17.553s wall-clock]
+
+2. Running preprocessor
+Building causal graph...
+The causal graph is not acyclic.
+43 variables of 53 necessary
+0 of 8 mutex groups necessary.
+4310 of 4310 operators necessary.
+0 of 0 axiom rules necessary.
+Building domain transition graphs...
+solveable in poly time 0
+Building successor generator...
+Preprocessor facts: 89
+Preprocessor derived variables: 0
+Preprocessor task size: 152927
+Writing output...
+done
+
+
+3. Running search
+Dispatcher selected state size 1.
+This is a unit task.
+Simplifying transitions... done!
+Initializing heuristic cache... done!
+Conducting lazy best first search, (real) bound = 2147483647
+Initializing causal graph heuristic...
+Best heuristic value: 24 [g=0, 1 evaluated, 0 expanded, t=0.22s]
+Best heuristic value: 20 [g=1, 2 evaluated, 1 expanded, t=0.22s]
+Best heuristic value: 19 [g=2, 8 evaluated, 6 expanded, t=0.22s]
+Best heuristic value: 14 [g=3, 9 evaluated, 7 expanded, t=0.22s]
+Best heuristic value: 11 [g=5, 17 evaluated, 14 expanded, t=0.22s]
+Best heuristic value: 10 [g=7, 24 evaluated, 21 expanded, t=0.22s]
+Best heuristic value: 8 [g=9, 30 evaluated, 27 expanded, t=0.22s]
+Completely explored state space -- no solution!
+Actual search time: 0.75s [t=0.97s]
+Initial state h value: 24.
+Expanded 23431 state(s).
+Reopened 0 state(s).
+Evaluated 28743 state(s).
+Evaluations: 28743
+Generated 163606 state(s).
+Dead ends: 5312 state(s).
+Search time: 0.75s
+Total time: 0.97s
+Peak memory: 32204 KB
+
+--- planning time ---
+p04-60.pddl: 19.20
+--- validation ---
+Error: sas_plan is not available!

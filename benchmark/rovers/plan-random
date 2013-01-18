@@ -1,0 +1,50 @@
+#!/bin/bash
+
+PROBLEM_DIR="random"
+OUTPUT_DIR="random-log"
+TIMEOUT="30m"
+
+DOMAIN="domain.pddl"
+PLANNER="../../plan"
+OPTIONS="cg"
+VAL="../../VAL/validate"
+CLEANUP="../../cleanup"
+
+CURRENT=`pwd`
+cd $PROBLEM_DIR
+PROBLEMS=(*)
+cd $CURRENT
+
+mkdir -p $OUTPUT_DIR
+rm -f fd.time
+$CLEANUP
+for PROBLEM in "${PROBLEMS[@]}"; do
+	PROBLEM_FILE="$PROBLEM_DIR/$PROBLEM"
+	if [[ -f $PROBLEM_FILE ]]; then
+		LOG_FILE="$OUTPUT_DIR/$PROBLEM-out.log"
+		
+		echo "=======================" >> $LOG_FILE
+		echo "Problem: $PROBLEM" >> $LOG_FILE
+		
+		command time --output="fd.time" --format="%U" nice timeout $TIMEOUT $PLANNER $DOMAIN $PROBLEM_FILE $OPTIONS >> $LOG_FILE
+		
+		echo "" >> $LOG_FILE
+		echo "--- planning time ---" >> $LOG_FILE
+		RUNTIME=$(cat fd.time)
+		echo "$PROBLEM: $RUNTIME" >> $LOG_FILE
+		
+		echo "--- validation ---" >> $LOG_FILE
+		if [ -e "sas_plan" ]; then
+		$VAL $DOMAIN $PROBLEM sas_plan 1>>$LOG_FILE 2>>$LOG_FILE
+		echo "-- plan ---" >>$LOG_FILE
+		cat sas_plan >>$LOG_FILE
+		else
+		echo "Error: sas_plan is not available!" >> $LOG_FILE
+		fi
+		
+		rm -f fd.time
+		$CLEANUP
+	else
+		echo "File not exist: $PROBLEM_FILE" >> missing-files.log
+	fi
+done

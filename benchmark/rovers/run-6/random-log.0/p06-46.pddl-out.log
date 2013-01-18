@@ -1,0 +1,58 @@
+Problem: p06-46.pddl
+1. Running translator
+Second argument is a file name: use two translator arguments.
+Parsing... Atom at(rover0, waypoint0)
+Atom have_image(rover0, objective1, low_res)
+Atom have_soil_analysis(rover1, waypoint4)
+Atom have_rock_analysis(rover0, waypoint0)
+Atom at(rover0, waypoint2)
+Atom have_soil_analysis(rover1, waypoint2)
+Atom have_rock_analysis(rover0, waypoint3)
+Atom have_image(rover0, objective1, low_res)
+Atom at(rover1, waypoint5)
+Atom have_rock_analysis(rover0, waypoint3)
+Atom have_soil_analysis(rover1, waypoint1)
+[0.010s CPU, 0.015s wall-clock]
+Instantiating...
+Normalizing task... [25.660s CPU, 25.719s wall-clock]
+Generating Datalog program... [42.230s CPU, 42.854s wall-clock]
+Normalizing Datalog program...
+Trivial rules: Converted to facts.
+Normalizing Datalog program: [70.110s CPU, 70.342s wall-clock]
+Preparing model... [96.670s CPU, 97.004s wall-clock]
+Generated 1835069 rules.
+Computing model... [31.650s CPU, 31.763s wall-clock]
+65931 relevant atoms
+863 auxiliary atoms
+66794 final queue length
+1836379 total queue pushes
+Completing instantiation... Goal: <pddl.conditions.Conjunction object at 0x7fce6f272f90>
+[63.820s CPU, 63.999s wall-clock]
+Instantiating: [338.600s CPU, 340.167s wall-clock]
+Computing fact groups...
+Finding invariants...
+31 initial candidates
+Finding invariants: [3.330s CPU, 3.343s wall-clock]
+Checking invariant weight... [0.000s CPU, 0.001s wall-clock]
+Instantiating groups... [0.000s CPU, 0.001s wall-clock]
+Collecting mutex groups... [0.000s CPU, 0.000s wall-clock]
+Choosing groups...
+53 uncovered facts
+Choosing groups: [0.000s CPU, 0.001s wall-clock]
+Building translation key... [0.000s CPU, 0.001s wall-clock]
+Computing fact groups: [3.340s CPU, 3.351s wall-clock]
+Building STRIPS to SAS dictionary... [0.000s CPU, 0.000s wall-clock]
+Building dictionary for full mutex groups... [0.000s CPU, 0.000s wall-clock]
+Building mutex information...
+Building mutex information: [0.000s CPU, 0.000s wall-clock]
+Translating task...
+Processing axioms...
+Simplifying axioms... [0.000s CPU, 0.001s wall-clock]
+Compute negative axioms...
+Compute axiom layers...
+Processing axioms: [7.380s CPU, 7.413s wall-clock]
+
+--- planning time ---
+p06-46.pddl: 0.00
+--- validation ---
+Error: sas_plan is not available!

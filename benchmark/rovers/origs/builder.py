@@ -32,6 +32,11 @@ def process_input(infile):
                 footer += line + "\n"
         if in_constraints:
             parts = line.split(" ", 2)
+            if parts[0] == '(preference':
+                parts = parts[1].split(" ", 2)
+                last = len(parts[1]) - 1
+                line = parts[1][0:last]
+                parts = line.split(" ", 2)
             key = parts[0][1:].strip()
             if key not in constraints:
                 constraints[key] = []

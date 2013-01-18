@@ -1,0 +1,115 @@
+Problem: p01-64.pddl
+1. Running translator
+Second argument is a file name: use two translator arguments.
+Parsing... Atom have_rock_analysis(rover0, waypoint3)
+Atom at(rover0, waypoint2)
+Atom have_rock_analysis(rover0, waypoint3)
+[0.010s CPU, 0.010s wall-clock]
+Instantiating...
+Normalizing task... [0.000s CPU, 0.003s wall-clock]
+Generating Datalog program... [0.010s CPU, 0.004s wall-clock]
+Normalizing Datalog program...
+Trivial rules: Converted to facts.
+Normalizing Datalog program: [0.020s CPU, 0.024s wall-clock]
+Preparing model... [0.020s CPU, 0.014s wall-clock]
+Generated 251 rules.
+Computing model... [0.010s CPU, 0.020s wall-clock]
+198 relevant atoms
+327 auxiliary atoms
+525 final queue length
+704 total queue pushes
+Completing instantiation... Goal: <pddl.conditions.Conjunction object at 0x7f1b84d2e8d0>
+[0.010s CPU, 0.014s wall-clock]
+Instantiating: [0.080s CPU, 0.081s wall-clock]
+Computing fact groups...
+Finding invariants...
+31 initial candidates
+Finding invariants: [0.020s CPU, 0.016s wall-clock]
+Checking invariant weight... [0.000s CPU, 0.001s wall-clock]
+Instantiating groups... [0.000s CPU, 0.001s wall-clock]
+Collecting mutex groups... [0.000s CPU, 0.000s wall-clock]
+Choosing groups...
+24 uncovered facts
+Choosing groups: [0.000s CPU, 0.000s wall-clock]
+Building translation key... [0.000s CPU, 0.000s wall-clock]
+Computing fact groups: [0.020s CPU, 0.019s wall-clock]
+Building STRIPS to SAS dictionary... [0.000s CPU, 0.000s wall-clock]
+Building dictionary for full mutex groups... [0.000s CPU, 0.000s wall-clock]
+Building mutex information...
+Building mutex information: [0.000s CPU, 0.000s wall-clock]
+Translating task...
+Processing axioms...
+Simplifying axioms... [0.000s CPU, 0.000s wall-clock]
+Compute negative axioms...
+Compute axiom layers...
+Processing axioms: [0.000s CPU, 0.001s wall-clock]
+Translate goal conditions...
+Translate strips operators...
+Translate strips axioms...
+Create SAS task...
+Translating task: [0.050s CPU, 0.055s wall-clock]
+107 implied effects removed
+0 effect conditions simplified
+0 implied preconditions added
+Detecting unreachable propositions...
+48 operators removed
+8 propositions removed
+Detecting unreachable propositions: [0.010s CPU, 0.009s wall-clock]
+Translator variables: 32
+Translator derived variables: 0
+Translator facts: 66
+Translator mutex groups: 9
+Translator total mutex groups size: 20
+Translator operators: 99
+Translator task size: 1475
+Translator peak memory: 131228 KB
+Writing output... [0.020s CPU, 0.014s wall-clock]
+Done! [0.190s CPU, 0.190s wall-clock]
+
+2. Running preprocessor
+Building causal graph...
+The causal graph is not acyclic.
+25 variables of 32 necessary
+0 of 9 mutex groups necessary.
+99 of 99 operators necessary.
+0 of 0 axiom rules necessary.
+Building domain transition graphs...
+solveable in poly time 0
+Building successor generator...
+Preprocessor facts: 52
+Preprocessor derived variables: 0
+Preprocessor task size: 1413
+Writing output...
+done
+
+
+3. Running search
+Dispatcher selected state size 1.
+This is a unit task.
+Simplifying transitions... done!
+Initializing heuristic cache... done!
+Conducting lazy best first search, (real) bound = 2147483647
+Initializing causal graph heuristic...
+Best heuristic value: 17 [g=0, 1 evaluated, 0 expanded, t=0s]
+Best heuristic value: 13 [g=1, 2 evaluated, 1 expanded, t=0s]
+Best heuristic value: 12 [g=5, 17 evaluated, 14 expanded, t=0s]
+Best heuristic value: 11 [g=7, 24 evaluated, 20 expanded, t=0s]
+Best heuristic value: 10 [g=9, 38 evaluated, 32 expanded, t=0s]
+Best heuristic value: 8 [g=11, 42 evaluated, 36 expanded, t=0s]
+Completely explored state space -- no solution!
+Actual search time: 0.02s [t=0.02s]
+Initial state h value: 17.
+Expanded 3641 state(s).
+Reopened 0 state(s).
+Evaluated 3737 state(s).
+Evaluations: 3737
+Generated 14993 state(s).
+Dead ends: 96 state(s).
+Search time: 0.02s
+Total time: 0.02s
+Peak memory: 4244 KB
+
+--- planning time ---
+p01-64.pddl: 0.29
+--- validation ---
+Error: sas_plan is not available!

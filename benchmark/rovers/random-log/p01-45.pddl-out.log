@@ -1,0 +1,116 @@
+Problem: p01-45.pddl
+1. Running translator
+Second argument is a file name: use two translator arguments.
+Parsing... Atom have_rock_analysis(rover0, waypoint3)
+Atom have_soil_analysis(rover0, waypoint2)
+Atom have_rock_analysis(rover0, waypoint3)
+Atom have_soil_analysis(rover0, waypoint2)
+Atom have_rock_analysis(rover0, waypoint3)
+Atom have_image(rover0, objective1, high_res)
+Atom have_image(rover0, objective1, high_res)
+Atom have_rock_analysis(rover0, waypoint3)
+Atom have_rock_analysis(rover0, waypoint3)
+[0.020s CPU, 0.013s wall-clock]
+Instantiating...
+Normalizing task... [0.990s CPU, 0.999s wall-clock]
+Generating Datalog program... [1.160s CPU, 1.167s wall-clock]
+Normalizing Datalog program...
+Normalizing Datalog program: [2.290s CPU, 2.299s wall-clock]
+Preparing model... [3.860s CPU, 3.875s wall-clock]
+Generated 82013 rules.
+Computing model... [1.900s CPU, 1.906s wall-clock]
+4288 relevant atoms
+327 auxiliary atoms
+4615 final queue length
+82464 total queue pushes
+Completing instantiation... Goal: <pddl.conditions.Conjunction object at 0x7f77723a0ed0>
+[1.970s CPU, 1.982s wall-clock]
+Instantiating: [12.490s CPU, 12.532s wall-clock]
+Computing fact groups...
+Finding invariants...
+31 initial candidates
+Finding invariants: [0.080s CPU, 0.083s wall-clock]
+Checking invariant weight... [0.000s CPU, 0.000s wall-clock]
+Instantiating groups... [0.000s CPU, 0.001s wall-clock]
+Collecting mutex groups... [0.000s CPU, 0.000s wall-clock]
+Choosing groups...
+34 uncovered facts
+Choosing groups: [0.000s CPU, 0.000s wall-clock]
+Building translation key... [0.000s CPU, 0.000s wall-clock]
+Computing fact groups: [0.080s CPU, 0.087s wall-clock]
+Building STRIPS to SAS dictionary... [0.000s CPU, 0.000s wall-clock]
+Building dictionary for full mutex groups... [0.000s CPU, 0.000s wall-clock]
+Building mutex information...
+Building mutex information: [0.000s CPU, 0.000s wall-clock]
+Translating task...
+Processing axioms...
+Simplifying axioms... [0.000s CPU, 0.000s wall-clock]
+Compute negative axioms...
+Compute axiom layers...
+Processing axioms: [0.200s CPU, 0.203s wall-clock]
+Translate goal conditions...
+Translate strips operators...
+Translate strips axioms...
+Create SAS task...
+Translating task: [52.960s CPU, 53.096s wall-clock]
+274176 implied effects removed
+0 effect conditions simplified
+0 implied preconditions added
+Detecting unreachable propositions...
+54288 operators removed
+8 propositions removed
+Detecting unreachable propositions: [4.600s CPU, 4.616s wall-clock]
+Translator variables: 42
+Translator derived variables: 0
+Translator facts: 86
+Translator mutex groups: 9
+Translator total mutex groups size: 20
+Translator operators: 9279
+Translator task size: 530696
+Translator peak memory: 776512 KB
+Writing output... [1.920s CPU, 1.951s wall-clock]
+Done! [72.210s CPU, 72.433s wall-clock]
+
+2. Running preprocessor
+Building causal graph...
+The causal graph is not acyclic.
+35 variables of 42 necessary
+0 of 9 mutex groups necessary.
+9279 of 9279 operators necessary.
+0 of 0 axiom rules necessary.
+Building domain transition graphs...
+solveable in poly time 0
+Building successor generator...
+Preprocessor facts: 72
+Preprocessor derived variables: 0
+Preprocessor task size: 530634
+Writing output...
+done
+
+
+3. Running search
+Dispatcher selected state size 1.
+This is a unit task.
+Simplifying transitions... done!
+Initializing heuristic cache... done!
+Conducting lazy best first search, (real) bound = 2147483647
+Initializing causal graph heuristic...
+Best heuristic value: 19 [g=0, 1 evaluated, 0 expanded, t=0.55s]
+Best heuristic value: 15 [g=1, 2 evaluated, 1 expanded, t=0.55s]
+Completely explored state space -- no solution!
+Actual search time: 2.92s [t=3.47s]
+Initial state h value: 19.
+Expanded 5835 state(s).
+Reopened 0 state(s).
+Evaluated 7531 state(s).
+Evaluations: 7531
+Generated 3318569 state(s).
+Dead ends: 1696 state(s).
+Search time: 2.92s
+Total time: 3.47s
+Peak memory: 52928 KB
+
+--- planning time ---
+p01-45.pddl: 77.90
+--- validation ---
+Error: sas_plan is not available!

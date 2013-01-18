@@ -2,7 +2,7 @@
 ; Author: Patrik Haslum
 
 (define (domain Rover)
-  (:requirements :typing :constraints :preferences)
+  (:requirements :typing :constraints)
   (:types rover waypoint store camera mode lander objective)
 
   (:predicates (at ?x - rover ?y - waypoint) 
