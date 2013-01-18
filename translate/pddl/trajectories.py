@@ -117,7 +117,6 @@ class SometimeBeforeCondition(TrajectoryCondition):
         self.condition1.dump()
         self.condition2.dump()
     def get_goal(self):
-        #return self.atom1
         return conditions.Truth()
     def get_always_effects(self):
         eff = effects.SimpleEffect(self.atom2)
@@ -176,29 +175,56 @@ class AtMostOnceCondition(TrajectoryCondition):
             return condition
 
 class Trajectory:
+    use_preference = False
     def __init__(self):
         name = "always"
         self.always_atom = conditions.Atom(name, [])
         self.negated_always_atom = conditions.NegatedAtom(name, [])
         self.always = conditions.Truth()
+        self.always_effects = []
         self.sometimes = []
         self.sometime_afters = []
         self.sometime_befores = []
         self.at_most_onces = []
-    def add_always_condition(self, condition, parameters):
+        self.preference_metrics = {}
+        self.preference_penalties = []
+    def set_preference_metric(self, label, value):
+        self.preference_metrics[label] = value
+    def add_always_condition(self, condition, parameters, preference_label=None):
         if len(parameters) > 0:
             condition = conditions.UniversalCondition(parameters, [condition])
-        self.always = conditions.Conjunction([self.always, condition])
-    def add_sometime_condition(self, condition, parameters):
+        if preference_label != None:
+            print(preference_label)
+            args = [param.name for param in parameters]
+            atom = conditions.Atom("not-" + preference_label, args)
+            eff = effects.SimpleEffect(atom)
+            cond_effect = effects.ConditionalEffect(condition.negate(), eff)
+            self.always_effects.append(cond_effect)
+            penalty_cond = conditions.ExistentialCondition(parameters, [atom])
+            goal_atom = conditions.Atom("pref-" + preference_label, args)
+            self.preference_penalties.append([preference_label, parameters, atom, goal_atom])
+        else:
+            self.always = conditions.Conjunction([self.always, condition])
+    def add_sometime_condition(self, condition, parameters, preference_label=None):
         self.sometimes.append(SometimeCondition(condition, parameters))
-    def add_sometime_after_condition(self, condition1, condition2, parameters):
+        if preference_label != None:
+            self.use_preference = True
+    def add_sometime_after_condition(self, condition1, condition2, parameters, preference_label=None):
         self.sometime_afters.append(SometimeAfterCondition(condition1, condition2, parameters))
-    def add_sometime_before_condition(self, condition1, condition2, parameters):
+        if preference_label != None:
+            self.use_preference = True
+    def add_sometime_before_condition(self, condition1, condition2, parameters, preference_label=None):
         self.sometime_befores.append(SometimeBeforeCondition(condition1, condition2, parameters))
-    def add_at_most_once_condition(self, condition, parameters):
+        if preference_label != None:
+            self.use_preference = True
+    def add_at_most_once_condition(self, condition, parameters, preference_label=None):
         self.at_most_onces.append(AtMostOnceCondition(condition, parameters))
-    def add_at_end_condition(self, condition, parameters):
+        if preference_label != None:
+            self.use_preference = True
+    def add_at_end_condition(self, condition, parameters, preference_label=None):
         assert False, 'TODO -- implement add_at_end_condition'
+        if preference_label != None:
+            self.use_preference = True
     def simplified(self):
         self.always = self.always.simplified()
         for sometime in self.sometimes:
@@ -223,6 +249,12 @@ class Trajectory:
             parts.append(sometime_after.get_goal())
         for sometime_before in self.sometime_befores:
             parts.append(sometime_before.get_goal())
+        # preferences
+        for penalty in self.preference_penalties:
+            parameters = penalty[1]
+            goal_atom = penalty[3]
+            goal_cond = conditions.UniversalCondition(parameters, [goal_atom])
+            parts.append(goal_cond) #penalty[3])
         goal = conditions.Conjunction(parts)
         return goal.simplified()
     def modify_actions(self, actions_list):
@@ -257,6 +289,12 @@ class Trajectory:
             parameters.extend(atmostonce.parameters)
             eff.extend(atmostonce.get_always_effects())
             pre.append(atmostonce.get_always_precondition())
+
+        # add always effects
+        #print(str(self.always_effects))
+        if len(self.always_effects) > 0:
+            eff.extend(self.always_effects)
+
         # generate the effect
         temp_effect = effects.ConjunctiveEffect(eff)
         normalized = temp_effect.normalize()
@@ -282,4 +320,39 @@ class Trajectory:
         for sometime_after in self.sometime_afters:
             new_actions.append(sometime_after.get_action())
 
+        # add actions of preference penalty collector
+        for penalty in self.preference_penalties:
+            label = penalty[0]
+            parameters = penalty[1]
+            atom = penalty[2]
+            goal_atom = penalty[3]
+            # create penalty action
+            penalty = self.preference_metrics[label]
+            pre = conditions.Conjunction([atom]).simplified()
+            eff = []
+            cost = effects.create_simple_effect(goal_atom, eff)
+            action = actions.Action("penalty-" + label, parameters, penalty, pre, eff, cost)
+            action.dump()
+            #new_actions.append(action)
+            # create non-penalty action
+            pre = pre.negate()
+            action = actions.Action("non-penalty-" + label, parameters, 0, pre, eff, cost)
+            new_actions.append(action)
+
         return new_actions
+
+        '''eff = []
+        cost = effects.create_simple_effect(self.atom, eff)
+        name = "verify_" + self.atom.predicate
+        return actions.Action(name, self.parameters, 0, self.condition, eff, cost)'''
+
+    def parse_metrics(self, entries):
+        minimize = (entries[1] == "minimize")
+        # we assume that the metric is '+'
+        for part in entries[2][1:]:
+            value = int(part[1])
+            label = part[2][1]
+            if part[2][0] == "is-violated" and minimize:
+                self.set_preference_metric(label, value)
+            else:
+                assert False, "Not (yet) implemented - " + part[2][0]

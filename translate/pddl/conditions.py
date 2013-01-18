@@ -13,45 +13,50 @@ def parse_trajectory_condition(alist, trajectory): #, goal):
             parameters = pddl_types.parse_typed_list(part[1])
             args = part[2:]
             assert len(args) == 1
-            parse_trajectory_modality(trajectory, args[0], parameters)
+            parse_trajectory_modal(trajectory, args[0], parameters)
         else:
-            parse_trajectory_modality(trajectory, part)
+            parse_trajectory_modal(trajectory, part)
     trajectory.simplified()
     return trajectory
 
 # Parse trajectory's modality
-def parse_trajectory_modality(trajectory, alist, parameters=[]):
+def parse_trajectory_modal(trajectory, alist, parameters=[], preference_label=None):
     tag = alist[0]
     if tag == "always":
         condition = parse_condition_aux(alist[1], False)
         condition.uniquify_variables({})
-        trajectory.add_always_condition(condition, parameters)
+        trajectory.add_always_condition(condition, parameters, preference_label)
     elif tag == "sometime":
         condition = parse_condition_aux(alist[1], False)
         condition.uniquify_variables({})
-        trajectory.add_sometime_condition(condition, parameters)
+        trajectory.add_sometime_condition(condition, parameters, preference_label)
     elif tag == "sometime-after":
         condition1 = parse_condition_aux(alist[1], False)
         condition1.uniquify_variables({})
         condition2 = parse_condition_aux(alist[2], False)
         condition2.uniquify_variables({})
-        trajectory.add_sometime_after_condition(condition1, condition2, parameters)
+        trajectory.add_sometime_after_condition(condition1, condition2, parameters, preference_label)
     elif tag == "sometime-before":
         condition1 = parse_condition_aux(alist[1], False)
         condition1.uniquify_variables({})
         condition2 = parse_condition_aux(alist[2], False)
         condition2.uniquify_variables({})
-        trajectory.add_sometime_before_condition(condition1, condition2, parameters)
+        trajectory.add_sometime_before_condition(condition1, condition2, parameters, preference_label)
     elif tag == "at-most-once":
         condition = parse_condition_aux(alist[1], False)
         condition.uniquify_variables({})
-        trajectory.add_at_most_once_condition(condition, parameters)
+        trajectory.add_at_most_once_condition(condition, parameters, preference_label)
     elif tag == "at end":
         condition = parse_condition_aux(alist[1], False)
         condition.uniquify_variables({})
-        trajectory.add_at_end_condition(condition, parameters)
+        trajectory.add_at_end_condition(condition, parameters, preference_label)
+    elif tag == "preference":
+        parse_trajectory_modal(trajectory, alist[2], parameters, alist[1]) 
     else:
         assert False, str(tag + " not (yet) handled")
+
+    if preference_label != None:
+        trajectory.use_preference = True
 
 def parse_goal(alist):
     return parse_condition_aux(alist, False)

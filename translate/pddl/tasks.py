@@ -100,7 +100,8 @@ class Requirements(object):
               ":strips", ":adl", ":typing", ":negation", ":equality",
               ":negative-preconditions", ":disjunctive-preconditions",
               ":existential-preconditions", ":universal-preconditions",
-              ":quantified-preconditions", ":conditional-effects", ":constraints",
+              ":quantified-preconditions", ":conditional-effects",
+              ":constraints", ":preferences",
               ":derived-predicates", ":action-costs"), req
     def __str__(self):
         return ", ".join(self.requirements)
@@ -237,6 +238,8 @@ def parse_task(task_pddl):
         if entry[0] == ":metric":
             if entry[1]=="minimize" and entry[2][0] == "total-cost":
                 use_metric = True
+            elif trajectory.use_preference:
+                trajectory.parse_metrics(entry)
             else:
                 assert False, "Unknown metric."
         elif entry[0] == ":constraints": # handle trajectory constraints
@@ -244,8 +247,6 @@ def parse_task(task_pddl):
 
     yield goal_condition
     yield use_metric
-    #print("\n=== trajectory.dump(): ")
-    #trajectory.dump()
     yield trajectory
 
     for entry in iterator:
