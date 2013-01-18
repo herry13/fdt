@@ -1,33 +1,33 @@
-solving p01.pddl...
+solving benchmark/cloud/p01.pddl...
 cg:
-domain.pddl p01.pddl cg() valid 0.18
+benchmark/cloud/domain.pddl benchmark/cloud/p01.pddl cg() valid 0.27
 ff:
-domain.pddl p01.pddl ff valid 0.16
+benchmark/cloud/domain.pddl benchmark/cloud/p01.pddl ff valid 0.27
 cea:
-domain.pddl p01.pddl cea valid 0.17
-lama:
-domain.pddl p01.pddl lama_syn valid 0.20
+benchmark/cloud/domain.pddl benchmark/cloud/p01.pddl cea valid 0.26
 hmax:
-domain.pddl p01.pddl hmax valid 0.26
-solving p02.pddl...
+benchmark/cloud/domain.pddl benchmark/cloud/p01.pddl hmax valid 0.42
+lama:
+benchmark/cloud/domain.pddl benchmark/cloud/p01.pddl lama_syn valid 0.31
+solving benchmark/cloud/p02.pddl...
 cg:
-domain.pddl p02.pddl cg() valid 0.83
+benchmark/cloud/domain.pddl benchmark/cloud/p02.pddl cg() valid 5.85
 ff:
-domain.pddl p02.pddl ff valid 0.94
+benchmark/cloud/domain.pddl benchmark/cloud/p02.pddl ff valid 4.99
 cea:
-domain.pddl p02.pddl cea valid 0.80
-lama:
-domain.pddl p02.pddl lama_syn valid 2.35
+benchmark/cloud/domain.pddl benchmark/cloud/p02.pddl cea valid 5.58
 hmax:
-domain.pddl p02.pddl hmax valid 26.34
-solving p03.pddl...
+benchmark/cloud/domain.pddl benchmark/cloud/p02.pddl hmax valid 238.70
+lama:
+benchmark/cloud/domain.pddl benchmark/cloud/p02.pddl lama_syn valid 11.40
+solving benchmark/cloud/p03.pddl...
 cg:
-domain.pddl p03.pddl cg() valid 24.16
+
 ff:
-domain.pddl p03.pddl ff valid 30.12
+
 cea:
-domain.pddl p03.pddl cea valid 24.47
-lama:
-domain.pddl p03.pddl lama_syn valid 100.89
+
 hmax:
+
+lama:
 
