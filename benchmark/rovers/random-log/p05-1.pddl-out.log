@@ -1,0 +1,24 @@
+Problem: p05-1.pddl
+1. Running translator
+Second argument is a file name: use two translator arguments.
+Parsing... Atom have_soil_analysis(rover1, waypoint2)
+Atom have_rock_analysis(rover0, waypoint0)
+Atom at(rover0, waypoint1)
+Atom have_soil_analysis(rover1, waypoint1)
+Atom at(rover1, waypoint1)
+Atom at(rover0, waypoint1)
+Atom have_rock_analysis(rover0, waypoint1)
+Atom at(rover0, waypoint1)
+Atom at(rover1, waypoint2)
+Atom at(rover0, waypoint1)
+Atom at(rover0, waypoint1)
+Atom have_soil_analysis(rover1, waypoint1)
+Atom at(rover1, waypoint1)
+[0.010s CPU, 0.012s wall-clock]
+Instantiating...
+Normalizing task... [1552.420s CPU, 1556.635s wall-clock]
+Generating Datalog program... 
+--- planning time ---
+p05-1.pddl: 0.00
+--- validation ---
+Error: sas_plan is not available!

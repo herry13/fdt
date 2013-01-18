@@ -1,0 +1,120 @@
+Problem: p06-71.pddl
+1. Running translator
+Second argument is a file name: use two translator arguments.
+Parsing... Atom have_image(rover0, objective1, low_res)
+Atom at(rover1, waypoint5)
+Atom at(rover0, waypoint2)
+Atom have_soil_analysis(rover1, waypoint1)
+Atom have_image(rover0, objective1, low_res)
+Atom at(rover0, waypoint0)
+[0.010s CPU, 0.012s wall-clock]
+Instantiating...
+Normalizing task... [0.200s CPU, 0.205s wall-clock]
+Generating Datalog program... [0.250s CPU, 0.242s wall-clock]
+Normalizing Datalog program...
+Trivial rules: Converted to facts.
+Normalizing Datalog program: [0.530s CPU, 0.544s wall-clock]
+Preparing model... [0.720s CPU, 0.707s wall-clock]
+Generated 20557 rules.
+Computing model... [0.330s CPU, 0.340s wall-clock]
+1411 relevant atoms
+863 auxiliary atoms
+2274 final queue length
+21851 total queue pushes
+Completing instantiation... Goal: <pddl.conditions.Conjunction object at 0x7f491b616050>
+[0.390s CPU, 0.391s wall-clock]
+Instantiating: [2.470s CPU, 2.482s wall-clock]
+Computing fact groups...
+Finding invariants...
+31 initial candidates
+Finding invariants: [0.020s CPU, 0.026s wall-clock]
+Checking invariant weight... [0.000s CPU, 0.001s wall-clock]
+Instantiating groups... [0.000s CPU, 0.001s wall-clock]
+Collecting mutex groups... [0.000s CPU, 0.000s wall-clock]
+Choosing groups...
+45 uncovered facts
+Choosing groups: [0.000s CPU, 0.000s wall-clock]
+Building translation key... [0.000s CPU, 0.001s wall-clock]
+Computing fact groups: [0.030s CPU, 0.031s wall-clock]
+Building STRIPS to SAS dictionary... [0.000s CPU, 0.000s wall-clock]
+Building dictionary for full mutex groups... [0.000s CPU, 0.000s wall-clock]
+Building mutex information...
+Building mutex information: [0.000s CPU, 0.000s wall-clock]
+Translating task...
+Processing axioms...
+Simplifying axioms... [0.000s CPU, 0.000s wall-clock]
+Compute negative axioms...
+Compute axiom layers...
+Processing axioms: [0.040s CPU, 0.048s wall-clock]
+Translate goal conditions...
+Translate strips operators...
+Translate strips axioms...
+Create SAS task...
+Translating task: [42.840s CPU, 42.958s wall-clock]
+131472 implied effects removed
+0 effect conditions simplified
+0 implied preconditions added
+Detecting unreachable propositions...
+34368 operators removed
+13 propositions removed
+Detecting unreachable propositions: [4.960s CPU, 4.978s wall-clock]
+Translator variables: 58
+Translator derived variables: 0
+Translator facts: 124
+Translator mutex groups: 13
+Translator total mutex groups size: 34
+Translator operators: 15058
+Translator task size: 1083145
+Translator peak memory: 650744 KB
+Writing output... [3.690s CPU, 3.838s wall-clock]
+Done! [54.180s CPU, 54.463s wall-clock]
+
+2. Running preprocessor
+Building causal graph...
+The causal graph is not acyclic.
+53 variables of 58 necessary
+0 of 13 mutex groups necessary.
+15058 of 15058 operators necessary.
+0 of 0 axiom rules necessary.
+Building domain transition graphs...
+solveable in poly time 0
+Building successor generator...
+Preprocessor facts: 114
+Preprocessor derived variables: 0
+Preprocessor task size: 1083066
+Writing output...
+done
+
+
+3. Running search
+Dispatcher selected state size 1.
+This is a unit task.
+Simplifying transitions... done!
+Initializing heuristic cache... done!
+Conducting lazy best first search, (real) bound = 2147483647
+Initializing causal graph heuristic...
+Best heuristic value: 39 [g=0, 1 evaluated, 0 expanded, t=0.94s]
+Best heuristic value: 28 [g=1, 2 evaluated, 1 expanded, t=0.94s]
+Best heuristic value: 25 [g=3, 12 evaluated, 11 expanded, t=0.94s]
+Best heuristic value: 24 [g=5, 23 evaluated, 22 expanded, t=0.94s]
+Best heuristic value: 22 [g=7, 33 evaluated, 32 expanded, t=0.94s]
+Best heuristic value: 19 [g=9, 45 evaluated, 44 expanded, t=0.95s]
+Best heuristic value: 18 [g=11, 57 evaluated, 56 expanded, t=0.95s]
+Best heuristic value: 17 [g=15, 81 evaluated, 79 expanded, t=0.95s]
+Best heuristic value: 16 [g=17, 93 evaluated, 91 expanded, t=0.96s]
+Best heuristic value: 15 [g=23, 398977 evaluated, 355610 expanded, t=113.24s]
+Best heuristic value: 14 [g=29, 399068 evaluated, 355701 expanded, t=113.25s]
+Best heuristic value: 13 [g=31, 399078 evaluated, 355711 expanded, t=113.25s]
+Best heuristic value: 12 [g=31, 400710 evaluated, 357335 expanded, t=113.36s]
+Best heuristic value: 11 [g=33, 400720 evaluated, 357345 expanded, t=113.36s]
+Best heuristic value: 10 [g=41, 577202 evaluated, 531699 expanded, t=124.57s]
+Best heuristic value: 9 [g=43, 577212 evaluated, 531709 expanded, t=124.57s]
+Best heuristic value: 8 [g=51, 778416 evaluated, 732369 expanded, t=137.51s]
+Best heuristic value: 7 [g=53, 778426 evaluated, 732379 expanded, t=137.51s]
+Peak memory: 3296036 KB
+caught signal 15 -- exiting
+
+--- planning time ---
+p06-71.pddl: 63.30
+--- validation ---
+Error: sas_plan is not available!

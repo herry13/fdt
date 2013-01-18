@@ -1,0 +1,216 @@
+Problem: p06-51.pddl
+1. Running translator
+Second argument is a file name: use two translator arguments.
+Parsing... Atom have_rock_analysis(rover0, waypoint3)
+Atom have_soil_analysis(rover1, waypoint4)
+Atom have_rock_analysis(rover0, waypoint0)
+Atom have_image(rover0, objective1, low_res)
+Atom at(rover1, waypoint5)
+[0.010s CPU, 0.014s wall-clock]
+Instantiating...
+Normalizing task... [0.150s CPU, 0.144s wall-clock]
+Generating Datalog program... [0.110s CPU, 0.118s wall-clock]
+Normalizing Datalog program...
+Trivial rules: Converted to facts.
+Normalizing Datalog program: [0.250s CPU, 0.253s wall-clock]
+Preparing model... [0.330s CPU, 0.328s wall-clock]
+Generated 9293 rules.
+Computing model... [0.140s CPU, 0.142s wall-clock]
+897 relevant atoms
+863 auxiliary atoms
+1760 final queue length
+10587 total queue pushes
+Completing instantiation... Goal: <pddl.conditions.Conjunction object at 0x7feb8c79aa50>
+[0.200s CPU, 0.201s wall-clock]
+Instantiating: [1.210s CPU, 1.211s wall-clock]
+Computing fact groups...
+Finding invariants...
+31 initial candidates
+Finding invariants: [0.010s CPU, 0.018s wall-clock]
+Checking invariant weight... [0.000s CPU, 0.001s wall-clock]
+Instantiating groups... [0.000s CPU, 0.001s wall-clock]
+Collecting mutex groups... [0.000s CPU, 0.000s wall-clock]
+Choosing groups...
+43 uncovered facts
+Choosing groups: [0.000s CPU, 0.000s wall-clock]
+Building translation key... [0.000s CPU, 0.000s wall-clock]
+Computing fact groups: [0.020s CPU, 0.022s wall-clock]
+Building STRIPS to SAS dictionary... [0.000s CPU, 0.000s wall-clock]
+Building dictionary for full mutex groups... [0.000s CPU, 0.000s wall-clock]
+Building mutex information...
+Building mutex information: [0.000s CPU, 0.000s wall-clock]
+Translating task...
+Processing axioms...
+Simplifying axioms... [0.000s CPU, 0.000s wall-clock]
+Compute negative axioms...
+Compute axiom layers...
+Processing axioms: [0.020s CPU, 0.024s wall-clock]
+Translate goal conditions...
+Translate strips operators...
+Translate strips axioms...
+Create SAS task...
+Translating task: [36.170s CPU, 36.264s wall-clock]
+58968 implied effects removed
+0 effect conditions simplified
+0 implied preconditions added
+Detecting unreachable propositions...
+23904 operators removed
+13 propositions removed
+Detecting unreachable propositions: [5.640s CPU, 5.657s wall-clock]
+Translator variables: 56
+Translator derived variables: 0
+Translator facts: 120
+Translator mutex groups: 13
+Translator total mutex groups size: 34
+Translator operators: 6514
+Translator task size: 520106
+Translator peak memory: 477232 KB
+Writing output... [1.910s CPU, 1.972s wall-clock]
+Done! [45.030s CPU, 45.217s wall-clock]
+
+2. Running preprocessor
+Building causal graph...
+The causal graph is not acyclic.
+51 variables of 56 necessary
+0 of 13 mutex groups necessary.
+6514 of 6514 operators necessary.
+0 of 0 axiom rules necessary.
+Building domain transition graphs...
+solveable in poly time 0
+Building successor generator...
+Preprocessor facts: 110
+Preprocessor derived variables: 0
+Preprocessor task size: 520027
+Writing output...
+done
+
+
+3. Running search
+Dispatcher selected state size 1.
+This is a unit task.
+Simplifying transitions... done!
+Initializing heuristic cache... done!
+Conducting lazy best first search, (real) bound = 2147483647
+Initializing causal graph heuristic...
+Best heuristic value: 37 [g=0, 1 evaluated, 0 expanded, t=0.56s]
+Best heuristic value: 26 [g=1, 2 evaluated, 1 expanded, t=0.56s]
+Best heuristic value: 24 [g=3, 12 evaluated, 10 expanded, t=0.56s]
+Best heuristic value: 23 [g=5, 24 evaluated, 21 expanded, t=0.57s]
+Best heuristic value: 22 [g=7, 35 evaluated, 31 expanded, t=0.57s]
+Best heuristic value: 20 [g=11, 58 evaluated, 51 expanded, t=0.57s]
+Best heuristic value: 19 [g=15, 81 evaluated, 71 expanded, t=0.58s]
+Best heuristic value: 18 [g=17, 92 evaluated, 81 expanded, t=0.58s]
+Best heuristic value: 17 [g=21, 159 evaluated, 140 expanded, t=0.59s]
+Best heuristic value: 16 [g=23, 170 evaluated, 151 expanded, t=0.59s]
+Best heuristic value: 15 [g=27, 189 evaluated, 170 expanded, t=0.6s]
+Best heuristic value: 14 [g=29, 199 evaluated, 180 expanded, t=0.6s]
+Best heuristic value: 11 [g=33, 241 evaluated, 222 expanded, t=0.6s]
+Best heuristic value: 10 [g=35, 255 evaluated, 236 expanded, t=0.6s]
+Best heuristic value: 9 [g=41, 485 evaluated, 466 expanded, t=0.62s]
+Best heuristic value: 8 [g=43, 494 evaluated, 475 expanded, t=0.62s]
+Best heuristic value: 7 [g=53, 34818 evaluated, 34799 expanded, t=4.99s]
+Best heuristic value: 6 [g=55, 34830 evaluated, 34811 expanded, t=4.99s]
+Best heuristic value: 5 [g=63, 120395 evaluated, 120376 expanded, t=16.36s]
+Best heuristic value: 4 [g=65, 120408 evaluated, 120389 expanded, t=16.36s]
+Best heuristic value: 3 [g=71, 120741 evaluated, 120722 expanded, t=16.39s]
+Best heuristic value: 2 [g=73, 120753 evaluated, 120734 expanded, t=16.39s]
+Best heuristic value: 1 [g=77, 360805 evaluated, 360786 expanded, t=32.21s]
+Solution found!
+Actual search time: 31.66s [t=32.22s]
+1: calibrate rover1 camera2 objective0 waypoint4 (1)
+2: take_image rover1 waypoint4 objective0 camera2 colour (1)
+3: communicate_image_data rover1 general objective0 colour waypoint4 waypoint3 (1)
+4: calibrate rover0 camera0 objective0 waypoint1 (1)
+5: take_image rover0 waypoint1 objective0 camera0 colour (1)
+6: calibrate rover0 camera0 objective0 waypoint1 (1)
+7: take_image rover0 waypoint1 objective0 camera0 low_res (1)
+8: communicate_image_data rover0 general objective0 low_res waypoint1 waypoint3 (1)
+9: navigate rover1 waypoint4 waypoint1 (1)
+10: sample_soil rover1 rover1store waypoint1 (1)
+11: communicate_soil_data rover1 general waypoint1 waypoint1 waypoint3 (1)
+12: calibrate rover0 camera0 objective0 waypoint1 (1)
+13: take_image rover0 waypoint1 objective1 camera0 low_res (1)
+14: communicate_image_data rover0 general objective1 low_res waypoint1 waypoint3 (1)
+15: navigate rover0 waypoint1 waypoint0 (1)
+16: sample_rock rover0 rover0store waypoint0 (1)
+17: communicate_rock_data rover0 general waypoint0 waypoint0 waypoint3 (1)
+18: navigate rover0 waypoint0 waypoint2 (1)
+19: drop rover0 rover0store (1)
+20: sample_rock rover0 rover0store waypoint2 (1)
+21: communicate_rock_data rover0 general waypoint2 waypoint2 waypoint3 (1)
+22: navigate rover0 waypoint2 waypoint0 (1)
+23: drop rover0 rover0store (1)
+24: navigate rover0 waypoint0 waypoint3 (1)
+25: sample_rock rover0 rover0store waypoint3 (1)
+26: navigate rover0 waypoint3 waypoint0 (1)
+27: communicate_rock_data rover0 general waypoint3 waypoint0 waypoint3 (1)
+28: drop rover1 rover1store (1)
+29: navigate rover1 waypoint1 waypoint4 (1)
+30: sample_soil rover1 rover1store waypoint4 (1)
+31: navigate rover1 waypoint4 waypoint5 (1)
+32: communicate_soil_data rover1 general waypoint4 waypoint5 waypoint3 (1)
+33: drop rover1 rover1store (1)
+34: sample_soil rover1 rover1store waypoint5 (1)
+35: communicate_soil_data rover1 general waypoint5 waypoint5 waypoint3 (1)
+36: navigate rover1 waypoint5 waypoint2 (1)
+37: drop rover1 rover1store (1)
+38: sample_soil rover1 rover1store waypoint2 (1)
+39: communicate_soil_data rover1 general waypoint2 waypoint2 waypoint3 (1)
+Plan length: 39 step(s).
+Plan cost: 39
+Initial state h value: 37.
+Expanded 360798 state(s).
+Reopened 0 state(s).
+Evaluated 360817 state(s).
+Evaluations: 360817
+Generated 20703953 state(s).
+Dead ends: 18 state(s).
+Search time: 31.66s
+Total time: 32.22s
+Peak memory: 118800 KB
+
+
+--- planning time ---
+p06-51.pddl: 82.11
+--- validation ---
+Bad problem file!
+-- plan ---
+1: (calibrate rover1 camera2 objective0 waypoint4)
+2: (take_image rover1 waypoint4 objective0 camera2 colour)
+3: (communicate_image_data rover1 general objective0 colour waypoint4 waypoint3)
+4: (calibrate rover0 camera0 objective0 waypoint1)
+5: (take_image rover0 waypoint1 objective0 camera0 colour)
+6: (calibrate rover0 camera0 objective0 waypoint1)
+7: (take_image rover0 waypoint1 objective0 camera0 low_res)
+8: (communicate_image_data rover0 general objective0 low_res waypoint1 waypoint3)
+9: (navigate rover1 waypoint4 waypoint1)
+10: (sample_soil rover1 rover1store waypoint1)
+11: (communicate_soil_data rover1 general waypoint1 waypoint1 waypoint3)
+12: (calibrate rover0 camera0 objective0 waypoint1)
+13: (take_image rover0 waypoint1 objective1 camera0 low_res)
+14: (communicate_image_data rover0 general objective1 low_res waypoint1 waypoint3)
+15: (navigate rover0 waypoint1 waypoint0)
+16: (sample_rock rover0 rover0store waypoint0)
+17: (communicate_rock_data rover0 general waypoint0 waypoint0 waypoint3)
+18: (navigate rover0 waypoint0 waypoint2)
+19: (drop rover0 rover0store)
+20: (sample_rock rover0 rover0store waypoint2)
+21: (communicate_rock_data rover0 general waypoint2 waypoint2 waypoint3)
+22: (navigate rover0 waypoint2 waypoint0)
+23: (drop rover0 rover0store)
+24: (navigate rover0 waypoint0 waypoint3)
+25: (sample_rock rover0 rover0store waypoint3)
+26: (navigate rover0 waypoint3 waypoint0)
+27: (communicate_rock_data rover0 general waypoint3 waypoint0 waypoint3)
+28: (drop rover1 rover1store)
+29: (navigate rover1 waypoint1 waypoint4)
+30: (sample_soil rover1 rover1store waypoint4)
+31: (navigate rover1 waypoint4 waypoint5)
+32: (communicate_soil_data rover1 general waypoint4 waypoint5 waypoint3)
+33: (drop rover1 rover1store)
+34: (sample_soil rover1 rover1store waypoint5)
+35: (communicate_soil_data rover1 general waypoint5 waypoint5 waypoint3)
+36: (navigate rover1 waypoint5 waypoint2)
+37: (drop rover1 rover1store)
+38: (sample_soil rover1 rover1store waypoint2)
+39: (communicate_soil_data rover1 general waypoint2 waypoint2 waypoint3)
