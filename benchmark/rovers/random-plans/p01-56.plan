@@ -1,4 +1,3 @@
--- plan ---
 1: (sample_rock rover0 rover0store waypoint3)
 2: (communicate_rock_data rover0 general waypoint3 waypoint3 waypoint0)
 3: (calibrate rover0 camera0 objective1 waypoint3)

@@ -33,6 +33,7 @@ def extract_plan(problems, log_dir, target_dir):
         for line in open(infile, 'r'):
             if not in_plan and line[0:7] == "-- plan":
                 in_plan = True
+                continue
             if in_plan:
                 plan += line
         parts = item.split(".", 2)
