@@ -1,10 +1,11 @@
-#! /usr/bin/env python3
+#! /usr/bin/env python2.7
 # -*- coding: utf-8 -*-
 
 from __future__ import print_function
 
 import sys
 import itertools
+import gc
 
 import pddl
 import timers
