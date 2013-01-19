@@ -1,48 +1,24 @@
 -- plan ---
-
 1: (sample_rock rover0 rover0store waypoint2)
-
 2: (communicate_rock_data rover0 general waypoint2 waypoint2 waypoint3)
-
 3: (navigate rover2 waypoint4 waypoint0)
-
 4: (navigate rover1 waypoint3 waypoint4)
-
 5: (sample_rock rover1 rover1store waypoint4)
-
 6: (communicate_rock_data rover1 general waypoint4 waypoint4 waypoint3)
-
 7: (calibrate rover2 camera1 objective1 waypoint0)
-
 8: (take_image rover2 waypoint0 objective0 camera1 high_res)
-
 9: (communicate_image_data rover2 general objective0 high_res waypoint0 waypoint3)
-
 10: (navigate rover2 waypoint0 waypoint4)
-
 11: (sample_soil rover2 rover2store waypoint4)
-
 12: (communicate_soil_data rover2 general waypoint4 waypoint4 waypoint3)
-
 13: (navigate rover0 waypoint2 waypoint3)
-
 14: (drop rover0 rover0store)
-
 15: (sample_rock rover0 rover0store waypoint3)
-
 16: (navigate rover0 waypoint3 waypoint2)
-
 17: (communicate_rock_data rover0 general waypoint3 waypoint2 waypoint3)
-
 18: (calibrate rover0 camera0 objective0 waypoint2)
-
 19: (navigate rover0 waypoint2 waypoint1)
-
 20: (drop rover0 rover0store)
-
 21: (sample_soil rover0 rover0store waypoint1)
-
 22: (navigate rover0 waypoint1 waypoint2)
-
 23: (communicate_soil_data rover0 general waypoint1 waypoint2 waypoint3)
-
