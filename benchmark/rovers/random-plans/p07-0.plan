@@ -1,4 +1,3 @@
--- plan ---
 1: (sample_rock rover2 rover2store waypoint4)
 2: (communicate_rock_data rover2 general waypoint4 waypoint4 waypoint3)
 3: (navigate rover1 waypoint3 waypoint4)

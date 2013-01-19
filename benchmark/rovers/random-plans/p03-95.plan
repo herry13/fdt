@@ -1,4 +1,3 @@
--- plan ---
 1: (sample_rock rover0 rover0store waypoint1)
 2: (navigate rover0 waypoint1 waypoint0)
 3: (drop rover0 rover0store)

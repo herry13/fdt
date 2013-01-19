@@ -1,4 +1,3 @@
--- plan ---
 1: (sample_soil rover0 rover0store waypoint3)
 2: (drop rover0 rover0store)
 3: (sample_rock rover0 rover0store waypoint3)
