@@ -1,0 +1,34 @@
+-- plan ---
+
+1: (navigate rover1 waypoint3 waypoint0)
+
+2: (navigate rover1 waypoint0 waypoint1)
+
+3: (calibrate rover1 camera1 objective0 waypoint1)
+
+4: (sample_rock rover1 rover1store waypoint1)
+
+5: (take_image rover1 waypoint1 objective0 camera1 colour)
+
+6: (communicate_image_data rover1 general objective0 colour waypoint1 waypoint0)
+
+7: (navigate rover0 waypoint1 waypoint0)
+
+8: (sample_rock rover0 rover0store waypoint0)
+
+9: (navigate rover0 waypoint0 waypoint1)
+
+10: (communicate_rock_data rover0 general waypoint0 waypoint1 waypoint0)
+
+11: (navigate rover1 waypoint1 waypoint0)
+
+12: (navigate rover1 waypoint0 waypoint3)
+
+13: (navigate rover1 waypoint3 waypoint2)
+
+14: (drop rover1 rover1store)
+
+15: (sample_soil rover1 rover1store waypoint2)
+
+16: (communicate_soil_data rover1 general waypoint2 waypoint2 waypoint0)
+

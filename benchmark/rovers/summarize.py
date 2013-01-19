@@ -42,13 +42,13 @@ def evaluate_problems():
 
 def print_stats(problems, processed, no_solutions, has_plans, timeouts):
     print("Problems:     " + str(len(problems)))
-    print("Evaluated:    " + str(len(processed)) + " (%2f percents)" % ((len(processed)*100.0)/len(problems)))
-    print("No solutions: " + str(len(no_solutions)))
+    print("Evaluated:    " + str(len(processed)) + " (%2f %%)" % ((len(processed)*100.0)/len(problems)))
+    print("No solutions: " + str(len(no_solutions)) + " (%2f %%)" % ((len(no_solutions)*100.0)/len(processed)))
     
-    print("Has plans:    " + str(len(has_plans)))
+    print("Has plans:    " + str(len(has_plans)) + " (%2f %%)" % ((len(has_plans)*100.0)/len(processed)))
     print(str(has_plans))
     
-    print("Timeouts:     " + str(len(timeouts)))
+    print("Timeouts:     " + str(len(timeouts)) + " (%2f %%)" % ((len(timeouts)*100.0)/len(processed)))
     print(str(timeouts))
 
 def main():
