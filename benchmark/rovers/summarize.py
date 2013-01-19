@@ -52,17 +52,44 @@ def print_stats(problems, processed, no_solutions, has_plans, timeouts):
     print(str(timeouts))
 
 def evaluate_plans():
-    plan_dir = "random-plan"
+    currentdir = os.getcwd()
+    plan_dir = currentdir + "/random-plans"
     if not os.path.isdir(plan_dir):
         return
-    plans = commands.getoutput('cd ' + plan_dir + '; ls *.plan')
+    try:
+        plans = commands.getoutput('cd ' + plan_dir + '; ls *.plan 2>/dev/null')
+    except:
+        return
     plans = plans.split("\n")
+    if len(plans) <= 0:
+        return
+    values = {}
+    validate = currentdir + "/../../VAL/validate"
+    qp_dir = currentdir + "/qualitative-preferences"
     for p in plans:
-        print(p)
+        p = p.strip()
+        if len(p) <= 0:
+            continue
+        problem, _ = p.split("-")
+        dfile = qp_dir + "/domain.pddl"
+        pfile = qp_dir + "/" + problem + ".pddl"
+        planfile = plan_dir + "/" + p
+        cmd = validate + " " + dfile + " " + pfile + " " + planfile
+        result = commands.getoutput(cmd)
+        for line in result.split("\n"):
+            if line[0:12] == "Final value:":
+                _, value = line.split(":", 2)
+                value = float(value)
+                if problem not in values:
+                    values[problem] = value
+                elif values[problem] > value:
+                    values[problem] = value
+    print(str(values))
 
 def main():
     problems, processed, no_solutions, has_plans, timeouts = evaluate_problems()
     print_stats(problems, processed, no_solutions, has_plans, timeouts)
+    evaluate_plans()
 
 if __name__ == "__main__":
     main()
