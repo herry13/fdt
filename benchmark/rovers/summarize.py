@@ -51,6 +51,15 @@ def print_stats(problems, processed, no_solutions, has_plans, timeouts):
     print("Timeouts:     " + str(len(timeouts)))
     print(str(timeouts))
 
+def evaluate_plans():
+    plan_dir = "random-plan"
+    if not os.path.isdir(plan_dir):
+        return
+    plans = commands.getoutput('cd ' + plan_dir + '; ls *.plan')
+    plans = plans.split("\n")
+    for p in plans:
+        print(p)
+
 def main():
     problems, processed, no_solutions, has_plans, timeouts = evaluate_problems()
     print_stats(problems, processed, no_solutions, has_plans, timeouts)
