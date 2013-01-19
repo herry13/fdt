@@ -84,7 +84,11 @@ def evaluate_plans():
                     values[problem] = value
                 elif values[problem] > value:
                     values[problem] = value
-    print(str(values))
+    print("Plan Quality:")
+    keys = values.keys()
+    keys.sort()
+    for p in keys:
+        print(p + " = " + str(values[p]))
 
 def main():
     problems, processed, no_solutions, has_plans, timeouts = evaluate_problems()
