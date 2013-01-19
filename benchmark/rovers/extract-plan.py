@@ -23,10 +23,33 @@ def filter_problems(has_plans, no_solutions):
     target_dir = currentdir + '/no-solution'
     move_files(files, target_dir)
 
+def extract_plan(problems, log_dir, target_dir):
+    if not os.path.isdir(target_dir):
+        os.makedirs(target_dir)
+    for item in problems:
+        infile = log_dir + "/" + item + "-out.log"
+        in_plan = False
+        plan = ""
+        for line in open(infile, 'r'):
+            if not in_plan and line[0:7] == "-- plan":
+                in_plan = True
+            if in_plan:
+                plan += line + "\n"
+        parts = item.split(".", 2)
+        outfile = target_dir + "/" + parts[0] + ".plan"
+        f = open(outfile, 'w')
+        f.write(plan)
+        f.close()
+        print("Extracted plan from: " + infile)
+    print("Total extracted plans: " + str(len(problems)))
+
 def main():
     problems, processed, no_solutions, has_plans, timeouts = evaluate_problems()
     print_stats(problems, processed, no_solutions, has_plans, timeouts)
-    filter_problems(has_plans, no_solutions)
+
+    log_dir = "random-log"
+    target_dir = "random-plans"
+    extract_plan(has_plans, log_dir, target_dir)
 
 if __name__ == "__main__":
     main()
