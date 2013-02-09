@@ -176,6 +176,7 @@ class AtMostOnceCondition(TrajectoryCondition):
 
 class Trajectory:
     use_preference = False
+    applicable = False
     def __init__(self):
         name = "always"
         self.always_atom = conditions.Atom(name, [])
@@ -191,6 +192,7 @@ class Trajectory:
     def set_preference_metric(self, label, value):
         self.preference_metrics[label] = value
     def add_always_condition(self, condition, parameters, preference_label=None):
+        self.applicable = True
         if len(parameters) > 0:
             condition = conditions.UniversalCondition(parameters, [condition])
         if preference_label != None:
@@ -206,22 +208,27 @@ class Trajectory:
         else:
             self.always = conditions.Conjunction([self.always, condition])
     def add_sometime_condition(self, condition, parameters, preference_label=None):
+        self.applicable = True
         self.sometimes.append(SometimeCondition(condition, parameters))
         if preference_label != None:
             self.use_preference = True
     def add_sometime_after_condition(self, condition1, condition2, parameters, preference_label=None):
+        self.applicable = True
         self.sometime_afters.append(SometimeAfterCondition(condition1, condition2, parameters))
         if preference_label != None:
             self.use_preference = True
     def add_sometime_before_condition(self, condition1, condition2, parameters, preference_label=None):
+        self.applicable = True
         self.sometime_befores.append(SometimeBeforeCondition(condition1, condition2, parameters))
         if preference_label != None:
             self.use_preference = True
     def add_at_most_once_condition(self, condition, parameters, preference_label=None):
+        self.applicable = True
         self.at_most_onces.append(AtMostOnceCondition(condition, parameters))
         if preference_label != None:
             self.use_preference = True
     def add_at_end_condition(self, condition, parameters, preference_label=None):
+        self.applicable = True
         assert False, 'TODO -- implement add_at_end_condition'
         if preference_label != None:
             self.use_preference = True
@@ -241,6 +248,8 @@ class Trajectory:
         for sometime_after in self.sometime_afters:
             sometime_after.dump()
     def modify_goal(self, goal):
+        if not self.applicable:
+            return goal
         parts = [goal, self.always, self.always_atom]
         index = 0
         for sometime in self.sometimes:
@@ -258,6 +267,8 @@ class Trajectory:
         goal = conditions.Conjunction(parts)
         return goal.simplified()
     def modify_actions(self, actions_list):
+        if not self.applicable:
+            return actions_list
         new_actions = list(actions_list)
         # modify existing actions for always constraints
         always_negated_effect = effects.Effect([], conditions.Truth(), self.negated_always_atom)
@@ -321,7 +332,7 @@ class Trajectory:
             new_actions.append(sometime_after.get_action())
 
         # add actions of preference penalty collector
-        for penalty in self.preference_penalties:
+        '''for penalty in self.preference_penalties:
             label = penalty[0]
             parameters = penalty[1]
             atom = penalty[2]
@@ -337,7 +348,7 @@ class Trajectory:
             # create non-penalty action
             pre = pre.negate()
             action = actions.Action("non-penalty-" + label, parameters, 0, pre, eff, cost)
-            new_actions.append(action)
+            new_actions.append(action)'''
 
         return new_actions
 
