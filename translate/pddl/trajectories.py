@@ -39,12 +39,19 @@ class SometimeCondition(TrajectoryCondition):
         return self.atom
     def get_always_effects(self):
         eff = effects.SimpleEffect(self.atom)
-        return [effects.ConditionalEffect(self.condition, eff)]
-    def get_action(self):
+        #return [effects.ConditionalEffect(self.condition, eff)]
+        return []
+    def get_axioms(self):
+        eff = effects.SimpleEffect(self.atom)
+        return []
+        #return [axioms.Axiom("sometime-" + str(self.index), self.parameters, len(self.parameters), self.condition)]
+        #return [axioms.PropositionalAxiom("sometime-" + str(self.index), self.condition, eff)]
+        #name, parameters, num_external_parameters, condition
+    def get_actions(self):
         eff = []
         cost = effects.create_simple_effect(self.atom, eff)
         name = "verify_" + self.atom.predicate
-        return actions.Action(name, self.parameters, 0, self.condition, eff, cost)
+        yield actions.Action(name, self.parameters, 0, self.condition, eff, cost)
 
 class SometimeAfterCondition(TrajectoryCondition):
     # (sometime-after (condition1) (condition2))
@@ -80,11 +87,11 @@ class SometimeAfterCondition(TrajectoryCondition):
     def get_always_effects(self):
         eff = effects.SimpleEffect(self.atom)
         return [effects.ConditionalEffect(self.condition1, eff)]
-    def get_action(self):
+    def get_actions(self):
         eff = []
         cost = effects.create_simple_effect(self.negated_atom, eff)
         name = "verify_" + self.atom.predicate
-        return actions.Action(name, self.parameters, 0, self.condition2, eff, cost)
+        yield actions.Action(name, self.parameters, 0, self.condition2, eff, cost)
 
 class SometimeBeforeCondition(TrajectoryCondition):
     # (sometime-before (condition1) (condition2))
@@ -99,8 +106,8 @@ class SometimeBeforeCondition(TrajectoryCondition):
     def __init__(self, condition1, condition2, parameters):
         super(SometimeBeforeCondition, self).__init__()
         print(str(condition1.uniquify_variables({})))
-        if len(parameters) > 0:
-            '''assert False, "sometime-before with parameters is not supported (yet)"'''
+        #if len(parameters) > 0:
+        #    '''assert False, "sometime-before with parameters is not supported (yet)"'''
         self.parameters = parameters
         self.index = SometimeBeforeCondition.index
         SometimeBeforeCondition.index += 1
@@ -140,8 +147,8 @@ class AtMostOnceCondition(TrajectoryCondition):
     index = 0
     def __init__(self, condition, parameters):
         super(AtMostOnceCondition, self).__init__()
-        if len(parameters) > 0:
-            '''assert False, "at-most-once with parameters is not supported (yet)"'''
+        #if len(parameters) > 0:
+        #    '''assert False, "at-most-once with parameters is not supported (yet)"'''
         self.index = AtMostOnceCondition.index
         AtMostOnceCondition.index += 1
         self.parameters = parameters
@@ -186,6 +193,8 @@ class Trajectory:
         self.sometime_afters = []
         self.sometime_befores = []
         self.at_most_onces = []
+        self.at_end = []
+
         self.preference_metrics = {}
         self.preference_penalties = []
     def set_preference_metric(self, label, value):
@@ -194,7 +203,7 @@ class Trajectory:
         if len(parameters) > 0:
             condition = conditions.UniversalCondition(parameters, [condition])
         if preference_label != None:
-            print(preference_label)
+            # TODO -- need to be fixed: handling always preference
             args = [param.name for param in parameters]
             atom = conditions.Atom("not-" + preference_label, args)
             eff = effects.SimpleEffect(atom)
@@ -222,9 +231,12 @@ class Trajectory:
         if preference_label != None:
             self.use_preference = True
     def add_at_end_condition(self, condition, parameters, preference_label=None):
-        assert False, 'TODO -- implement add_at_end_condition'
+        if len(parameters) > 0:
+            condition = conditions.UniversalCondition(parameters, [condition])
         if preference_label != None:
             self.use_preference = True
+        else:
+            self.at_end.append(condition)
     def simplified(self):
         self.always = self.always.simplified()
         for sometime in self.sometimes:
@@ -242,6 +254,7 @@ class Trajectory:
             sometime_after.dump()
     def modify_goal(self, goal):
         parts = [goal, self.always, self.always_atom]
+        parts.extend(self.at_end)
         index = 0
         for sometime in self.sometimes:
             parts.append(sometime.get_goal())
@@ -257,6 +270,12 @@ class Trajectory:
             parts.append(goal_cond) #penalty[3])
         goal = conditions.Conjunction(parts)
         return goal.simplified()
+
+    def modify_axioms(self, axioms_list):
+        for sometime in self.sometimes:
+            axioms_list.extend(sometime.get_axioms())
+        return axioms_list
+
     def modify_actions(self, actions_list):
         new_actions = list(actions_list)
         # modify existing actions for always constraints
@@ -313,14 +332,14 @@ class Trajectory:
         new_actions.append(self.always_action)
 
         # add "sometime_verifier" action
-        #for sometime in self.sometimes:
-        #    new_actions.append(sometime.get_action())
+        for sometime in self.sometimes:
+            new_actions.extend(sometime.get_actions())
 
         # add "sometime_after" verifier action
         for sometime_after in self.sometime_afters:
-            new_actions.append(sometime_after.get_action())
+            new_actions.extend(sometime_after.get_actions())
 
-        # add actions of preference penalty collector
+        '''# add actions of preference penalty collector
         for penalty in self.preference_penalties:
             label = penalty[0]
             parameters = penalty[1]
@@ -337,7 +356,7 @@ class Trajectory:
             # create non-penalty action
             pre = pre.negate()
             action = actions.Action("non-penalty-" + label, parameters, 0, pre, eff, cost)
-            new_actions.append(action)
+            new_actions.append(action)'''
 
         return new_actions
 

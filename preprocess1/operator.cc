@@ -36,6 +36,7 @@ Operator::Operator(istream &in, const vector<Variable *> &variables) {
             pre_post.push_back(PrePost(variables[varNo], val, newVal));
     }
     in >> cost;
+    cout << name << endl;
     check_magic(in, "end_operator");
     // TODO: Evtl. effektiver: conditions schon sortiert einlesen?
 }

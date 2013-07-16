@@ -1,4 +1,4 @@
-#! /usr/bin/env python2.7
+#! /opt/python/bin/python
 # -*- coding: utf-8 -*-
 
 from __future__ import print_function

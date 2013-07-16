@@ -49,6 +49,7 @@ class Task(object):
         trajectory.set_types_and_objects(types, objects)
         goal = trajectory.modify_goal(goal)
         actions = trajectory.modify_actions(actions)
+        axioms = trajectory.modify_axioms(axioms)
 
         assert domain_name == task_domain_name
         requirements = Requirements(sorted(set(

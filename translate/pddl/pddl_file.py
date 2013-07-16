@@ -1,4 +1,4 @@
-#! /usr/bin/env python2.7
+#! /opt/python/bin/python
 
 try:
     # Python 3.x

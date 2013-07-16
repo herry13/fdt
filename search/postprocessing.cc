@@ -5,9 +5,10 @@
 
 using namespace std;
 
-void do_postprocessing(SearchEngine::Plan &plan, SearchEngine::PlanIndex &planIndex) {
-    remove_auxiliary_actions(plan, planIndex);
-    break_concurrent_actions(plan, planIndex);
+//void do_postprocessing(SearchEngine::Plan &plan, SearchEngine::PlanIndex &planIndex) {
+void do_postprocessing(SearchEngine::Plan &, SearchEngine::PlanIndex &) {
+    //remove_auxiliary_actions(plan, planIndex);
+    //break_concurrent_actions(plan, planIndex);
 }
 
 Operator * create_operator(string name, int cost) {
