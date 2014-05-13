@@ -99,19 +99,18 @@ def parse(infile):
     part = 0
     for line in open(infile, 'r'):
         stmt = line.strip()
-        if stmt[0:14] == "(:constraints ":
-            # trajectory
-            mode = 2
-            infix += line
-            continue
-        elif stmt == ";;--- start of goal preferences ---;;":
+        if stmt == ";;--- start of goal preferences ---;;" and mode != 1:
             # goal-prefs
-            mode = 1
+            mode = part = 1
             prefix += line
+            continue
+        elif stmt[0:14] == "(:constraints " and mode != 2:
+            # trajectory
+            mode = part = 2
+            infix += line
             continue
         elif stmt == ";;--- end of goal preferences ---;;" or stmt == "))":
             mode = 0
-            part += 1
 
         if mode == 1:
             goal_prefs.append(line)
@@ -142,7 +141,10 @@ def generate_random_problems(infile, total):
         traj = random.sample(trajectories, random.randint(1, len(trajectories)))
         pddl = "; Goal preferences: " + str(len(goal)) + "\n; Trajectories: " + str(len(traj)) + "\n\n"
         pddl += prefix + ("".join(goal)) + infix + ("".join(traj)) + suffix
-        outfile = fname + "-" + str(i) + ".pddl"
+        num = str(i)
+        for i in range(0, 3-len(num)):
+            num = "0" + num
+        outfile = fname + "-" + num + ".pddl"
         with open(outfile, 'w') as f:
             f.write(pddl)
     print("...finished!")
