@@ -2,7 +2,7 @@
 
 DEST="random"
 BUILDER="./builder.py"
-TOTAL=2
+TOTAL=100
 
 PROBLEMS[0]="p01.pddl"
 PROBLEMS[1]="p02.pddl"

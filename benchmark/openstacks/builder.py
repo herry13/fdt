@@ -8,13 +8,16 @@ import sys
 import os
 import random
 
+'''
 def process_input(infile):
     print("Proses input file: " + infile)
     header = ""
     footer = ""
     constraints = {}
+    goal_prefs = []
 
     in_constraints = False
+    in_goal_prefs = False
     in_header = True
     total = 0
     for line in open(infile, 'r'):
@@ -22,10 +25,16 @@ def process_input(infile):
         if line[0:14] == "(:constraints ":
             in_constraints = True
             continue
-        if in_constraints and line == "))":
-            in_constraints = in_header = False
+        if line == ";;--- start of goal preferences ---;;":
+            in_goal_prefs = True
             continue
-        if not in_constraints:
+        if line == ";;--- end of goal preferences ---;;":
+            in_goal_prefs = False
+            continue
+        if in_constraints and line == "))":
+            in_constraints = in_goal_prefs = in_header = False
+            continue
+        if not in_constraints or not in_goal_prefs:
             if in_header:
                 header += line + "\n"
             else:
@@ -42,9 +51,12 @@ def process_input(infile):
                 constraints[key] = []
             constraints[key].append(line)
             total += 1
+        if in_goal_prefs:
+            goal_prefs.append(line)
     yield header
     yield footer
     print("Total constraints: " + str(total))
+    print("Total goal preferences: " + str(len(goal_prefs)))
     yield constraints
 
 def generate_combination_problems(options, header, footer, constraints, outfile):
@@ -75,6 +87,65 @@ def generate_random_problems(header, footer, constraints, outfile, total):
         f.write(pddl)
         f.close()
     print("...Finish!")
+'''
+
+def parse(infile):
+    print("Parsing input file: " + infile)
+    prefix = infix = suffix = ""
+    trajectories = []
+    goal_prefs = []
+
+    mode = 0 # 0=normal, 1=goal-prefs, 2=trajectory
+    part = 0
+    for line in open(infile, 'r'):
+        stmt = line.strip()
+        if stmt[0:14] == "(:constraints ":
+            # trajectory
+            mode = 2
+            infix += line
+            continue
+        elif stmt == ";;--- start of goal preferences ---;;":
+            # goal-prefs
+            mode = 1
+            prefix += line
+            continue
+        elif stmt == ";;--- end of goal preferences ---;;" or stmt == "))":
+            mode = 0
+            part += 1
+
+        if mode == 1:
+            goal_prefs.append(line)
+        elif mode == 2:
+            trajectories.append(line)
+        elif part == 0:
+            prefix += line
+        elif part == 1:
+            infix += line
+        else:
+            suffix += line
+    print("Total trajectory constraints: " + str(len(trajectories)))
+    #print(str(trajectories))
+    print("Total goal preferences: " + str(len(goal_prefs)))
+    #print(str(goal_prefs))
+    yield prefix
+    yield infix
+    yield suffix
+    yield goal_prefs
+    yield trajectories
+
+def generate_random_problems(infile, total):
+    prefix, infix, suffix, goal_prefs, trajectories = parse(infile)
+    print("Generating " + str(total) + " random problems...")
+    fname, ext = infile.split(".", 2)
+    for i in range(1, total+1):
+        goal = random.sample(goal_prefs, random.randint(1, len(goal_prefs)))
+        traj = random.sample(trajectories, random.randint(1, len(trajectories)))
+        pddl = "; Goal preferences: " + str(len(goal)) + "\n; Trajectories: " + str(len(traj)) + "\n\n"
+        pddl += prefix + ("".join(goal)) + infix + ("".join(traj)) + suffix
+        outfile = fname + "-" + str(i) + ".pddl"
+        with open(outfile, 'w') as f:
+            f.write(pddl)
+    print("...finished!")
 
 def parse_options():
     parser = optparse.OptionParser(usage="Usage: %prog <input.pddl>")
@@ -93,11 +164,12 @@ def parse_options():
 
 def main():
     options, infile = parse_options()
+    generate_random_problems(infile, int(options.total_random))
 
-    header, footer, constraints = process_input(infile)
+    '''header, footer, constraints = process_input(infile)
     if options.percentage == None:
         generate_random_problems(header, footer, constraints, infile, options.total_random)
-    #generate_combination_problems(header, footer, constraints, infile)
+    #generate_combination_problems(header, footer, constraints, infile)'''
 
 if __name__ == "__main__":
     main()
