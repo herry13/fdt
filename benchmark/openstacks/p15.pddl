@@ -184,7 +184,6 @@
 ;;--- end of goal preferences ---;;
         ))
         (:constraints (and 
-;;--- start of trajectory preferences ---;;
               (always (not (stacks-in-use n1)))
               (always (not (stacks-in-use n2)))
               (always (not (stacks-in-use n3)))
@@ -215,7 +214,6 @@
               (always (not (stacks-in-use n28)))
               (always (not (stacks-in-use n29)))
               (always (not (stacks-in-use n30)))
-;;--- end of trajectory preferences ---;;
         ))
         (:metric minimize (total-time))
 )

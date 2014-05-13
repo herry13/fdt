@@ -176,9 +176,7 @@
                (and (delivered o20 p18) (delivered o20 p14) (delivered o20 p12) (delivered o20 p9) (delivered o20 p7))
 ;;--- end of goal preferences ---;;
         ))
-        (:constraints
-         (and 
-;;--- start of trajectory preferences ---;;
+        (:constraints (and 
                (always (not (stacks-in-use n1)))
                (always (not (stacks-in-use n2)))
                (always (not (stacks-in-use n3)))
@@ -199,7 +197,6 @@
                (always (not (stacks-in-use n18)))
                (always (not (stacks-in-use n19)))
                (always (not (stacks-in-use n20)))
-;;--- end of trajectory preferences ---;;
         ))
         (:metric minimize (total-time))
 )

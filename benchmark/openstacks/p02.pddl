@@ -64,9 +64,7 @@
               (and (delivered o10 p3) (delivered o10 p1))
               (and (delivered o10 p8) (delivered o10 p3) (delivered o10 p1))))
 ;;--- end of goal preferences ---;;
-        (:constraints
-         (and
-;;--- start of trajectory preferences ---;;
+        (:constraints (and
               (always (not (stacks-in-use n1)))
               (always (not (stacks-in-use n2)))
               (always (not (stacks-in-use n3)))
@@ -77,7 +75,6 @@
               (always (not (stacks-in-use n8)))
               (always (not (stacks-in-use n9)))
               (always (not (stacks-in-use n10)))
-;;--- end of trajectory preferences ---;;
          ))
         (:metric minimize (total-time))
 )

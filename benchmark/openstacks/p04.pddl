@@ -168,9 +168,7 @@
               (delivered o15 p25)
 ;;--- end of goal preferences ---;;
         ))
-        (:constraints
-         (and 
-;;--- start of trajectory preferences ---;;
+        (:constraints (and 
               (always (not (stacks-in-use n1)))
               (always (not (stacks-in-use n2)))
               (always (not (stacks-in-use n3)))
@@ -186,7 +184,6 @@
               (always (not (stacks-in-use n13)))
               (always (not (stacks-in-use n14)))
               (always (not (stacks-in-use n15)))
-;;--- end of trajectory preferences ---;;
         ))
         (:metric minimize (total-time))
 )

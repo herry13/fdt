@@ -2204,9 +2204,7 @@
               (delivered o50 p44)
 ;;--- end of goal preferences ---;;
         ))
-        (:constraints
-         (and
-;;--- start of trajectory preferences ---;;
+        (:constraints (and
               (always (not (stacks-in-use n1)))
               (always (not (stacks-in-use n2)))
               (always (not (stacks-in-use n3)))
@@ -2257,7 +2255,6 @@
               (always (not (stacks-in-use n48)))
               (always (not (stacks-in-use n49)))
               (always (not (stacks-in-use n50)))
-;;--- end of trajectory preferences ---;;
         ))
         (:metric minimize (total-time))
 )
