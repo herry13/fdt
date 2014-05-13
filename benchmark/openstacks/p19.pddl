@@ -2256,5 +2256,4 @@
               (always (not (stacks-in-use n49)))
               (always (not (stacks-in-use n50)))
         ))
-        (:metric minimize (total-time))
 )
