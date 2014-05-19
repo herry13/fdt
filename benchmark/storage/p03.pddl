@@ -87,6 +87,7 @@
 	(compatible crate2 crate1))
 
 (:goal (and
+;;--- start of goal preferences ---;;
 	(clear depot0-1-2)
 	(clear depot1-1-1)
 	(clear depot1-1-2)
@@ -95,6 +96,7 @@
 	(clear depot2-2-1)
 	(forall (?c - crate) (exists (?d - depot) (and (in ?c ?d) (not (= ?d depot1)))))
 	(forall (?c - crate) (exists (?d - depot) (and (in ?c ?d) (not (= ?d depot2)))))
+;;--- end of goal preferences ---;;
 ))
 
 (:constraints (and
